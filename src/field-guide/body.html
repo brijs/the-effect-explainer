@@ -1,0 +1,53 @@
+</style>
+</head>
+<body>
+<main id="app">
+  <div id="stageWrap">
+    <svg id="stage" viewBox="0 0 1600 900" role="img" aria-label="Animated field guide to The Effect"></svg>
+    <div id="thinkBox" hidden><span>Paused for you to think.</span><button id="contBtn">Continue ▶</button></div>
+    <div class="overlay" id="startScreen">
+      <div class="pad">
+        <p class="tag">A field guide to research design</p>
+        <h1>The Effect</h1>
+        <p>Vari the robot walks through Nick Huntington-Klein's book: the big ideas, how the designs fit together, and two cases per design for you to try.</p>
+      </div>
+      <button class="bigbtn" id="startBtn">Start the tour</button>
+      <button class="linkbtn" id="voicePick">Choose Vari's voice first</button>
+      <p class="hint">About 28 minutes, with stops for you to think. Voice on. Best in landscape.</p>
+    </div>
+    <div class="overlay" id="endScreen" hidden>
+      <div class="pad"><p class="tag">That's the tour</p><h1>Keep asking why</h1><p>Read the whole book free at theeffectbook.net</p></div>
+      <button class="bigbtn" id="againBtn">Watch again</button>
+    </div>
+    <section id="voicePanel" hidden aria-label="Voice settings">
+      <header><h2>Vari's voice</h2><button id="voiceClose">Close</button></header>
+      <label class="row"><input type="checkbox" id="voiceOnChk" checked> Vari reads the captions aloud</label>
+      <label class="lbl" for="voiceSel">Voice <small>(best-sounding first)</small></label>
+      <select id="voiceSel"></select>
+      <div id="rateRow"><label class="lbl" for="rateRng">Device voice speed <small id="rateVal">1.00×</small></label>
+      <input type="range" id="rateRng" min="0.8" max="1.2" step="0.05" value="1"></div>
+      <button id="previewBtn" class="pill">▶ Hear a sample</button>
+      <p id="voiceTip" class="tip"></p>
+    </section>
+    <nav id="menu" hidden aria-label="Chapters">
+      <header><h2>Chapters</h2><button id="menuClose">Close</button></header>
+      <ul id="menuList"></ul>
+    </nav>
+  </div>
+  <div id="controls">
+    <button id="play" aria-label="Play" data-state=""></button>
+    <div id="scrubBox">
+      <div id="chapLabel">Opening</div>
+      <div id="track" role="slider" tabindex="0" aria-label="Film position" aria-valuemin="0" aria-valuemax="2000" aria-valuenow="0">
+        <div class="rail"></div><div id="ticks"></div><div id="fill"></div><div id="knob"></div>
+      </div>
+    </div>
+    <span id="time">0:00</span>
+    <button id="menuBtn" class="lab" aria-expanded="false" title="Chapter menu">☰<span>Chapters</span></button>
+    <button id="voiceBtn" class="lab" aria-pressed="true" title="Vari's voice">🗣<span>Voice</span></button>
+    <button id="capBtn" class="lab" aria-pressed="true" title="Captions">CC<span>Captions</span></button>
+    <button id="soundBtn" class="lab" aria-pressed="true" title="Music and sound effects">♪<span>Sound</span></button>
+  </div>
+  <p id="rotateHint">Turn your phone sideways for a bigger picture.</p>
+</main>
+<script>

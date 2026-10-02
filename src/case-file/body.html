@@ -1,0 +1,40 @@
+</style>
+</head>
+<body>
+<main id="app">
+  <div id="stageWrap">
+    <svg id="stage" viewBox="0 0 1600 900" role="img" aria-label="Animated explainer of The Effect"></svg>
+    <div class="overlay" id="startScreen">
+      <div class="folder">
+        <p class="case">Case file No. 23</p>
+        <h1>The Effect</h1>
+        <p>Arrow the detective investigates a newspaper headline, one chapter of Nick Huntington-Klein's book at a time.</p>
+      </div>
+      <button class="bigbtn" id="startBtn">Open the case</button>
+      <p class="hint">About 11½ minutes. Sound and voice on. Best viewed in landscape.</p>
+    </div>
+    <div class="overlay" id="endScreen" hidden>
+      <div class="folder">
+        <p class="case">Case open</p>
+        <h1>Keep asking why</h1>
+        <p>Read the whole book free at theeffectbook.net</p>
+      </div>
+      <button class="bigbtn" id="againBtn">Watch again</button>
+    </div>
+  </div>
+  <div id="controls">
+    <button id="play" aria-label="Play" data-state=""></button>
+    <div id="scrubBox">
+      <div id="chapLabel">Cold open</div>
+      <div id="track" role="slider" tabindex="0" aria-label="Film position" aria-valuemin="0" aria-valuemax="690" aria-valuenow="0">
+        <div class="rail"></div><div id="ticks"></div><div id="fill"></div><div id="knob"></div>
+      </div>
+    </div>
+    <span id="time">0:00 / 11:30</span>
+    <button id="voiceBtn" class="lab" aria-pressed="true" title="Arrow's voice">🗣<span>Voice</span></button>
+    <button id="capBtn" class="lab" aria-pressed="true" title="Captions">CC<span>Captions</span></button>
+    <button id="soundBtn" class="lab" aria-pressed="true" title="Music and sound effects">♪<span>Sound</span></button>
+  </div>
+  <p id="rotateHint">Turn your phone sideways for a bigger picture.</p>
+</main>
+<script>

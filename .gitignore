@@ -1,0 +1,4 @@
+tools/models/
+tools/wav/
+node_modules/
+.DS_Store

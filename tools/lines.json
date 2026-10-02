@@ -1,0 +1,1610 @@
+[
+ {
+  "i": 0,
+  "text": "Hi! I'm Vari. I help people answer one kind of question.",
+  "speak": "Hi! I'm Vari. I help people answer one kind of question.",
+  "dur": 3.563
+ },
+ {
+  "i": 1,
+  "text": "Does this *cause* that?",
+  "speak": "Does this cause that?",
+  "dur": 1.173
+ },
+ {
+  "i": 2,
+  "text": "Does coffee make you work faster? Do ads raise sales? Does a new metro line cut traffic?",
+  "speak": "Does coffee make you work faster? Do ads raise sales? Does a new metro line cut traffic?",
+  "dur": 5.227
+ },
+ {
+  "i": 3,
+  "text": "Here's the trouble. We only ever see one version of the world.",
+  "speak": "Here's the trouble. We only ever see one version of the world.",
+  "dur": 3.285
+ },
+ {
+  "i": 4,
+  "text": "To learn the effect, we need a stand-in for the world we didn't get to see.",
+  "speak": "To learn the effect, we need a stand-in for the world we didn't get to see.",
+  "dur": 3.776
+ },
+ {
+  "i": 5,
+  "text": "So we hunt for *variation*: differences in the cause that are as fair as a coin flip.",
+  "speak": "So we hunt for variation: differences in the cause that are as fair as a coin flip.",
+  "dur": 4.779
+ },
+ {
+  "i": 6,
+  "text": "This is a field guide to the book *The Effect*, by Nick Huntington-Klein.",
+  "speak": "This is a field guide to the book The Effect, by Nick Huntington-Klein.",
+  "dur": 3.883
+ },
+ {
+  "i": 7,
+  "text": "First, how to *think* about a causal question. Then a toolbox of designs, each with two cases for you to try.",
+  "speak": "First, how to think about a causal question. Then a toolbox of designs, each with two cases for you to try.",
+  "dur": 6.592
+ },
+ {
+  "i": 8,
+  "text": "When I stop, pause and think. Tap Continue when you're ready.",
+  "speak": "When I stop, pause and think. Tap Continue when you're ready.",
+  "dur": 3.435
+ },
+ {
+  "i": 9,
+  "text": "The book has two halves.",
+  "speak": "The book has two halves.",
+  "dur": 1.28
+ },
+ {
+  "i": 10,
+  "text": "Part one is about thinking: designing research before touching any data.",
+  "speak": "Part one is about thinking: designing research before touching any data.",
+  "dur": 4.053
+ },
+ {
+  "i": 11,
+  "text": "Ask a sharp question.",
+  "speak": "Ask a sharp question.",
+  "dur": 1.387
+ },
+ {
+  "i": 12,
+  "text": "Describe your variables, and how they move together.",
+  "speak": "Describe your variables, and how they move together.",
+  "dur": 2.731
+ },
+ {
+  "i": 13,
+  "text": "Identify: draw the causal diagram, and find which comparisons answer your question.",
+  "speak": "Identify: draw the causal diagram, and find which comparisons answer your question.",
+  "dur": 5.184
+ },
+ {
+  "i": 14,
+  "text": "Interpret: know which average effect you've found, and test your assumptions.",
+  "speak": "Interpret: know which average effect you've found, and test your assumptions.",
+  "dur": 4.245
+ },
+ {
+  "i": 15,
+  "text": "Part two is the toolbox: templates that put a design to work on real data.",
+  "speak": "Part two is the toolbox: templates that put a design to work on real data.",
+  "dur": 4.715
+ },
+ {
+  "i": 16,
+  "text": "Control for back doors with regression or matching.",
+  "speak": "Control for back doors with regression or matching.",
+  "dur": 2.965
+ },
+ {
+  "i": 17,
+  "text": "Check any method with simulation.",
+  "speak": "Check any method with simulation.",
+  "dur": 1.877
+ },
+ {
+  "i": 18,
+  "text": "Use change over time: fixed effects, event studies, and difference-in-differences.",
+  "speak": "Use change over time: fixed effects, event studies, and difference-in-differences.",
+  "dur": 4.501
+ },
+ {
+  "i": 19,
+  "text": "Use an outside push: instrumental variables.",
+  "speak": "Use an outside push: instrumental variables.",
+  "dur": 2.88
+ },
+ {
+  "i": 20,
+  "text": "Use a rule's cutoff: regression discontinuity.",
+  "speak": "Use a rule's cutoff: regression discontinuity.",
+  "dur": 3.029
+ },
+ {
+  "i": 21,
+  "text": "Or settle for an honest range: partial identification.",
+  "speak": "Or settle for an honest range: partial identification.",
+  "dur": 3.435
+ },
+ {
+  "i": 22,
+  "text": "Then a few more methods, and the problems every study sweeps under the rug.",
+  "speak": "Then a few more methods, and the problems every study sweeps under the rug.",
+  "dur": 4.011
+ },
+ {
+  "i": 23,
+  "text": "Chapter one: design comes before data. Start with a question you could actually answer.",
+  "speak": "Chapter one: design comes before data. Start with a question you could actually answer.",
+  "dur": 5.248
+ },
+ {
+  "i": 24,
+  "text": "'Does social media hurt sleep?' is too fuzzy. Hurt how? Whose sleep? Compared to what?",
+  "speak": "'Does social media hurt sleep?' is too fuzzy. Hurt how? Whose sleep? Compared to what?",
+  "dur": 5.077
+ },
+ {
+  "i": 25,
+  "text": "Sharper: does an extra hour of Instagram after ten p.m. cut a teen's sleep that night?",
+  "speak": "Sharper: does an extra hour of Instagram after ten p.m. cut a teen's sleep that night?",
+  "dur": 5.291
+ },
+ {
+  "i": 26,
+  "text": "Now you know exactly what data you need, and what comparison would answer it.",
+  "speak": "Now you know exactly what data you need, and what comparison would answer it.",
+  "dur": 4.288
+ },
+ {
+  "i": 27,
+  "text": "Chapters three and four: describe before you explain.",
+  "speak": "Chapters three and four: describe before you explain.",
+  "dur": 3.072
+ },
+ {
+  "i": 28,
+  "text": "Here are a thousand Bengaluru commutes. Most take thirty to fifty minutes, with a long tail of two-hour slogs.",
+  "speak": "Here are a thousand Bengaluru commutes. Most take thirty to fifty minutes, with a long tail of two-hour slogs.",
+  "dur": 6.891
+ },
+ {
+  "i": 29,
+  "text": "The tail drags the mean up to fifty-two minutes. The median, forty-four, barely moves.",
+  "speak": "The tail drags the mean up to fifty-two minutes. The median, forty-four, barely moves.",
+  "dur": 5.248
+ },
+ {
+  "i": 30,
+  "text": "So look at the whole shape, not just one number.",
+  "speak": "So look at the whole shape, not just one number.",
+  "dur": 2.432
+ },
+ {
+  "i": 31,
+  "text": "Relationships too. On rainier days, the average commute climbs.",
+  "speak": "Relationships too. On rainier days, the average commute climbs.",
+  "dur": 3.819
+ },
+ {
+  "i": 32,
+  "text": "That's a conditional mean: the average commute *given* the rain. It isn't a cause yet.",
+  "speak": "That's a conditional mean: the average commute given the rain. It isn't a cause yet.",
+  "dur": 4.693
+ },
+ {
+  "i": 33,
+  "text": "Rainy days might also be school days or festival days. Describing comes first; explaining comes next.",
+  "speak": "Rainy days might also be school days or festival days. Describing comes first; explaining comes next.",
+  "dur": 6.72
+ },
+ {
+  "i": 34,
+  "text": "Chapter five: identification.",
+  "speak": "Chapter five: identification.",
+  "dur": 1.984
+ },
+ {
+  "i": 35,
+  "text": "Ice cream sales and drownings rise and fall together. Does ice cream drown people?",
+  "speak": "Ice cream sales and drownings rise and fall together. Does ice cream drown people?",
+  "dur": 4.885
+ },
+ {
+  "i": 36,
+  "text": "No. Summer heat drives both.",
+  "speak": "No. Summer heat drives both.",
+  "dur": 1.877
+ },
+ {
+  "i": 37,
+  "text": "Identification means finding the variation in ice cream sales that heat *can't* explain, and seeing whether drownings follow it.",
+  "speak": "Identification means finding the variation in ice cream sales that heat can't explain, and seeing whether drownings follow it.",
+  "dur": 7.744
+ },
+ {
+  "i": 38,
+  "text": "For example, compare days with the same temperature but different ice-cream deals. If drownings don't budge, ice cream is off the hook.",
+  "speak": "For example, compare days with the same temperature but different ice-cream deals. If drownings don't budge, ice cream is off the hook.",
+  "dur": 7.979
+ },
+ {
+  "i": 39,
+  "text": "Every design in this book is a way of finding that clean slice of variation.",
+  "speak": "Every design in this book is a way of finding that clean slice of variation.",
+  "dur": 4.459
+ },
+ {
+  "i": 40,
+  "text": "Chapters six and seven: causal diagrams. A picture of what causes what.",
+  "speak": "Chapters six and seven: causal diagrams. A picture of what causes what.",
+  "dur": 4.672
+ },
+ {
+  "i": 41,
+  "text": "Say we ask: does coffee raise how much you get done? Put the cause and the outcome on the page.",
+  "speak": "Say we ask: does coffee raise how much you get done? Put the cause and the outcome on the page.",
+  "dur": 5.333
+ },
+ {
+  "i": 42,
+  "text": "Then everything that could push either one. Poor sleep makes you drink coffee, and also slows you down.",
+  "speak": "Then everything that could push either one. Poor sleep makes you drink coffee, and also slows you down.",
+  "dur": 5.653
+ },
+ {
+  "i": 43,
+  "text": "A deadline makes you reach for coffee, and also makes you work harder.",
+  "speak": "A deadline makes you reach for coffee, and also makes you work harder.",
+  "dur": 3.691
+ },
+ {
+  "i": 44,
+  "text": "Stress matters too, but we can't measure it, so it gets a dashed circle.",
+  "speak": "Stress matters too, but we can't measure it, so it gets a dashed circle.",
+  "dur": 3.776
+ },
+ {
+  "i": 45,
+  "text": "Leave out what doesn't matter. Shoe size can go.",
+  "speak": "Leave out what doesn't matter. Shoe size can go.",
+  "dur": 2.667
+ },
+ {
+  "i": 46,
+  "text": "Every arrow, and every missing arrow, is an assumption you should be able to defend.",
+  "speak": "Every arrow, and every missing arrow, is an assumption you should be able to defend.",
+  "dur": 4.587
+ },
+ {
+  "i": 47,
+  "text": "Chapter eight: paths. Any route between coffee and output is a path.",
+  "speak": "Chapter eight: paths. Any route between coffee and output is a path.",
+  "dur": 4.139
+ },
+ {
+  "i": 48,
+  "text": "The direct arrow is a front door: it carries the effect we want.",
+  "speak": "The direct arrow is a front door: it carries the effect we want.",
+  "dur": 3.605
+ },
+ {
+  "i": 49,
+  "text": "Routes that begin with an arrow *into* coffee are back doors. Sleep and the deadline each open one.",
+  "speak": "Routes that begin with an arrow into coffee are back doors. Sleep and the deadline each open one.",
+  "dur": 5.76
+ },
+ {
+  "i": 50,
+  "text": "Back doors mix other causes into the comparison. Close one by controlling for the variable on it.",
+  "speak": "Back doors mix other causes into the comparison. Close one by controlling for the variable on it.",
+  "dur": 5.952
+ },
+ {
+  "i": 51,
+  "text": "Stress is unmeasured, so its door stays open. Part two is full of ways around that problem.",
+  "speak": "Stress is unmeasured, so its door stays open. Part two is full of ways around that problem.",
+  "dur": 5.76
+ },
+ {
+  "i": 52,
+  "text": "One trap: colliders. Among people in general, talent and good looks are unrelated.",
+  "speak": "One trap: colliders. Among people in general, talent and good looks are unrelated.",
+  "dur": 5.227
+ },
+ {
+  "i": 53,
+  "text": "But both help make someone famous. Look only at famous actors, and the talented ones seem plainer.",
+  "speak": "But both help make someone famous. Look only at famous actors, and the talented ones seem plainer.",
+  "dur": 5.973
+ },
+ {
+  "i": 54,
+  "text": "Fame is a collider. Controlling for it opens a path that was closed. So leave colliders alone.",
+  "speak": "Fame is a collider. Controlling for it opens a path that was closed. So leave colliders alone.",
+  "dur": 5.909
+ },
+ {
+  "i": 55,
+  "text": "Chapter nine: when you can't close a back door, find variation it can't reach.",
+  "speak": "Chapter nine: when you can't close a back door, find variation it can't reach.",
+  "dur": 4.608
+ },
+ {
+  "i": 56,
+  "text": "The cleanest way is to randomize. Flip a coin to decide who gets coffee.",
+  "speak": "The cleanest way is to randomize. Flip a coin to decide who gets coffee.",
+  "dur": 4.309
+ },
+ {
+  "i": 57,
+  "text": "Now sleep, deadlines and stress no longer point into coffee. Their back doors are cut.",
+  "speak": "Now sleep, deadlines and stress no longer point into coffee. Their back doors are cut.",
+  "dur": 4.907
+ },
+ {
+  "i": 58,
+  "text": "No experiment? Look for a natural experiment: a rule or an accident that did the coin-flipping for you.",
+  "speak": "No experiment? Look for a natural experiment: a rule or an accident that did the coin-flipping for you.",
+  "dur": 6.251
+ },
+ {
+  "i": 59,
+  "text": "Say the office coffee machine breaks on random days. Those days are your coin flips.",
+  "speak": "Say the office coffee machine breaks on random days. Those days are your coin flips.",
+  "dur": 4.736
+ },
+ {
+  "i": 60,
+  "text": "Or use the front-door method: if coffee works only through alertness, and nothing else touches alertness, trace the effect through it.",
+  "speak": "Or use the front-door method: if coffee works only through alertness, and nothing else touches alertness, trace the effect through it.",
+  "dur": 7.552
+ },
+ {
+  "i": 61,
+  "text": "Chapter ten: an effect isn't one number. It differs from person to person.",
+  "speak": "Chapter ten: an effect isn't one number. It differs from person to person.",
+  "dur": 4.459
+ },
+ {
+  "i": 62,
+  "text": "Take a fitness app's new streak feature. For some users it adds eight workouts a month; for others, none.",
+  "speak": "Take a fitness app's new streak feature. For some users it adds eight workouts a month; for others, none.",
+  "dur": 6.08
+ },
+ {
+  "i": 63,
+  "text": "Average it over everyone and you get the average treatment effect, the ATE: three extra workouts.",
+  "speak": "Average it over everyone and you get the average treatment effect, the A.T.E.: three extra workouts.",
+  "dur": 5.995
+ },
+ {
+  "i": 64,
+  "text": "Average over just the people who switched it on and you get the effect on the treated, the ATT: five. They chose it because it helps them.",
+  "speak": "Average over just the people who switched it on and you get the effect on the treated, the A.T.T.: five. They chose it because it helps them.",
+  "dur": 8.128
+ },
+ {
+  "i": 65,
+  "text": "Average over the people a random prompt nudged into using it, and you get the local average treatment effect, the LATE: about two point seven.",
+  "speak": "Average over the people a random prompt nudged into using it, and you get the local average treatment effect, the L.A.T.E.: about two point seven.",
+  "dur": 9.451
+ },
+ {
+  "i": 66,
+  "text": "Different designs recover different averages. Always ask: whose effect is this?",
+  "speak": "Different designs recover different averages. Always ask: whose effect is this?",
+  "dur": 4.843
+ },
+ {
+  "i": 67,
+  "text": "Chapter eleven: you'll never know the whole diagram. And you don't need to.",
+  "speak": "Chapter eleven: you'll never know the whole diagram. And you don't need to.",
+  "dur": 4.053
+ },
+ {
+  "i": 68,
+  "text": "Focus on what drives the treatment: the roads into it. That is where back doors begin.",
+  "speak": "Focus on what drives the treatment: the roads into it. That is where back doors begin.",
+  "dur": 4.971
+ },
+ {
+  "i": 69,
+  "text": "And test what you can. A placebo test checks for an effect that *should* be zero.",
+  "speak": "And test what you can. A placebo test checks for an effect that should be zero.",
+  "dur": 4.352
+ },
+ {
+  "i": 70,
+  "text": "Coffee today can't change yesterday's output. If it seems to, something else is going on.",
+  "speak": "Coffee today can't change yesterday's output. If it seems to, something else is going on.",
+  "dur": 5.397
+ },
+ {
+  "i": 71,
+  "text": "Passing a placebo test doesn't prove you're right. Failing one tells you something is wrong.",
+  "speak": "Passing a placebo test doesn't prove you're right. Failing one tells you something is wrong.",
+  "dur": 4.928
+ },
+ {
+  "i": 72,
+  "text": "Part one leaves you here: a diagram with back doors. Some you can measure and close. Some you can't.",
+  "speak": "Part one leaves you here: a diagram with back doors. Some you can measure and close. Some you can't.",
+  "dur": 5.611
+ },
+ {
+  "i": 73,
+  "text": "Part two is a set of templates for dealing with them. And they all answer one question.",
+  "speak": "Part two is a set of templates for dealing with them. And they all answer one question.",
+  "dur": 4.864
+ },
+ {
+  "i": 74,
+  "text": "Which part of the variation in the treatment do we keep?",
+  "speak": "Which part of the variation in the treatment do we keep?",
+  "dur": 2.88
+ },
+ {
+  "i": 75,
+  "text": "Every design keeps a different slice, and throws away the slices that back doors can reach.",
+  "speak": "Every design keeps a different slice, and throws away the slices that back doors can reach.",
+  "dur": 5.035
+ },
+ {
+  "i": 76,
+  "text": "Group them, and five families appear.",
+  "speak": "Group them, and five families appear.",
+  "dur": 2.155
+ },
+ {
+  "i": 77,
+  "text": "One: measure the back doors and hold them fixed. Regression and matching. This works if you can see every confounder.",
+  "speak": "One: measure the back doors and hold them fixed. Regression and matching. This works if you can see every confounder.",
+  "dur": 6.933
+ },
+ {
+  "i": 78,
+  "text": "Two: compare a unit with itself over time, or with a group that shares its trend. Fixed effects, event studies, and difference-in-differences.",
+  "speak": "Two: compare a unit with itself over time, or with a group that shares its trend. Fixed effects, event studies, and difference-in-differences.",
+  "dur": 8.299
+ },
+ {
+  "i": 79,
+  "text": "Three: find an outside push that moves the treatment. Instrumental variables.",
+  "speak": "Three: find an outside push that moves the treatment. Instrumental variables.",
+  "dur": 4.715
+ },
+ {
+  "i": 80,
+  "text": "Four: use a rule's edge, where a cutoff decides who's treated. Regression discontinuity.",
+  "speak": "Four: use a rule's edge, where a cutoff decides who's treated. Regression discontinuity.",
+  "dur": 5.525
+ },
+ {
+  "i": 81,
+  "text": "Five: when nothing gives a clean slice, report a range. Partial identification.",
+  "speak": "Five: when nothing gives a clean slice, report a range. Partial identification.",
+  "dur": 5.056
+ },
+ {
+  "i": 82,
+  "text": "And simulation is the test bench: build a fake world with a known answer, and check any of them.",
+  "speak": "And simulation is the test bench: build a fake world with a known answer, and check any of them.",
+  "dur": 5.589
+ },
+ {
+  "i": 83,
+  "text": "Why does this short list cover so much ground? Because a back door can only be handled in a few ways.",
+  "speak": "Why does this short list cover so much ground? Because a back door can only be handled in a few ways.",
+  "dur": 5.525
+ },
+ {
+  "i": 84,
+  "text": "You can see it and control it. It can stay fixed, or be shared, so comparisons within cancel it. Or you can route around it, with an outside push or a rule.",
+  "speak": "You can see it and control it. It can stay fixed, or be shared, so comparisons within cancel it. Or you can route around it, with an outside push or a rule.",
+  "dur": 9.643
+ },
+ {
+  "i": 85,
+  "text": "If none of those hold, you bound the answer. So choosing a design is a short flowchart.",
+  "speak": "If none of those hold, you bound the answer. So choosing a design is a short flowchart.",
+  "dur": 5.099
+ },
+ {
+  "i": 86,
+  "text": "Randomize if you can.",
+  "speak": "Randomize if you can.",
+  "dur": 1.429
+ },
+ {
+  "i": 87,
+  "text": "If not: can you measure every back door?",
+  "speak": "If not: can you measure every back door?",
+  "dur": 2.219
+ },
+ {
+  "i": 88,
+  "text": "Do you see the same units over time?",
+  "speak": "Do you see the same units over time?",
+  "dur": 1.963
+ },
+ {
+  "i": 89,
+  "text": "Is there a start date, and a group it missed?",
+  "speak": "Is there a start date, and a group it missed?",
+  "dur": 2.197
+ },
+ {
+  "i": 90,
+  "text": "Is there an outside push?",
+  "speak": "Is there an outside push?",
+  "dur": 1.451
+ },
+ {
+  "i": 91,
+  "text": "Or a cutoff?",
+  "speak": "Or a cutoff?",
+  "dur": 0.917
+ },
+ {
+  "i": 92,
+  "text": "If nothing fits, report a range.",
+  "speak": "If nothing fits, report a range.",
+  "dur": 2.027
+ },
+ {
+  "i": 93,
+  "text": "The designs also combine.",
+  "speak": "The designs also combine.",
+  "dur": 1.643
+ },
+ {
+  "i": 94,
+  "text": "Difference-in-differences is fixed effects for both groups and time.",
+  "speak": "Difference-in-differences is fixed effects for both groups and time.",
+  "dur": 3.541
+ },
+ {
+  "i": 95,
+  "text": "A fuzzy cutoff turns regression discontinuity into an instrument.",
+  "speak": "A fuzzy cutoff turns regression discontinuity into an instrument.",
+  "dur": 3.947
+ },
+ {
+  "i": 96,
+  "text": "And matching can build a better comparison group for difference-in-differences.",
+  "speak": "And matching can build a better comparison group for difference-in-differences.",
+  "dur": 4.16
+ },
+ {
+  "i": 97,
+  "text": "It isn't the whole story. Synthetic control, structural models and more wait in the gallery near the end.",
+  "speak": "It isn't the whole story. Synthetic control, structural models and more wait in the gallery near the end.",
+  "dur": 6.187
+ },
+ {
+  "i": 98,
+  "text": "Now, each design, one at a time. Two cases each. Ready?",
+  "speak": "Now, each design, one at a time. Two cases each. Ready?",
+  "dur": 3.605
+ },
+ {
+  "i": 99,
+  "text": "Regression. Let's start with the name.",
+  "speak": "Regression. Let's start with the name.",
+  "dur": 2.133
+ },
+ {
+  "i": 100,
+  "text": "Francis Galton noticed that tall parents' children tended to 'go back', or regress, toward average height. The line-fitting tool that showed it kept the name.",
+  "speak": "Francis Galton noticed that tall parents' children tended to 'go back', or regress, toward average height. The line-fitting tool that showed it kept the name.",
+  "dur": 9.152
+ },
+ {
+  "i": 101,
+  "text": "Regression fits a line through the data, so you can compare outcomes across the treatment *while holding measured controls fixed*.",
+  "speak": "Regression fits a line through the data, so you can compare outcomes across the treatment while holding measured controls fixed.",
+  "dur": 6.997
+ },
+ {
+  "i": 102,
+  "text": "Picture a line through the cloud of data, and a lock on every control.",
+  "speak": "Picture a line through the cloud of data, and a lock on every control.",
+  "dur": 3.989
+ },
+ {
+  "i": 103,
+  "text": "Use it when:",
+  "speak": "Use it when:",
+  "dur": 0.939
+ },
+ {
+  "i": 104,
+  "text": "You can name and measure every back-door variable",
+  "speak": "You can name and measure every back-door variable",
+  "dur": 2.731
+ },
+ {
+  "i": 105,
+  "text": "The outcome changes in a shape you can model, like a line",
+  "speak": "The outcome changes in a shape you can model, like a line",
+  "dur": 3.243
+ },
+ {
+  "i": 106,
+  "text": "Treated and untreated units overlap on those controls",
+  "speak": "Treated and untreated units overlap on those controls",
+  "dur": 3.157
+ },
+ {
+  "i": 107,
+  "text": "Case 1. Chai stalls near metro stations sell ₹1,500 more a day. But those stalls also sit on busier roads. How would you estimate what the metro itself adds?",
+  "speak": "Case 1. Chai stalls near metro stations sell 1,500 rupees more a day. But those stalls also sit on busier roads. How would you estimate what the metro itself adds?",
+  "dur": 11.84
+ },
+ {
+  "i": 108,
+  "text": "Regress daily sales on 'near a metro', and add the road's foot traffic as a control.",
+  "speak": "Regress daily sales on 'near a metro', and add the road's foot traffic as a control.",
+  "dur": 4.587
+ },
+ {
+  "i": 109,
+  "text": "The control means we compare stalls with the *same* foot traffic, near a station and far from one.",
+  "speak": "The control means we compare stalls with the same foot traffic, near a station and far from one.",
+  "dur": 5.675
+ },
+ {
+  "i": 110,
+  "text": "The raw gap of ₹1,500 shrinks to ₹500. That's the metro's effect, if foot traffic was the only back door.",
+  "speak": "The raw gap of 1,500 rupees shrinks to 500 rupees. That's the metro's effect, if foot traffic was the only back door.",
+  "dur": 9.131
+ },
+ {
+  "i": 111,
+  "text": "Case 2. Students who sleep more score higher. But they also study less late at night, and fewer have part-time jobs. How would regression help, and what could still go wrong?",
+  "speak": "Case 2. Students who sleep more score higher. But they also study less late at night, and fewer have part-time jobs. How would regression help, and what could still go wrong?",
+  "dur": 10.517
+ },
+ {
+  "i": 112,
+  "text": "Regress exam score on hours of sleep, controlling for late-night study and job hours.",
+  "speak": "Regress exam score on hours of sleep, controlling for late-night study and job hours.",
+  "dur": 5.397
+ },
+ {
+  "i": 113,
+  "text": "Each control closes one back door. The sleep slope now compares students who are alike on both.",
+  "speak": "Each control closes one back door. The sleep slope now compares students who are alike on both.",
+  "dur": 5.611
+ },
+ {
+  "i": 114,
+  "text": "But stress, which we didn't measure, still drives both sleep and scores. Regression is only as good as its list of controls.",
+  "speak": "But stress, which we didn't measure, still drives both sleep and scores. Regression is only as good as its list of controls.",
+  "dur": 7.36
+ },
+ {
+  "i": 115,
+  "text": "Regression closes the back doors you can measure. The ones you can't, stay open.",
+  "speak": "Regression closes the back doors you can measure. The ones you can't, stay open.",
+  "dur": 4.501
+ },
+ {
+  "i": 116,
+  "text": "Matching. The name says exactly what it does.",
+  "speak": "Matching. The name says exactly what it does.",
+  "dur": 2.56
+ },
+ {
+  "i": 117,
+  "text": "Like pairing socks from the laundry. For every treated unit, find an untreated one that looks the same on the back-door variables.",
+  "speak": "Like pairing socks from the laundry. For every treated unit, find an untreated one that looks the same on the back-door variables.",
+  "dur": 7.339
+ },
+ {
+  "i": 118,
+  "text": "Matching pairs each treated unit with untreated look-alikes on the measured back-door variables, then compares outcomes within those pairs.",
+  "speak": "Matching pairs each treated unit with untreated look-alikes on the measured back-door variables, then compares outcomes within those pairs.",
+  "dur": 8.149
+ },
+ {
+  "i": 119,
+  "text": "Picture two columns of people, joined into pairs. Anyone without a twin sits out.",
+  "speak": "Picture two columns of people, joined into pairs. Anyone without a twin sits out.",
+  "dur": 4.971
+ },
+ {
+  "i": 120,
+  "text": "Treated and untreated groups differ on traits you can measure",
+  "speak": "Treated and untreated groups differ on traits you can measure",
+  "dur": 3.243
+ },
+ {
+  "i": 121,
+  "text": "Look-alikes exist on both sides (they overlap)",
+  "speak": "Look-alikes exist on both sides (they overlap)",
+  "dur": 2.795
+ },
+ {
+  "i": 122,
+  "text": "You'd rather not assume a straight-line relationship",
+  "speak": "You'd rather not assume a straight-line relationship",
+  "dur": 2.539
+ },
+ {
+  "i": 123,
+  "text": "Case 1. A gym offers free personal training to members who ask. Trainer users lose more weight, but they tend to be younger and newer members. How would you use matching?",
+  "speak": "Case 1. A gym offers free personal training to members who ask. Trainer users lose more weight, but they tend to be younger and newer members. How would you use matching?",
+  "dur": 10.56
+ },
+ {
+  "i": 124,
+  "text": "Pair each trainer user with a non-user of the same age and the same months of membership.",
+  "speak": "Pair each trainer user with a non-user of the same age and the same months of membership.",
+  "dur": 5.12
+ },
+ {
+  "i": 125,
+  "text": "Compare weight change within each pair, then average across the pairs.",
+  "speak": "Compare weight change within each pair, then average across the pairs.",
+  "dur": 3.797
+ },
+ {
+  "i": 126,
+  "text": "Members with no look-alike are dropped. You learn the effect for users who have a fair comparison.",
+  "speak": "Members with no look-alike are dropped. You learn the effect for users who have a fair comparison.",
+  "dur": 5.504
+ },
+ {
+  "i": 127,
+  "text": "Case 2. Did a coding bootcamp raise graduates' salaries? Attendees had more work experience and more often lived in Bengaluru. How would you set up the comparison?",
+  "speak": "Case 2. Did a coding bootcamp raise graduates' salaries? Attendees had more work experience and more often lived in Bengaluru. How would you set up the comparison?",
+  "dur": 10.069
+ },
+ {
+  "i": 128,
+  "text": "Match each graduate to non-attendees with the same experience, city, degree and starting salary. Now the groups are balanced.",
+  "speak": "Match each graduate to non-attendees with the same experience, city, degree and starting salary. Now the groups are balanced.",
+  "dur": 7.829
+ },
+ {
+  "i": 129,
+  "text": "Then compare salary growth: graduates grew twenty-two percent, their matches fourteen.",
+  "speak": "Then compare salary growth: graduates grew twenty-two percent, their matches fourteen.",
+  "dur": 4.971
+ },
+ {
+  "i": 130,
+  "text": "Careful: motivation isn't on the list. If keener people enrol, matching can't fix that.",
+  "speak": "Careful: motivation isn't on the list. If keener people enrol, matching can't fix that.",
+  "dur": 5.589
+ },
+ {
+  "i": 131,
+  "text": "Matching compares like with like, but only on the traits you can see.",
+  "speak": "Matching compares like with like, but only on the traits you can see.",
+  "dur": 3.627
+ },
+ {
+  "i": 132,
+  "text": "Simulation. To simulate is to imitate.",
+  "speak": "Simulation. To simulate is to imitate.",
+  "dur": 2.667
+ },
+ {
+  "i": 133,
+  "text": "You build a pretend world on a computer, where *you* choose the true effect.",
+  "speak": "You build a pretend world on a computer, where you choose the true effect.",
+  "dur": 3.712
+ },
+ {
+  "i": 134,
+  "text": "Simulation creates many fake datasets with a known true effect, runs your method on each one, and checks whether it gets the truth back.",
+  "speak": "Simulation creates many fake datasets with a known true effect, runs your method on each one, and checks whether it gets the truth back.",
+  "dur": 7.936
+ },
+ {
+  "i": 135,
+  "text": "Picture a dial set to the truth, a stack of fake datasets, and a pile of estimates around the dial.",
+  "speak": "Picture a dial set to the truth, a stack of fake datasets, and a pile of estimates around the dial.",
+  "dur": 5.867
+ },
+ {
+  "i": 136,
+  "text": "You want to test a method before you trust it",
+  "speak": "You want to test a method before you trust it",
+  "dur": 2.219
+ },
+ {
+  "i": 137,
+  "text": "The sample is small, or the design is complicated",
+  "speak": "The sample is small, or the design is complicated",
+  "dur": 3.008
+ },
+ {
+  "i": 138,
+  "text": "You suspect a control or an assumption could bias the answer",
+  "speak": "You suspect a control or an assumption could bias the answer",
+  "dur": 3.691
+ },
+ {
+  "i": 139,
+  "text": "Case 1. You plan to measure a discount's effect on sales, but you only have 30 stores. Will your estimate be precise enough to trust?",
+  "speak": "Case 1. You plan to measure a discount's effect on sales, but you only have 30 stores. Will your estimate be precise enough to trust?",
+  "dur": 8.107
+ },
+ {
+  "i": 140,
+  "text": "Build a fake world: thirty stores, a true effect of plus five percent, and realistic noise.",
+  "speak": "Build a fake world: thirty stores, a true effect of plus five percent, and realistic noise.",
+  "dur": 5.589
+ },
+ {
+  "i": 141,
+  "text": "Run your analysis on a thousand fake versions. The estimates land anywhere from minus three to plus thirteen percent.",
+  "speak": "Run your analysis on a thousand fake versions. The estimates land anywhere from minus three to plus thirteen percent.",
+  "dur": 7.253
+ },
+ {
+  "i": 142,
+  "text": "Far too noisy. Before spending money, you know you need more stores.",
+  "speak": "Far too noisy. Before spending money, you know you need more stores.",
+  "dur": 3.925
+ },
+ {
+  "i": 143,
+  "text": "Case 2. A colleague wants to control for customer satisfaction when estimating how delivery speed affects repeat orders. Is that safe?",
+  "speak": "Case 2. A colleague wants to control for customer satisfaction when estimating how delivery speed affects repeat orders. Is that safe?",
+  "dur": 8.704
+ },
+ {
+  "i": 144,
+  "text": "Simulate a world where speed raises satisfaction, and satisfaction drives repeat orders. Set the true effect of speed at ten.",
+  "speak": "Simulate a world where speed raises satisfaction, and satisfaction drives repeat orders. Set the true effect of speed at ten.",
+  "dur": 8.064
+ },
+ {
+  "i": 145,
+  "text": "Without the control, the estimates centre on ten. With it, they centre near two.",
+  "speak": "Without the control, the estimates centre on ten. With it, they centre near two.",
+  "dur": 4.523
+ },
+ {
+  "i": 146,
+  "text": "Satisfaction sits on the path from speed to orders, so controlling for it hides most of the effect. The simulation caught the mistake before it was published.",
+  "speak": "Satisfaction sits on the path from speed to orders, so controlling for it hides most of the effect. The simulation caught the mistake before it was published.",
+  "dur": 9.344
+ },
+ {
+  "i": 147,
+  "text": "When you know the answer, you can test the method.",
+  "speak": "When you know the answer, you can test the method.",
+  "dur": 2.475
+ },
+ {
+  "i": 148,
+  "text": "Fixed effects. Two words, and both matter.",
+  "speak": "Fixed effects. Two words, and both matter.",
+  "dur": 2.432
+ },
+ {
+  "i": 149,
+  "text": "'Fixed' means traits of each unit that stay put over time, like a player's talent or a shop's location.",
+  "speak": "'Fixed' means traits of each unit that stay put over time, like a player's talent or a shop's location.",
+  "dur": 6.144
+ },
+ {
+  "i": 150,
+  "text": "'Effects' means the push those traits give the outcome. The design wipes out every fixed effect by comparing each unit only with itself.",
+  "speak": "'Effects' means the push those traits give the outcome. The design wipes out every fixed effect by comparing each unit only with itself.",
+  "dur": 8.235
+ },
+ {
+  "i": 151,
+  "text": "Fixed effects compare each unit with itself at different times, so everything about it that never changes drops out.",
+  "speak": "Fixed effects compare each unit with itself at different times, so everything about it that never changes drops out.",
+  "dur": 6.507
+ },
+ {
+  "i": 152,
+  "text": "Picture three units at different heights. Slide each one to the same level, and only the change within each is left.",
+  "speak": "Picture three units at different heights. Slide each one to the same level, and only the change within each is left.",
+  "dur": 6.827
+ },
+ {
+  "i": 153,
+  "text": "You observe the same units again and again (panel data)",
+  "speak": "You observe the same units again and again (panel data)",
+  "dur": 3.157
+ },
+ {
+  "i": 154,
+  "text": "The worrying back doors are stable traits of each unit",
+  "speak": "The worrying back doors are stable traits of each unit",
+  "dur": 3.008
+ },
+ {
+  "i": 155,
+  "text": "Treatment switches on and off within units over time",
+  "speak": "Treatment switches on and off within units over time",
+  "dur": 2.837
+ },
+ {
+  "i": 156,
+  "text": "Case 1. Do cricketers score more runs in matches where they use a new bat? Better players are more likely to get the new bat first. How do you get a fair answer?",
+  "speak": "Case 1. Do cricketers score more runs in matches where they use a new bat? Better players are more likely to get the new bat first. How do you get a fair answer?",
+  "dur": 9.28
+ },
+ {
+  "i": 157,
+  "text": "Pooled together, new-bat innings average fifty-two runs and old-bat innings twenty-five. But stars dominate the new-bat column.",
+  "speak": "Pooled together, new-bat innings average fifty-two runs and old-bat innings twenty-five. But stars dominate the new-bat column.",
+  "dur": 8.341
+ },
+ {
+  "i": 158,
+  "text": "So compare each player's new-bat runs with *their own* old-bat runs. Talent is fixed, so it cancels out.",
+  "speak": "So compare each player's new-bat runs with their own old-bat runs. Talent is fixed, so it cancels out.",
+  "dur": 6.464
+ },
+ {
+  "i": 159,
+  "text": "Each player gains about six runs. That's the bat. But anything that changes over time, like form or fitness, could still sneak in.",
+  "speak": "Each player gains about six runs. That's the bat. But anything that changes over time, like form or fitness, could still sneak in.",
+  "dur": 8
+ },
+ {
+  "i": 160,
+  "text": "Case 2. Restaurants get better ratings in months when they're listed on a delivery app. But fancier restaurants join apps more often. How would fixed effects help?",
+  "speak": "Case 2. Restaurants get better ratings in months when they're listed on a delivery app. But fancier restaurants join apps more often. How would fixed effects help?",
+  "dur": 9.472
+ },
+ {
+  "i": 161,
+  "text": "Use restaurant fixed effects: compare each restaurant's ratings in its app months with its own months off the app.",
+  "speak": "Use restaurant fixed effects: compare each restaurant's ratings in its app months with its own months off the app.",
+  "dur": 6.336
+ },
+ {
+  "i": 162,
+  "text": "Fanciness, location and cuisine don't change month to month, so they drop out. Each restaurant gains about point two stars.",
+  "speak": "Fanciness, location and cuisine don't change month to month, so they drop out. Each restaurant gains about point two stars.",
+  "dur": 7.637
+ },
+ {
+  "i": 163,
+  "text": "A new chef or a renovation *does* change, so check for those separately.",
+  "speak": "A new chef or a renovation does change, so check for those separately.",
+  "dur": 4.117
+ },
+ {
+  "i": 164,
+  "text": "Compare each unit with itself, and whatever never changes about it disappears.",
+  "speak": "Compare each unit with itself, and whatever never changes about it disappears.",
+  "dur": 4.523
+ },
+ {
+  "i": 165,
+  "text": "Event studies.",
+  "speak": "Event studies.",
+  "dur": 1.045
+ },
+ {
+  "i": 166,
+  "text": "The 'event' is the moment a treatment switches on.",
+  "speak": "The 'event' is the moment a treatment switches on.",
+  "dur": 2.731
+ },
+ {
+  "i": 167,
+  "text": "The 'study' tracks the outcome before and after that moment.",
+  "speak": "The 'study' tracks the outcome before and after that moment.",
+  "dur": 2.987
+ },
+ {
+  "i": 168,
+  "text": "An event study compares what happens after a treatment starts with what the trend before it predicted would happen.",
+  "speak": "An event study compares what happens after a treatment starts with what the trend before it predicted would happen.",
+  "dur": 6.187
+ },
+ {
+  "i": 169,
+  "text": "Picture the trend before the event, extended forward as a forecast. The gap after the event is the effect.",
+  "speak": "Picture the trend before the event, extended forward as a forecast. The gap after the event is the effect.",
+  "dur": 6.613
+ },
+ {
+  "i": 170,
+  "text": "There is a clear date when the treatment begins",
+  "speak": "There is a clear date when the treatment begins",
+  "dur": 2.219
+ },
+ {
+  "i": 171,
+  "text": "You have data well before and well after that date",
+  "speak": "You have data well before and well after that date",
+  "dur": 2.859
+ },
+ {
+  "i": 172,
+  "text": "Nothing else big changes at the same moment",
+  "speak": "Nothing else big changes at the same moment",
+  "dur": 2.411
+ },
+ {
+  "i": 173,
+  "text": "Case 1. A new metro line opens on 1 March, running right beside a busy bus route. Did ridership on that bus route fall?",
+  "speak": "Case 1. A new metro line opens on 1 March, running right beside a busy bus route. Did ridership on that bus route fall?",
+  "dur": 7.915
+ },
+ {
+  "i": 174,
+  "text": "Plot weekly bus riders for months before and after the opening.",
+  "speak": "Plot weekly bus riders for months before and after the opening.",
+  "dur": 3.733
+ },
+ {
+  "i": 175,
+  "text": "Fit the trend before March, and extend it forward as a forecast of a world with no metro.",
+  "speak": "Fit the trend before March, and extend it forward as a forecast of a world with no metro.",
+  "dur": 5.44
+ },
+ {
+  "i": 176,
+  "text": "The gap between the forecast and actual riders, about four thousand a week, is the effect. And before March, the estimated effect hovers at zero, as it should.",
+  "speak": "The gap between the forecast and actual riders, about four thousand a week, is the effect. And before March, the estimated effect hovers at zero, as it should.",
+  "dur": 9.856
+ },
+ {
+  "i": 177,
+  "text": "Case 2. A shopping app launched a redesign on one day in October, and daily orders went up. Was it the redesign?",
+  "speak": "Case 2. A shopping app launched a redesign on one day in October, and daily orders went up. Was it the redesign?",
+  "dur": 7.125
+ },
+ {
+  "i": 178,
+  "text": "Line up daily orders around launch day, and compare them with the trend before launch.",
+  "speak": "Line up daily orders around launch day, and compare them with the trend before launch.",
+  "dur": 4.715
+ },
+ {
+  "i": 179,
+  "text": "But October brings festival sales. If Diwali offers began the same week, an event study can't tell the two apart.",
+  "speak": "But October brings festival sales. If Diwali offers began the same week, an event study can't tell the two apart.",
+  "dur": 7.275
+ },
+ {
+  "i": 180,
+  "text": "Use a narrow window around the launch, and check what else changed that day. A clean event date is everything.",
+  "speak": "Use a narrow window around the launch, and check what else changed that day. A clean event date is everything.",
+  "dur": 6.251
+ },
+ {
+  "i": 181,
+  "text": "Before-and-after works when the trend is predictable and nothing else changed.",
+  "speak": "Before-and-after works when the trend is predictable and nothing else changed.",
+  "dur": 4.032
+ },
+ {
+  "i": 182,
+  "text": "Difference-in-differences. The name is the recipe.",
+  "speak": "Difference-in-differences. The name is the recipe.",
+  "dur": 2.88
+ },
+ {
+  "i": 183,
+  "text": "The first difference: after minus before, within each group.",
+  "speak": "The first difference: after minus before, within each group.",
+  "dur": 3.392
+ },
+ {
+  "i": 184,
+  "text": "The second: the treated group's change minus the untreated group's change. That subtracts whatever changed for everyone.",
+  "speak": "The second: the treated group's change minus the untreated group's change. That subtracts whatever changed for everyone.",
+  "dur": 6.869
+ },
+ {
+  "i": 185,
+  "text": "Difference-in-differences compares how much a treated group changed with how much a similar untreated group changed over the same period.",
+  "speak": "Difference-in-differences compares how much a treated group changed with how much a similar untreated group changed over the same period.",
+  "dur": 7.829
+ },
+ {
+  "i": 186,
+  "text": "Picture two lines moving together. After treatment, a ghost line shows where the treated group would have gone.",
+  "speak": "Picture two lines moving together. After treatment, a ghost line shows where the treated group would have gone.",
+  "dur": 6.357
+ },
+ {
+  "i": 187,
+  "text": "A treated and an untreated group, both seen before and after",
+  "speak": "A treated and an untreated group, both seen before and after",
+  "dur": 3.52
+ },
+ {
+  "i": 188,
+  "text": "Both groups were trending in parallel before treatment",
+  "speak": "Both groups were trending in parallel before treatment",
+  "dur": 2.88
+ },
+ {
+  "i": 189,
+  "text": "Nothing else hit only the treated group at the same time",
+  "speak": "Nothing else hit only the treated group at the same time",
+  "dur": 2.944
+ },
+ {
+  "i": 190,
+  "text": "Case 1. Karnataka raises the minimum wage for shop workers; a neighbouring state doesn't. Did shop jobs in Karnataka fall?",
+  "speak": "Case 1. Karnataka raises the minimum wage for shop workers; a neighbouring state doesn't. Did shop jobs in Karnataka fall?",
+  "dur": 8.405
+ },
+ {
+  "i": 191,
+  "text": "Measure Karnataka's change in shop jobs, before versus after. Do the same for the neighbouring state.",
+  "speak": "Measure Karnataka's change in shop jobs, before versus after. Do the same for the neighbouring state.",
+  "dur": 6.123
+ },
+ {
+  "i": 192,
+  "text": "Karnataka fell by two percent. The neighbour fell by three percent, for reasons that had nothing to do with wages.",
+  "speak": "Karnataka fell by two percent. The neighbour fell by three percent, for reasons that had nothing to do with wages.",
+  "dur": 6.827
+ },
+ {
+  "i": 193,
+  "text": "Difference in differences: minus two, minus minus three, gives plus one percent. No sign the wage rise cut jobs, if the two states were trending together.",
+  "speak": "Difference in differences: minus two, minus minus three, gives plus one percent. No sign the wage rise cut jobs, if the two states were trending together.",
+  "dur": 10.069
+ },
+ {
+  "i": 194,
+  "text": "Case 2. One school district bans phones in class from June; a nearby district does not. Test scores rise in both. Did the ban help?",
+  "speak": "Case 2. One school district bans phones in class from June; a nearby district does not. Test scores rise in both. Did the ban help?",
+  "dur": 8.981
+ },
+ {
+  "i": 195,
+  "text": "Compare the change in scores in the banning district with the change next door.",
+  "speak": "Compare the change in scores in the banning district with the change next door.",
+  "dur": 4.16
+ },
+ {
+  "i": 196,
+  "text": "Banning district: up eight points. Neighbour: up five. Difference in differences: three points.",
+  "speak": "Banning district: up eight points. Neighbour: up five. Difference in differences: three points.",
+  "dur": 5.547
+ },
+ {
+  "i": 197,
+  "text": "But first check earlier years. If the two districts moved in parallel before the ban, the neighbour is a fair stand-in.",
+  "speak": "But first check earlier years. If the two districts moved in parallel before the ban, the neighbour is a fair stand-in.",
+  "dur": 6.592
+ },
+ {
+  "i": 198,
+  "text": "The untreated group tells you what would have happened anyway.",
+  "speak": "The untreated group tells you what would have happened anyway.",
+  "dur": 2.923
+ },
+ {
+  "i": 199,
+  "text": "Instrumental variables.",
+  "speak": "Instrumental variables.",
+  "dur": 1.451
+ },
+ {
+  "i": 200,
+  "text": "An instrument is a tool: something outside the system that moves the treatment.",
+  "speak": "An instrument is a tool: something outside the system that moves the treatment.",
+  "dur": 4.373
+ },
+ {
+  "i": 201,
+  "text": "And a variable, because it's something we can measure.",
+  "speak": "And a variable, because it's something we can measure.",
+  "dur": 2.539
+ },
+ {
+  "i": 202,
+  "text": "An instrumental variable shifts the treatment but reaches the outcome only through the treatment, so we keep just the variation it creates.",
+  "speak": "An instrumental variable shifts the treatment but reaches the outcome only through the treatment, so we keep just the variation it creates.",
+  "dur": 7.957
+ },
+ {
+  "i": 203,
+  "text": "Picture a push, Z, on the treatment. Back doors still tangle X and Y, but the push has no other road to Y.",
+  "speak": "Picture a push, Z, on the treatment. Back doors still tangle X and Y, but the push has no other road to Y.",
+  "dur": 7.275
+ },
+ {
+  "i": 204,
+  "text": "The treatment is tangled with things you can't measure",
+  "speak": "The treatment is tangled with things you can't measure",
+  "dur": 2.645
+ },
+ {
+  "i": 205,
+  "text": "Some outside push changes who gets treated",
+  "speak": "Some outside push changes who gets treated",
+  "dur": 2.56
+ },
+ {
+  "i": 206,
+  "text": "That push has no other road to the outcome",
+  "speak": "That push has no other road to the outcome",
+  "dur": 2.112
+ },
+ {
+  "i": 207,
+  "text": "Case 1. Does a top coaching institute raise entrance-exam scores? Students who join are more motivated. But seats go by lottery among applicants. How can you use that?",
+  "speak": "Case 1. Does a top coaching institute raise entrance-exam scores? Students who join are more motivated. But seats go by lottery among applicants. How can you use that?",
+  "dur": 11.008
+ },
+ {
+  "i": 208,
+  "text": "The lottery is the instrument. It decides who gets a seat, and it can't know who's motivated.",
+  "speak": "The lottery is the instrument. It decides who gets a seat, and it can't know who's motivated.",
+  "dur": 5.397
+ },
+ {
+  "i": 209,
+  "text": "Lottery winners score three points higher on average. And winning raises the chance of joining by fifty percentage points.",
+  "speak": "Lottery winners score three points higher on average. And winning raises the chance of joining by fifty percentage points.",
+  "dur": 7.125
+ },
+ {
+  "i": 210,
+  "text": "Divide: three points over one half gives six points. That is the effect for students whose choice the lottery actually changed.",
+  "speak": "Divide: three points over one half gives six points. That is the effect for students whose choice the lottery actually changed.",
+  "dur": 7.701
+ },
+ {
+  "i": 211,
+  "text": "Case 2. Do people exercise more when they live near a park? Fitter people may choose park-side homes. A city housing scheme assigns flats by lottery. Where is the instrument?",
+  "speak": "Case 2. Do people exercise more when they live near a park? Fitter people may choose park-side homes. A city housing scheme assigns flats by lottery. Where is the instrument?",
+  "dur": 10.773
+ },
+ {
+  "i": 212,
+  "text": "The flat lottery. Some winners happen to land near a park, purely by chance.",
+  "speak": "The flat lottery. Some winners happen to land near a park, purely by chance.",
+  "dur": 4.544
+ },
+ {
+  "i": 213,
+  "text": "Use the lottery-assigned distance to a park as the instrument for actual distance.",
+  "speak": "Use the lottery-assigned distance to a park as the instrument for actual distance.",
+  "dur": 4.757
+ },
+ {
+  "i": 214,
+  "text": "It works only if the lottery changes exercise through the park alone. If park-side flats also came with a gym, the instrument would fail.",
+  "speak": "It works only if the lottery changes exercise through the park alone. If park-side flats also came with a gym, the instrument would fail.",
+  "dur": 8.427
+ },
+ {
+  "i": 215,
+  "text": "An instrument is a fair push from outside. Keep only the variation it moves.",
+  "speak": "An instrument is a fair push from outside. Keep only the variation it moves.",
+  "dur": 4.523
+ },
+ {
+  "i": 216,
+  "text": "Regression discontinuity.",
+  "speak": "Regression discontinuity.",
+  "dur": 1.621
+ },
+ {
+  "i": 217,
+  "text": "'Regression': fit a line on each side of a cutoff.",
+  "speak": "'Regression': fit a line on each side of a cutoff.",
+  "dur": 2.752
+ },
+ {
+  "i": 218,
+  "text": "'Discontinuity': a sudden break in the line, right at the cutoff. The size of that jump is the effect.",
+  "speak": "'Discontinuity': a sudden break in the line, right at the cutoff. The size of that jump is the effect.",
+  "dur": 6.08
+ },
+ {
+  "i": 219,
+  "text": "When a cutoff on some score decides who is treated, compare units just above and just below it. The jump at the cutoff is the effect.",
+  "speak": "When a cutoff on some score decides who is treated, compare units just above and just below it. The jump at the cutoff is the effect.",
+  "dur": 8.107
+ },
+ {
+  "i": 220,
+  "text": "Picture dots climbing smoothly, then a jump at the cutoff, where treatment switches on.",
+  "speak": "Picture dots climbing smoothly, then a jump at the cutoff, where treatment switches on.",
+  "dur": 4.971
+ },
+ {
+  "i": 221,
+  "text": "Treatment is assigned by a cutoff on a score",
+  "speak": "Treatment is assigned by a cutoff on a score",
+  "dur": 2.432
+ },
+ {
+  "i": 222,
+  "text": "People can't precisely control which side they land on",
+  "speak": "People can't precisely control which side they land on",
+  "dur": 3.029
+ },
+ {
+  "i": 223,
+  "text": "Nothing else changes at that exact cutoff",
+  "speak": "Nothing else changes at that exact cutoff",
+  "dur": 2.325
+ },
+ {
+  "i": 224,
+  "text": "Case 1. A scholarship goes to every student scoring 85 or more on a test. Does the scholarship raise college graduation?",
+  "speak": "Case 1. A scholarship goes to every student scoring 85 or more on a test. Does the scholarship raise college graduation?",
+  "dur": 8.299
+ },
+ {
+  "i": 225,
+  "text": "Plot graduation rates against test scores, and fit a line on each side of eighty-five.",
+  "speak": "Plot graduation rates against test scores, and fit a line on each side of eighty-five.",
+  "dur": 5.013
+ },
+ {
+  "i": 226,
+  "text": "Students at eighty-four and eighty-six are nearly identical, except one has the scholarship. The jump, nine points, is its effect.",
+  "speak": "Students at eighty-four and eighty-six are nearly identical, except one has the scholarship. The jump, nine points, is its effect.",
+  "dur": 8.32
+ },
+ {
+  "i": 227,
+  "text": "Then check for bunching. If students could nudge their scores over eighty-five, the comparison would break. Here, the counts are smooth.",
+  "speak": "Then check for bunching. If students could nudge their scores over eighty-five, the comparison would break. Here, the counts are smooth.",
+  "dur": 8.085
+ },
+ {
+  "i": 228,
+  "text": "Case 2. Shops with yearly turnover above ₹40 lakh must register for GST. Does registering cut profits? What would you check first?",
+  "speak": "Case 2. Shops with yearly turnover above 40 lakh rupees must register for G.S.T.. Does registering cut profits? What would you check first?",
+  "dur": 9.6
+ },
+ {
+  "i": 229,
+  "text": "The plan: compare the profits of shops just below and just above ₹40 lakh.",
+  "speak": "The plan: compare the profits of shops just below and just above 40 lakh rupees.",
+  "dur": 5.099
+ },
+ {
+  "i": 230,
+  "text": "But first, count the shops near the line. There's a pile-up just under it. Owners are keeping turnover low on purpose.",
+  "speak": "But first, count the shops near the line. There's a pile-up just under it. Owners are keeping turnover low on purpose.",
+  "dur": 6.955
+ },
+ {
+  "i": 231,
+  "text": "That's manipulation. Shops just below aren't like shops just above, so this cutoff won't give a clean answer.",
+  "speak": "That's manipulation. Shops just below aren't like shops just above, so this cutoff won't give a clean answer.",
+  "dur": 6.421
+ },
+ {
+  "i": 232,
+  "text": "Near a strict cutoff, chance decides the side. Unless people can game it.",
+  "speak": "Near a strict cutoff, chance decides the side. Unless people can game it.",
+  "dur": 4.416
+ },
+ {
+  "i": 233,
+  "text": "Partial identification.",
+  "speak": "Partial identification.",
+  "dur": 1.579
+ },
+ {
+  "i": 234,
+  "text": "'Identification' means pinning down the effect from data plus assumptions. 'Partial' means you only pin down part of it.",
+  "speak": "'Identification' means pinning down the effect from data plus assumptions. 'Partial' means you only pin down part of it.",
+  "dur": 7.189
+ },
+ {
+  "i": 235,
+  "text": "So instead of a single number, you get a range, and you can see what each assumption buys you.",
+  "speak": "So instead of a single number, you get a range, and you can see what each assumption buys you.",
+  "dur": 5.099
+ },
+ {
+  "i": 236,
+  "text": "Partial identification reports the range of effects that fit the data under weak assumptions, and shows how each extra assumption narrows it.",
+  "speak": "Partial identification reports the range of effects that fit the data under weak assumptions, and shows how each extra assumption narrows it.",
+  "dur": 8.448
+ },
+ {
+  "i": 237,
+  "text": "Picture a wide bar. Each assumption you add squeezes it tighter.",
+  "speak": "Picture a wide bar. Each assumption you add squeezes it tighter.",
+  "dur": 3.691
+ },
+ {
+  "i": 238,
+  "text": "Strong assumptions aren't believable",
+  "speak": "Strong assumptions aren't believable",
+  "dur": 2.069
+ },
+ {
+  "i": 239,
+  "text": "Data are missing, or selection can't be fixed",
+  "speak": "Data are missing, or selection can't be fixed",
+  "dur": 2.688
+ },
+ {
+  "i": 240,
+  "text": "An honest range is more useful than a shaky number",
+  "speak": "An honest range is more useful than a shaky number",
+  "dur": 2.965
+ },
+ {
+  "i": 241,
+  "text": "Case 1. A job-training program surveyed participants' wages, but thirty percent never replied. What can you honestly say about the program's effect on wages?",
+  "speak": "Case 1. A job-training program surveyed participants' wages, but thirty percent never replied. What can you honestly say about the program's effect on wages?",
+  "dur": 10.261
+ },
+ {
+  "i": 242,
+  "text": "Fill the gaps with the worst case and the best case: non-repliers earn the least possible, or the most.",
+  "speak": "Fill the gaps with the worst case and the best case: non-repliers earn the least possible, or the most.",
+  "dur": 5.781
+ },
+ {
+  "i": 243,
+  "text": "That gives a wide range. The effect is somewhere between minus ₹2,000 and plus ₹6,000 a month.",
+  "speak": "That gives a wide range. The effect is somewhere between minus 2,000 rupees and plus 6,000 rupees a month.",
+  "dur": 7.339
+ },
+ {
+  "i": 244,
+  "text": "Add one believable assumption, that non-repliers earn no more than repliers, and the range tightens to between zero and plus ₹3,000.",
+  "speak": "Add one believable assumption, that non-repliers earn no more than repliers, and the range tightens to between zero and plus 3,000 rupees.",
+  "dur": 9.323
+ },
+ {
+  "i": 245,
+  "text": "Case 2. A city adds a traffic signal, and reported accidents drop. But many minor accidents never get reported. Did the signal really reduce accidents?",
+  "speak": "Case 2. A city adds a traffic signal, and reported accidents drop. But many minor accidents never get reported. Did the signal really reduce accidents?",
+  "dur": 9.771
+ },
+ {
+  "i": 246,
+  "text": "We don't know how many accidents went unreported, before or after.",
+  "speak": "We don't know how many accidents went unreported, before or after.",
+  "dur": 3.691
+ },
+ {
+  "i": 247,
+  "text": "Assume only that reporting didn't *fall* after the signal went in. Then the true drop is at least as big as the reported drop.",
+  "speak": "Assume only that reporting didn't fall after the signal went in. Then the true drop is at least as big as the reported drop.",
+  "dur": 7.488
+ },
+ {
+  "i": 248,
+  "text": "That's a one-sided bound: the signal cut accidents by at least twelve percent. Honest, and still useful.",
+  "speak": "That's a one-sided bound: the signal cut accidents by at least twelve percent. Honest, and still useful.",
+  "dur": 6.165
+ },
+ {
+  "i": 249,
+  "text": "When certainty isn't available, an honest range beats a confident guess.",
+  "speak": "When certainty isn't available, an honest range beats a confident guess.",
+  "dur": 4.181
+ },
+ {
+  "i": 250,
+  "text": "Chapter twenty-two: a gallery of other methods. Three quick portraits.",
+  "speak": "Chapter twenty-two: a gallery of other methods. Three quick portraits.",
+  "dur": 3.968
+ },
+ {
+  "i": 251,
+  "text": "Synthetic control. When one city adopts a policy, blend several other cities into a stand-in that tracked it closely before.",
+  "speak": "Synthetic control. When one city adopts a policy, blend several other cities into a stand-in that tracked it closely before.",
+  "dur": 7.552
+ },
+ {
+  "i": 252,
+  "text": "After the policy, the gap between the city and its blend is the effect.",
+  "speak": "After the policy, the gap between the city and its blend is the effect.",
+  "dur": 3.947
+ },
+ {
+  "i": 253,
+  "text": "Heterogeneous effects. Instead of one average, let the data sort people into groups that respond differently. Maybe tutoring helps beginners the most.",
+  "speak": "Heterogeneous effects. Instead of one average, let the data sort people into groups that respond differently. Maybe tutoring helps beginners the most.",
+  "dur": 9.216
+ },
+ {
+  "i": 254,
+  "text": "Structural estimation. Write down a theory of how people decide, like how shoppers weigh price against distance, and fit it to data.",
+  "speak": "Structural estimation. Write down a theory of how people decide, like how shoppers weigh price against distance, and fit it to data.",
+  "dur": 8.384
+ },
+ {
+  "i": 255,
+  "text": "Then you can ask about policies nobody has tried yet.",
+  "speak": "Then you can ask about policies nobody has tried yet.",
+  "dur": 3.115
+ },
+ {
+  "i": 256,
+  "text": "Chapter twenty-three: every study sweeps something under the rug. Good researchers lift it and say what they found.",
+  "speak": "Chapter twenty-three: every study sweeps something under the rug. Good researchers lift it and say what they found.",
+  "dur": 6.741
+ },
+ {
+  "i": 257,
+  "text": "Which model? Two reasonable choices can give two different answers.",
+  "speak": "Which model? Two reasonable choices can give two different answers.",
+  "dur": 3.84
+ },
+ {
+  "i": 258,
+  "text": "Are you measuring the right thing? A test score is not quite the same as learning.",
+  "speak": "Are you measuring the right thing? A test score is not quite the same as learning.",
+  "dur": 4.16
+ },
+ {
+  "i": 259,
+  "text": "Missing data: who stopped answering, and why?",
+  "speak": "Missing data: who stopped answering, and why?",
+  "dur": 2.517
+ },
+ {
+  "i": 260,
+  "text": "Spillovers: tutoring one child can help her deskmate too, which muddies the comparison.",
+  "speak": "Spillovers: tutoring one child can help her deskmate too, which muddies the comparison.",
+  "dur": 5.205
+ },
+ {
+  "i": 261,
+  "text": "Fat tails: one billionaire in the sample can wreck an average.",
+  "speak": "Fat tails: one billionaire in the sample can wreck an average.",
+  "dur": 3.605
+ },
+ {
+  "i": 262,
+  "text": "And what exactly is the treatment? 'Tutoring' can mean many different things.",
+  "speak": "And what exactly is the treatment? 'Tutoring' can mean many different things.",
+  "dur": 3.861
+ },
+ {
+  "i": 263,
+  "text": "None of these sink a study by themselves. Hiding them does.",
+  "speak": "None of these sink a study by themselves. Hiding them does.",
+  "dur": 3.136
+ },
+ {
+  "i": 264,
+  "text": "So, every design in the book is a way to find a fair comparison.",
+  "speak": "So, every design in the book is a way to find a fair comparison.",
+  "dur": 3.819
+ },
+ {
+  "i": 265,
+  "text": "Part one tells you which comparisons would work. Part two gives you templates to make them. And honesty about the rug keeps you safe.",
+  "speak": "Part one tells you which comparisons would work. Part two gives you templates to make them. And honesty about the rug keeps you safe.",
+  "dur": 7.637
+ },
+ {
+  "i": 266,
+  "text": "Keep asking why. Thanks for exploring with me!",
+  "speak": "Keep asking why. Thanks for exploring with me!",
+  "dur": 2.752
+ },
+ {
+  "i": 267,
+  "text": "Hi, I'm Vari. Chai stalls near metro stations sell ₹1,500 more a day. Is the metro the reason?",
+  "speak": "Hi, I'm Vari. Chai stalls near metro stations sell 1,500 rupees more a day. Is the metro the reason?",
+  "dur": 7.936
+ }
+]

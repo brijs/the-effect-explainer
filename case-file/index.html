@@ -1,0 +1,2236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Effect: an animated case file</title>
+<meta name="description" content="An animated, voiced walk through every chapter of Nick Huntington-Klein's The Effect, following Arrow the detective.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,600;1,9..144,700&family=Kalam:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --surround:#D7DEE8;
+  --text:#22304F;
+  --muted:#56637C;
+  --ctrl:#FFFFFF;
+  --ctrl-line:#B9C3D3;
+  --red:#C62B36;
+  --hi:#F4D03F;
+  --night:#1A2238;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --surround:#0E1322;
+    --text:#E6EAF2;
+    --muted:#9AA6BF;
+    --ctrl:#1A2238;
+    --ctrl-line:#34405E;
+  }
+}
+:root[data-theme="dark"]{
+  --surround:#0E1322;
+  --text:#E6EAF2;
+  --muted:#9AA6BF;
+  --ctrl:#1A2238;
+  --ctrl-line:#34405E;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{
+  margin:0;height:100%;overflow:hidden;
+  background:var(--surround);color:var(--text);
+  font-family:'Fraunces',Georgia,'Times New Roman',serif;
+  -webkit-tap-highlight-color:transparent;
+}
+#app{
+  --w:min(calc(100vw - 16px), calc((100vh - 84px) * 16 / 9));
+  height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:6px 8px;
+}
+@supports (height:100dvh){ #app{ --w:min(calc(100vw - 16px), calc((100dvh - 84px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px)) * 16 / 9)); } }
+#stageWrap{position:relative;width:var(--w);aspect-ratio:16/9;border-radius:10px;overflow:hidden;background:var(--night);box-shadow:0 10px 30px rgba(0,0,0,.25)}
+#stage{display:block;width:100%;height:100%}
+
+/* start + end screens */
+.overlay{
+  position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:radial-gradient(ellipse at 50% 40%, #2A3557 0%, var(--night) 70%);
+  color:#EEF1F6;text-align:center;padding:4%;gap:2.2%;
+}
+.overlay[hidden]{display:none}
+.folder{
+  position:relative;background:#D9B676;color:#2B2116;border-radius:4px 10px 8px 8px;
+  padding:3.5% 6% 3%;width:min(78%,760px);transform:rotate(-1.5deg);
+  box-shadow:0 14px 30px rgba(0,0,0,.45);
+}
+.folder::before{content:"";position:absolute;left:6%;top:-9%;width:30%;height:12%;background:#D9B676;border-radius:8px 8px 0 0}
+.folder h1{margin:0;font-weight:650;font-size:clamp(28px,6.4vw,76px);line-height:1.05;letter-spacing:-.01em}
+.folder p{margin:.6em 0 0;font-family:'Kalam','Comic Neue',cursive;font-size:clamp(13px,2.1vw,24px);line-height:1.3}
+.folder .case{font-family:'Kalam','Comic Neue',cursive;color:var(--red);font-size:clamp(13px,2vw,22px);margin:0 0 .3em}
+.bigbtn{
+  font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:clamp(15px,2.3vw,24px);
+  background:var(--red);color:#fff;border:0;border-radius:999px;padding:.65em 1.5em;cursor:pointer;
+  box-shadow:0 6px 0 #8E1C25;transition:transform .08s ease, box-shadow .08s ease;
+}
+.bigbtn:active{transform:translateY(4px);box-shadow:0 2px 0 #8E1C25}
+.bigbtn:focus-visible,button:focus-visible{outline:3px solid var(--hi);outline-offset:3px}
+.hint{font-family:'Kalam','Comic Neue',cursive;font-size:clamp(11px,1.6vw,17px);color:#B9C3D6;margin:0}
+
+/* controls */
+#controls{
+  width:var(--w);display:flex;align-items:center;gap:10px;
+  background:var(--ctrl);border:1px solid var(--ctrl-line);border-radius:12px;padding:6px 10px;
+}
+#controls button{
+  font:600 14px/1 'Fraunces',Georgia,serif;color:var(--text);background:transparent;border:1px solid var(--ctrl-line);
+  border-radius:8px;height:34px;min-width:34px;padding:0 10px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;
+}
+#controls button[aria-pressed="false"]{opacity:.5;text-decoration:line-through}
+#play{background:var(--red)!important;color:#fff!important;border-color:var(--red)!important;width:40px;padding:0!important}
+#play svg{width:16px;height:16px;fill:#fff}
+#scrubBox{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+#chapLabel{font-family:'Kalam','Comic Neue',cursive;font-size:14px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#track{position:relative;height:18px;cursor:pointer;touch-action:none}
+#track .rail{position:absolute;left:0;right:0;top:7px;height:4px;border-radius:2px;background:var(--ctrl-line)}
+#fill{position:absolute;left:0;top:7px;height:4px;border-radius:2px;background:var(--red);width:0}
+#ticks i{position:absolute;top:4px;width:2px;height:10px;background:var(--muted);opacity:.55;border-radius:1px}
+#knob{position:absolute;top:2px;width:14px;height:14px;margin-left:-7px;border-radius:50%;background:var(--red);border:2px solid var(--ctrl);left:0}
+#time{font:500 13px/1 'Fraunces',Georgia,serif;font-variant-numeric:tabular-nums;color:var(--muted);white-space:nowrap}
+#rotateHint{display:none;font-family:'Kalam','Comic Neue',cursive;font-size:14px;color:var(--muted);margin:0}
+@media (orientation:portrait) and (max-width:700px){
+  #rotateHint{display:block}
+  #controls{flex-wrap:wrap}
+  #scrubBox{order:5;flex-basis:100%}
+}
+@media (max-width:560px){
+  #controls button.lab span{display:none}
+  #time{display:none}
+}
+</style>
+</head>
+<body>
+<main id="app">
+  <div id="stageWrap">
+    <svg id="stage" viewBox="0 0 1600 900" role="img" aria-label="Animated explainer of The Effect"></svg>
+    <div class="overlay" id="startScreen">
+      <div class="folder">
+        <p class="case">Case file No. 23</p>
+        <h1>The Effect</h1>
+        <p>Arrow the detective investigates a newspaper headline, one chapter of Nick Huntington-Klein's book at a time.</p>
+      </div>
+      <button class="bigbtn" id="startBtn">Open the case</button>
+      <p class="hint">About 11½ minutes. Sound and voice on. Best viewed in landscape.</p>
+    </div>
+    <div class="overlay" id="endScreen" hidden>
+      <div class="folder">
+        <p class="case">Case open</p>
+        <h1>Keep asking why</h1>
+        <p>Read the whole book free at theeffectbook.net</p>
+      </div>
+      <button class="bigbtn" id="againBtn">Watch again</button>
+    </div>
+  </div>
+  <div id="controls">
+    <button id="play" aria-label="Play" data-state=""></button>
+    <div id="scrubBox">
+      <div id="chapLabel">Cold open</div>
+      <div id="track" role="slider" tabindex="0" aria-label="Film position" aria-valuemin="0" aria-valuemax="690" aria-valuenow="0">
+        <div class="rail"></div><div id="ticks"></div><div id="fill"></div><div id="knob"></div>
+      </div>
+    </div>
+    <span id="time">0:00 / 11:30</span>
+    <button id="voiceBtn" class="lab" aria-pressed="true" title="Arrow's voice">🗣<span>Voice</span></button>
+    <button id="capBtn" class="lab" aria-pressed="true" title="Captions">CC<span>Captions</span></button>
+    <button id="soundBtn" class="lab" aria-pressed="true" title="Music and sound effects">♪<span>Sound</span></button>
+  </div>
+  <p id="rotateHint">Turn your phone sideways for a bigger picture.</p>
+</main>
+<script>
+'use strict';
+/* ============================================================
+   THE EFFECT: THE CASE OF THE TUTORING PROGRAM
+   One master clock drives the SVG animation, the synthesized
+   sound effects, the music and Arrow's voice.
+   ============================================================ */
+const NS = 'http://www.w3.org/2000/svg';
+const W = 1600, H = 900;
+const C = {
+  night: '#1A2238', cork: '#B48A57', corkDark: '#93703F', card: '#F4F6F9', red: '#C62B36', hi: '#F4D03F',
+  teal: '#2A8C82', slate: '#6B7A90', ink: '#22304F', body: '#2E4E8F', bodyDark: '#1C3264', brass: '#C9A227',
+  wood: '#5E4026', purple: '#7B5EA7', green: '#3F8A4E', paper: '#ECE8DE', blueprint: '#2F5D8C', okGreen: '#2E8B57'
+};
+const SERIF = "'Fraunces', Georgia, 'Times New Roman', serif";
+const HAND = "'Kalam', 'Comic Neue', 'Comic Sans MS', cursive";
+const REDUCED = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+/* ---------- small helpers ---------- */
+function el(tag, attrs, parent) {
+  const e = document.createElementNS(NS, tag);
+  if (attrs) for (const k in attrs) if (attrs[k] != null) e.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function G(parent, attrs) { return el('g', attrs || {}, parent); }
+function rng(seed) {
+  let a = seed >>> 0;
+  return function () { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+}
+function gauss(r) { let u = 0, v = 0; while (u === 0) u = r(); while (v === 0) v = r(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); }
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const lerp = (a, b, p) => a + (b - a) * p;
+const EASE = {
+  lin: p => p,
+  io: p => p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2,
+  o: p => 1 - Math.pow(1 - p, 3),
+  i: p => p * p * p,
+  back: p => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(p - 1, 3) + c1 * Math.pow(p - 1, 2); },
+  step: p => p < 1 ? 0 : 1
+};
+function fmtTime(s) { s = Math.max(0, Math.floor(s)); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); }
+
+/* rich text: *word* becomes italic */
+function setRich(t, str) {
+  while (t.firstChild) t.removeChild(t.firstChild);
+  String(str).split('*').forEach((p, i) => {
+    if (!p) return;
+    const s = el('tspan', {}, t);
+    if (i % 2 === 1) s.setAttribute('font-style', 'italic');
+    s.textContent = p;
+  });
+}
+function T(parent, x, y, str, o) {
+  o = o || {};
+  const t = el('text', {
+    x, y, 'text-anchor': o.anchor || 'middle', 'font-family': o.font || HAND, 'font-size': o.size || 28,
+    fill: o.fill || C.ink, 'font-weight': o.weight || 400
+  }, parent);
+  if (o.italic) t.setAttribute('font-style', 'italic');
+  if (o.opacity != null) t.setAttribute('opacity', o.opacity);
+  setRich(t, str);
+  return t;
+}
+
+/* ---------- animatable state ---------- */
+function st(e) { if (!e._st) e._st = { x: 0, y: 0, s: 1, r: 0, o: 1, sx: 1, sy: 1, ox: 0, oy: 0 }; return e._st; }
+function pv(e, ox, oy) { const s = st(e); s.ox = ox; s.oy = oy; return e; }
+const DEF = { x: 0, y: 0, s: 1, r: 0, o: 1, sx: 1, sy: 1, d: 1 };
+function applyT(e) {
+  const s = e._st;
+  if (s.x || s.y || s.s !== 1 || s.r || s.sx !== 1 || s.sy !== 1) {
+    const sc1 = s.s * s.sx, sc2 = s.s * s.sy;
+    e.setAttribute('transform', `translate(${(s.x + s.ox).toFixed(2)} ${(s.y + s.oy).toFixed(2)}) rotate(${s.r.toFixed(2)}) scale(${sc1.toFixed(4)} ${sc2.toFixed(4)}) translate(${-s.ox} ${-s.oy})`);
+  } else e.removeAttribute('transform');
+  const o = clamp(s.o, 0, 1);
+  if (o < 0.999) e.setAttribute('opacity', o.toFixed(3)); else e.removeAttribute('opacity');
+  e.style.display = (o <= 0.002 || (s._dt && s.d <= 0.002)) ? 'none' : '';
+  if (s._dt) {
+    e.setAttribute('stroke-dasharray', '1 1');
+    e.setAttribute('stroke-dashoffset', (1 - clamp(s.d, 0, 1)).toFixed(4));
+  }
+}
+function valAt(keys, t) {
+  if (t <= keys[0][0]) return keys[0][1];
+  for (let i = 1; i < keys.length; i++) {
+    const b = keys[i];
+    if (t < b[0]) {
+      const a = keys[i - 1], span = b[0] - a[0];
+      if (span <= 0) return b[1];
+      return a[1] + (b[1] - a[1]) * EASE[b[2] || 'io']((t - a[0]) / span);
+    }
+  }
+  return keys[keys.length - 1][1];
+}
+function stepAt(keys, t, def) { let v = def; for (const k of keys) { if (k[0] <= t) v = k[1]; else break; } return v; }
+
+/* ---------- stage ---------- */
+let svg, defs, boardLayer, sceneLayer, arrowLayer, vignetteLayer, titleLayer, capLayer, darkRect;
+let UID = 0;
+function clipRect(g, x, y, w, h) {
+  const id = 'c' + (++UID);
+  const cp = el('clipPath', { id }, defs);
+  const r = el('rect', { x, y, width: w, height: h }, cp);
+  g.setAttribute('clip-path', `url(#${id})`);
+  return r;
+}
+
+function buildBoard() {
+  const g = boardLayer;
+  el('rect', { x: 0, y: 0, width: W, height: H, fill: C.night }, g);
+  // cork speckle pattern
+  const pat = el('pattern', { id: 'cork', width: 180, height: 180, patternUnits: 'userSpaceOnUse' }, defs);
+  el('rect', { width: 180, height: 180, fill: C.cork }, pat);
+  const r = rng(11);
+  for (let i = 0; i < 140; i++) {
+    el('circle', { cx: (r() * 180).toFixed(1), cy: (r() * 180).toFixed(1), r: (0.8 + r() * 2.2).toFixed(1), fill: r() < .55 ? C.corkDark : '#C9A170', opacity: (0.35 + r() * 0.4).toFixed(2) }, pat);
+  }
+  el('rect', { x: 22, y: 22, width: W - 44, height: H - 44, rx: 10, fill: 'url(#cork)' }, g);
+  el('rect', { x: 22, y: 22, width: W - 44, height: H - 44, rx: 10, fill: 'none', stroke: C.wood, 'stroke-width': 22 }, g);
+  el('rect', { x: 33, y: 33, width: W - 66, height: H - 66, rx: 4, fill: 'none', stroke: '#3B2814', 'stroke-width': 3, opacity: .5 }, g);
+  // lamp vignette
+  const rg = el('radialGradient', { id: 'vig', cx: '50%', cy: '42%', r: '70%' }, defs);
+  el('stop', { offset: '55%', 'stop-color': '#000', 'stop-opacity': 0 }, rg);
+  el('stop', { offset: '100%', 'stop-color': '#000', 'stop-opacity': .38 }, rg);
+  el('rect', { x: 0, y: 0, width: W, height: H, fill: 'url(#vig)', 'pointer-events': 'none' }, vignetteLayer);
+}
+
+/* ---------- reusable props ---------- */
+function pushpin(g, x, y, color) {
+  const p = G(g);
+  el('ellipse', { cx: x + 3, cy: y + 6, rx: 8, ry: 4, fill: '#000', opacity: .25 }, p);
+  el('circle', { cx: x, cy: y, r: 9, fill: color || C.red }, p);
+  el('circle', { cx: x - 3, cy: y - 3, r: 3, fill: '#fff', opacity: .6 }, p);
+  return p;
+}
+function card(g, cx, cy, w, h, o) {
+  o = o || {};
+  const outer = pv(G(g), cx, cy);
+  const inner = G(outer, o.rot ? { transform: `rotate(${o.rot} ${cx} ${cy})` } : {});
+  const rx = o.rx != null ? o.rx : 6;
+  el('rect', { x: cx - w / 2 + 6, y: cy - h / 2 + 8, width: w, height: h, rx, fill: '#000', opacity: .22 }, inner);
+  el('rect', { x: cx - w / 2, y: cy - h / 2, width: w, height: h, rx, fill: o.fill || C.card, stroke: o.stroke || 'none', 'stroke-width': o.sw || 0 }, inner);
+  if (o.ruled) el('line', { x1: cx - w / 2 + 14, x2: cx + w / 2 - 14, y1: cy - h / 2 + 50, y2: cy - h / 2 + 50, stroke: C.red, 'stroke-width': 2, opacity: .45 }, inner);
+  if (o.pin !== false) pushpin(inner, cx, cy - h / 2 + 13, o.pinColor || C.red);
+  outer.inner = inner; outer.cx = cx; outer.cy = cy; outer.w = w; outer.h = h;
+  return outer;
+}
+function note(g, cx, cy, text, o) {
+  o = o || {};
+  const size = o.size || 30, lh = size * 1.22;
+  const lines = String(text).split('\n');
+  const w = o.w || Math.max(...lines.map(l => l.replace(/\*/g, '').length)) * size * 0.5 + 64;
+  const h = o.h || lines.length * lh + 44;
+  const c = card(g, cx, cy, w, h, o);
+  const top = cy - h / 2 + 22 + (h - 22 - lines.length * lh) / 2;
+  lines.forEach((l, i) => T(c.inner, cx, top + size * 0.88 + i * lh, l, { size, font: o.font || HAND, fill: o.color || C.ink, weight: o.weight }));
+  return c;
+}
+function node(g, x, y, letter, name, kind, o) {
+  o = o || {}; kind = kind || 'obs';
+  const n = pv(G(g), x, y), r = o.r || 34;
+  el('circle', { cx: x + 4, cy: y + 6, r, fill: '#000', opacity: .22 }, n);
+  let fill = C.card, ink = C.ink, stroke = C.ink, sw = 3, dash = null;
+  if (kind === 'T') { fill = C.teal; ink = '#fff'; stroke = 'none'; sw = 0; }
+  else if (kind === 'Y') { fill = C.red; ink = '#fff'; stroke = 'none'; sw = 0; }
+  else if (kind === 'Z') { fill = C.hi; }
+  else if (kind === 'U') { dash = '7 6'; }
+  el('circle', { cx: x, cy: y, r, fill, stroke, 'stroke-width': sw, 'stroke-dasharray': dash }, n);
+  T(n, x, y + r * 0.32, letter, { font: SERIF, size: o.ls || r * 0.95, fill: ink, weight: 600 });
+  pushpin(n, x, y - r + 3, C.brass);
+  if (name) {
+    const ns = o.ns || 22, w = name.length * ns * 0.52 + 22, ty = y + r + 30;
+    el('rect', { x: x - w / 2, y: ty - ns - 2, width: w, height: ns + 12, rx: 4, fill: C.card, opacity: .96 }, n);
+    T(n, x, ty, name, { size: ns });
+  }
+  n.pos = { x, y, r };
+  return n;
+}
+function quadPoint(a, c, b, t) { const u = 1 - t; return { x: u * u * a.x + 2 * u * t * c.x + t * t * b.x, y: u * u * a.y + 2 * u * t * c.y + t * t * b.y }; }
+function link(g, A, B, o) {
+  o = o || {};
+  const a = A.pos || A, b = B.pos || B;
+  const ra = (a.r || 0) + 6, rb = (b.r || 0) + 10;
+  const dx = b.x - a.x, dy = b.y - a.y, len = Math.hypot(dx, dy), ux = dx / len, uy = dy / len;
+  const px = -uy, py = ux, bend = o.bend || 0;
+  const c = { x: (a.x + b.x) / 2 + px * bend * len, y: (a.y + b.y) / 2 + py * bend * len };
+  const sdx = c.x - a.x, sdy = c.y - a.y, sl = Math.hypot(sdx, sdy) || 1;
+  const s = { x: a.x + sdx / sl * ra, y: a.y + sdy / sl * ra };
+  const edx = b.x - c.x, edy = b.y - c.y, ell = Math.hypot(edx, edy) || 1;
+  const e = { x: b.x - edx / ell * rb, y: b.y - edy / ell * rb };
+  const lg = G(g);
+  const col = o.color || C.red;
+  const d = `M${s.x.toFixed(1)} ${s.y.toFixed(1)} Q${c.x.toFixed(1)} ${c.y.toFixed(1)} ${e.x.toFixed(1)} ${e.y.toFixed(1)}`;
+  const path = el('path', { d, stroke: col, 'stroke-width': o.w || 5, fill: 'none', 'stroke-linecap': 'round', 'stroke-dasharray': o.dash || null, pathLength: o.dash ? null : 1 }, lg);
+  const ang = Math.atan2(edy, edx) * 180 / Math.PI;
+  const head = G(lg);
+  if (!o.noHead) el('polygon', { points: '0,0 -21,-11 -21,11', fill: col, transform: `translate(${e.x.toFixed(1)} ${e.y.toFixed(1)}) rotate(${ang.toFixed(1)})` }, head);
+  const mid = quadPoint(s, c, e, .5);
+  return { g: lg, path, head, d, mid, s, c, e, at: t => quadPoint(s, c, e, t) };
+}
+function door(g, x, y) {
+  const d = pv(G(g), x, y);
+  el('rect', { x: x - 20, y: y - 30, width: 40, height: 58, fill: '#120d0a', rx: 2 }, d);
+  const leaf = pv(G(d), x - 20, y);
+  el('rect', { x: x - 20, y: y - 30, width: 40, height: 58, fill: '#8A5A35', stroke: '#5E3B20', 'stroke-width': 3, rx: 2 }, leaf);
+  el('circle', { cx: x + 11, cy: y, r: 3.5, fill: C.brass }, leaf);
+  el('rect', { x: x - 24, y: y - 34, width: 48, height: 66, fill: 'none', stroke: '#3B2A1E', 'stroke-width': 4, rx: 3 }, d);
+  d.leaf = leaf;
+  return d;
+}
+function lock(g, x, y, label) {
+  const l = pv(G(g), x, y);
+  el('path', { d: `M${x - 13} ${y - 6} v-12 a13 13 0 0 1 26 0 v12`, fill: 'none', stroke: '#8d8d8d', 'stroke-width': 6 }, l);
+  el('rect', { x: x - 20, y: y - 8, width: 40, height: 32, rx: 5, fill: C.brass, stroke: '#8a6d12', 'stroke-width': 2 }, l);
+  el('circle', { cx: x, cy: y + 6, r: 4, fill: '#5a4508' }, l);
+  if (label) {
+    const w = label.length * 11 + 22;
+    el('rect', { x: x - w / 2, y: y + 30, width: w, height: 30, rx: 4, fill: C.card }, l);
+    T(l, x, y + 52, label, { size: 20 });
+  }
+  return l;
+}
+function student(g, x, y, col) {
+  const s = pv(G(g), x, y);
+  el('ellipse', { cx: x + 3, cy: y + 50, rx: 26, ry: 6, fill: '#000', opacity: .2 }, s);
+  s.bodyRect = el('rect', { x: x - 24, y: y - 2, width: 48, height: 50, rx: 18, fill: col || C.slate }, s);
+  s.tealRect = el('rect', { x: x - 24, y: y - 2, width: 48, height: 50, rx: 18, fill: C.teal, opacity: 0 }, s);
+  el('circle', { cx: x, cy: y - 24, r: 20, fill: '#F0D0B2' }, s);
+  el('path', { d: `M${x - 21} ${y - 27} Q${x} ${y - 56} ${x + 21} ${y - 27} Q${x} ${y - 38} ${x - 21} ${y - 27}Z`, fill: '#3B2A1E' }, s);
+  el('circle', { cx: x - 7, cy: y - 22, r: 2.6, fill: C.ink }, s);
+  el('circle', { cx: x + 7, cy: y - 22, r: 2.6, fill: C.ink }, s);
+  return s;
+}
+function chart(g, cx, cy, w, h, o) {
+  o = o || {};
+  const c = card(g, cx, cy, w, h, { rot: o.rot || 0, pinColor: o.pinColor });
+  const L = cx - w / 2 + (o.padL || 92), R = cx + w / 2 - (o.padR || 34), Tp = cy - h / 2 + (o.padT || 48), B = cy + h / 2 - (o.padB || 70);
+  const ax = G(c.inner);
+  el('line', { x1: L, y1: B, x2: R, y2: B, stroke: C.ink, 'stroke-width': 3, 'stroke-linecap': 'round' }, ax);
+  el('line', { x1: L, y1: B, x2: L, y2: Tp, stroke: C.ink, 'stroke-width': 3, 'stroke-linecap': 'round' }, ax);
+  if (o.xl) T(ax, (L + R) / 2, B + 48, o.xl, { size: 25 });
+  if (o.yl) { const yt = T(ax, L - 46, (Tp + B) / 2, o.yl, { size: 25 }); yt.setAttribute('transform', `rotate(-90 ${L - 46} ${(Tp + B) / 2})`); }
+  const [x0, x1] = o.xr || [0, 1], [y0, y1] = o.yr || [0, 1];
+  c.px = v => L + (v - x0) / (x1 - x0) * (R - L);
+  c.py = v => B - (v - y0) / (y1 - y0) * (B - Tp);
+  Object.assign(c, { L, R, T: Tp, B });
+  c.plot = G(c.inner);
+  return c;
+}
+function stampBox(g, x, y, lines, o) {
+  o = o || {};
+  const s = pv(G(g), x, y);
+  const inner = G(s, { transform: `rotate(${o.rot != null ? o.rot : -8} ${x} ${y})` });
+  const size = o.size || 38, col = o.color || C.red;
+  const w = o.w || Math.max(...lines.map(l => l.length)) * size * 0.56 + 50, h = lines.length * size * 1.2 + 30;
+  el('rect', { x: x - w / 2, y: y - h / 2, width: w, height: h, rx: 8, fill: o.fill || 'none', stroke: col, 'stroke-width': 6 }, inner);
+  lines.forEach((l, i) => T(inner, x, y - h / 2 + 18 + size * 0.95 + i * size * 1.2, l, { font: SERIF, size, fill: col, weight: 700 }));
+  return s;
+}
+function xMark(g, x, y, size, col) {
+  const m = pv(G(g), x, y), s = size || 26;
+  el('path', { d: `M${x - s} ${y - s} L${x + s} ${y + s} M${x + s} ${y - s} L${x - s} ${y + s}`, stroke: col || C.red, 'stroke-width': 9, 'stroke-linecap': 'round' }, m);
+  return m;
+}
+function check(g, x, y, size) {
+  const m = pv(G(g), x, y), s = size || 24;
+  el('circle', { cx: x, cy: y, r: s * 1.25, fill: C.okGreen }, m);
+  el('path', { d: `M${x - s * .55} ${y + s * .02} L${x - s * .12} ${y + s * .45} L${x + s * .6} ${y - s * .45}`, stroke: '#fff', 'stroke-width': 7, fill: 'none', 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, m);
+  return m;
+}
+function pathD(pts) { return pts.map((p, i) => (i ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' '); }
+function fitLine(xs, ys) {
+  const n = xs.length, mx = xs.reduce((a, b) => a + b, 0) / n, my = ys.reduce((a, b) => a + b, 0) / n;
+  let sxy = 0, sxx = 0;
+  for (let i = 0; i < n; i++) { sxy += (xs[i] - mx) * (ys[i] - my); sxx += (xs[i] - mx) ** 2; }
+  const b = sxy / sxx; return { a: my - b * mx, b };
+}
+
+/* ---------- scenes and the builder API ---------- */
+const scenes = [];
+function scene(def) { scenes.push(def); }
+const HOME_L = 150, HOME_R = 1450, FLOOR = 735;
+
+function makeBuilder(sc) {
+  const g = G(sceneLayer); g.style.display = 'none';
+  Object.assign(sc, { g, tracks: new Map(), fns: [], cues: [], says: [], ax: [], ay: [], ao: [], am: [] });
+  const S = {
+    g, sc, _x: HOME_L, _y: FLOOR,
+    k(e, p, ...keys) {
+      st(e);
+      let m = sc.tracks.get(e); if (!m) { m = {}; sc.tracks.set(e, m); }
+      (m[p] || (m[p] = [])).push(...keys.map(k => k.slice()));
+      return e;
+    },
+    pop(e, at, d) { d = d || .42; S.k(e, 'o', [at, 0], [at + .1, 1, 'lin']); S.k(e, 's', [at, .3], [at + d, 1, 'back']); return e; },
+    fadeIn(e, at, d, to) { S.k(e, 'o', [at, 0], [at + (d || .45), to == null ? 1 : to, 'o']); return e; },
+    fadeOut(e, at, d, to) { S.k(e, 'o', [at, null], [at + (d || .4), to || 0, 'io']); return e; },
+    to(e, p, at, d, v, ease) { S.k(e, p, [at, null], [at + d, v, ease || 'io']); return e; },
+    draw(lk, at, d, snd) {
+      d = d || .7;
+      S.k(lk.path, 'd', [at, 0], [at + d, 1, 'io']);
+      S.k(lk.head, 'o', [at + d - .1, 0], [at + d, 1, 'lin']);
+      if (snd !== false) S.sfx(at, 'string');
+      return lk;
+    },
+    glow(lk, at, d, to) {
+      if (!lk.glow) { lk.glow = el('path', { d: lk.d, stroke: C.hi, 'stroke-width': 22, fill: 'none', 'stroke-linecap': 'round' }); lk.g.insertBefore(lk.glow, lk.g.firstChild); }
+      S.k(lk.glow, 'o', [at, 0], [at + (d || .5), to == null ? .9 : to]);
+      return lk;
+    },
+    fn(at, d, f) { sc.fns.push({ at, d, f }); },
+    sfx(at, name, arg) { sc.cues.push({ at, name, arg }); },
+    say(at, text) { sc.says.push({ at, text }); },
+    stamp(e, at) { S.k(e, 'o', [at, 0], [at + .08, 1, 'lin']); S.k(e, 's', [at, 1.9], [at + .18, 1, 'o']); S.sfx(at + .15, 'stamp'); return e; },
+    place(x, y, m) { y = y == null ? FLOOR : y; sc.ax = [[0, x]]; sc.ay = [[0, y]]; sc.am = [[0, m || 'neutral']]; S._x = x; S._y = y; },
+    walk(at, d, x, y, steps) {
+      if (y == null) y = S._y;
+      sc.ax.push([at, S._x], [at + d, x, 'io']); sc.ay.push([at, S._y], [at + d, y, 'io']);
+      if (steps !== false && (x !== S._x || y !== S._y)) for (let s = at + .12; s < at + d - .05; s += .34) S.sfx(s, 'step');
+      S._x = x; S._y = y;
+    },
+    mood(at, m) { sc.am.push([at, m]); },
+    arrowO(...keys) { sc.ao.push(...keys); }
+  };
+  return S;
+}
+function finalizeScene(sc) {
+  for (const [e, m] of sc.tracks) {
+    for (const p in m) {
+      const keys = m[p].sort((a, b) => a[0] - b[0]);
+      let prev = DEF[p];
+      for (const k of keys) { if (k[1] === null) k[1] = prev; prev = k[1]; }
+      if (p === 'd') st(e)._dt = true;
+    }
+  }
+  const byT = (a, b) => a[0] - b[0];
+  sc.ax.sort(byT); sc.ay.sort(byT); sc.am.sort(byT); sc.ao.sort(byT);
+  if (!sc.ao.length) sc.ao = [[0, 1]];
+  sc.says.sort((a, b) => a.at - b.at);
+  sc.says.forEach((s, i) => {
+    const nx = sc.says[i + 1];
+    let d = nx ? Math.min(nx.at - s.at - .15, 5.2) : 5.2;
+    d = Math.min(d, sc.dur - s.at - .3);
+    s.dur = Math.max(1.6, d);
+  });
+}
+
+/* chapter scenes get the title card, motif and transition automatically */
+function chap(num, title, dur, build, short) {
+  scene({ name: `Chapter ${num}: ${title}`, short: short || title, chapter: num, title, dur, build });
+}
+
+/* ---------- Arrow, the detective ---------- */
+let AR;
+function buildArrow(parent) {
+  const A = G(parent), flip = G(A), bob = G(flip);
+  el('path', { d: 'M -36 -34 C -70 -40, -62 -4, -96 -8', stroke: C.red, 'stroke-width': 5, fill: 'none', 'stroke-linecap': 'round' }, bob);
+  el('polygon', { points: '-115,-9 -95,-20 -97,2', fill: C.red }, bob);
+  el('ellipse', { cx: -17, cy: -6, rx: 14, ry: 7, fill: C.bodyDark }, bob);
+  el('ellipse', { cx: 17, cy: -6, rx: 14, ry: 7, fill: C.bodyDark }, bob);
+  const head = G(bob);
+  el('circle', { cx: 0, cy: -52, r: 45, fill: C.body }, head);
+  el('circle', { cx: -16, cy: -70, r: 12, fill: '#fff', opacity: .13 }, head);
+  const eyes = G(head);
+  const eyesOpen = G(eyes);
+  el('ellipse', { cx: -15, cy: -58, rx: 11, ry: 13, fill: C.card }, eyesOpen);
+  el('ellipse', { cx: 15, cy: -58, rx: 11, ry: 13, fill: C.card }, eyesOpen);
+  const pupils = [el('circle', { cx: -13, cy: -56, r: 5.5, fill: '#10182B' }, eyesOpen), el('circle', { cx: 17, cy: -56, r: 5.5, fill: '#10182B' }, eyesOpen)];
+  const lid = el('rect', { x: -28, y: -73, width: 27, height: 13, fill: C.body }, eyesOpen);
+  const eyesClosed = G(eyes);
+  el('path', { d: 'M -25 -55 Q -15 -66 -5 -55', stroke: '#10182B', 'stroke-width': 4, fill: 'none', 'stroke-linecap': 'round' }, eyesClosed);
+  el('path', { d: 'M 5 -55 Q 15 -66 25 -55', stroke: '#10182B', 'stroke-width': 4, fill: 'none', 'stroke-linecap': 'round' }, eyesClosed);
+  const browSus = el('path', { d: 'M 5 -80 L 27 -86', stroke: '#10182B', 'stroke-width': 4, 'stroke-linecap': 'round' }, head);
+  const browWor = el('path', { d: 'M -25 -74 L -8 -80 M 8 -80 L 25 -74', stroke: '#10182B', 'stroke-width': 4, 'stroke-linecap': 'round', fill: 'none' }, head);
+  const mouths = {
+    smile: el('path', { d: 'M -12 -34 Q 0 -24 12 -34', stroke: '#10182B', 'stroke-width': 4, fill: 'none', 'stroke-linecap': 'round' }, head),
+    o: el('ellipse', { cx: 2, cy: -31, rx: 5, ry: 6, fill: '#10182B' }, head),
+    big: el('ellipse', { cx: 1, cy: -30, rx: 8, ry: 10, fill: '#10182B' }, head),
+    flat: el('path', { d: 'M -10 -31 L 10 -32', stroke: '#10182B', 'stroke-width': 4, 'stroke-linecap': 'round' }, head),
+    open: el('path', { d: 'M -14 -37 Q 0 -15 14 -37 Z', fill: '#10182B' }, head),
+    wavy: el('path', { d: 'M -13 -30 Q -6 -36 0 -30 Q 6 -24 13 -30', stroke: '#10182B', 'stroke-width': 4, fill: 'none', 'stroke-linecap': 'round' }, head)
+  };
+  const sweat = el('path', { d: 'M 40 -88 Q 47 -76 40 -72 Q 33 -76 40 -88 Z', fill: '#8EC9F0' }, head);
+  const hat = G(head);
+  el('ellipse', { cx: 0, cy: -91, rx: 44, ry: 8, fill: '#3B2A1E' }, hat);
+  el('path', { d: 'M -27 -93 L -23 -124 Q 0 -133 23 -124 L 27 -93 Z', fill: '#4A3526' }, hat);
+  el('rect', { x: -26, y: -102, width: 52, height: 7, fill: C.red }, hat);
+  const glass = G(bob);
+  el('circle', { cx: 38, cy: -40, r: 8, fill: C.body }, glass);
+  el('line', { x1: 40, y1: -42, x2: 58, y2: -60, stroke: '#5B3A21', 'stroke-width': 7, 'stroke-linecap': 'round' }, glass);
+  el('circle', { cx: 70, cy: -72, r: 19, fill: '#DDEBFA', 'fill-opacity': .35, stroke: C.brass, 'stroke-width': 6 }, glass);
+  AR = { A, flip, bob, head, eyes, eyesOpen, eyesClosed, pupils, lid, browSus, browWor, mouths, sweat, hat, glass, mood: null };
+}
+const MOODS = {
+  neutral: { mouth: 'smile' },
+  curious: { mouth: 'o', tilt: -8, look: [3, -3] },
+  suspicious: { mouth: 'flat', lid: 1, brow: 'sus', look: [-2, 1] },
+  eureka: { mouth: 'open', eye: 1.2, glass: -38 },
+  worried: { mouth: 'wavy', brow: 'wor', sweat: 1, look: [0, 2] },
+  proud: { mouth: 'smile', closed: 1, hat: 1 },
+  shocked: { mouth: 'big', eye: 1.28, hatUp: 1 }
+};
+function show(e, on) { e.style.display = on ? '' : 'none'; }
+function setMood(m) {
+  if (AR.mood === m) return;
+  AR.mood = m;
+  const d = MOODS[m] || MOODS.neutral;
+  for (const k in AR.mouths) show(AR.mouths[k], k === d.mouth);
+  show(AR.lid, !!d.lid); show(AR.browSus, d.brow === 'sus'); show(AR.browWor, d.brow === 'wor'); show(AR.sweat, !!d.sweat);
+  show(AR.eyesOpen, !d.closed); show(AR.eyesClosed, !!d.closed);
+  const lk = d.look || [0, 0];
+  AR.pupils[0].setAttribute('cx', -13 + lk[0]); AR.pupils[0].setAttribute('cy', -56 + lk[1]);
+  AR.pupils[1].setAttribute('cx', 17 + lk[0]); AR.pupils[1].setAttribute('cy', -56 + lk[1]);
+  AR.head.setAttribute('transform', d.tilt ? `rotate(${d.tilt} 0 -50)` : '');
+  AR.hat.setAttribute('transform', d.hat ? 'translate(0 -9) rotate(-16 0 -92)' : d.hatUp ? 'translate(0 -16)' : '');
+  AR.glass.setAttribute('transform', d.glass ? `rotate(${d.glass} 38 -40)` : '');
+  AR.eyeScale = d.eye || 1;
+}
+function moveInfo(keys, t) {
+  for (let i = 1; i < keys.length; i++) {
+    const a = keys[i - 1], b = keys[i];
+    if (t >= a[0] && t < b[0] && a[1] !== b[1]) return Math.sign(b[1] - a[1]);
+  }
+  return 0;
+}
+function renderArrow(sc, t) {
+  const x = valAt(sc.ax, t), y = valAt(sc.ay, t), o = valAt(sc.ao, t);
+  AR.x = x; AR.y = y; AR.o = o;
+  AR.A.style.display = o <= .01 ? 'none' : '';
+  AR.A.setAttribute('opacity', clamp(o, 0, 1).toFixed(3));
+  AR.A.setAttribute('transform', `translate(${x.toFixed(1)} ${y.toFixed(1)})`);
+  const dx = moveInfo(sc.ax, t), dy = moveInfo(sc.ay, t);
+  const moving = dx !== 0 || dy !== 0;
+  const facing = dx !== 0 ? dx : (x > 800 ? -1 : 1);
+  AR.flip.setAttribute('transform', `scale(${facing} 1)`);
+  let off = 0;
+  if (!REDUCED) off = moving && dx !== 0 ? -Math.abs(Math.sin(t * Math.PI * 2.94)) * 14 : Math.sin(t * 2.2) * 2.5;
+  AR.bob.setAttribute('transform', `translate(0 ${off.toFixed(2)})`);
+  setMood(stepAt(sc.am, t, 'neutral'));
+  const blink = !REDUCED && (t % 4.1) < .12 && !MOODS[AR.mood].closed;
+  const es = AR.eyeScale || 1;
+  AR.eyesOpen.setAttribute('transform', `translate(0 -58) scale(${es} ${blink ? .1 : es}) translate(0 58)`);
+}
+
+/* ---------- captions and chapter title card ---------- */
+let CAP, TITLE;
+function buildCaption(parent) {
+  const g = G(parent);
+  const tail = el('polygon', { points: '0,0 0,0 0,0', fill: C.card, stroke: C.ink, 'stroke-width': 3, 'stroke-linejoin': 'round' }, g);
+  const rect = el('rect', { x: 270, y: 758, width: 1060, height: 94, rx: 22, fill: C.card, stroke: C.ink, 'stroke-width': 3 }, g);
+  const patch = el('line', { x1: 0, y1: 759.5, x2: 0, y2: 759.5, stroke: C.card, 'stroke-width': 5 }, g);
+  const t1 = el('text', { x: 800, y: 816, 'text-anchor': 'middle', 'font-family': HAND, 'font-size': 34, fill: C.ink }, g);
+  const t2 = el('text', { x: 800, y: 840, 'text-anchor': 'middle', 'font-family': HAND, 'font-size': 32, fill: C.ink }, g);
+  CAP = { g, tail, rect, patch, t1, t2, cur: null, on: true };
+}
+function wrapRich(str, max) {
+  const words = str.split(' ');
+  const plainLen = a => a.join(' ').replace(/\*/g, '').length;
+  if (plainLen(words) > max) {
+    let best = 1, score = 1e9;
+    for (let i = 1; i < words.length; i++) { const s = Math.max(plainLen(words.slice(0, i)), plainLen(words.slice(i))); if (s < score) { score = s; best = i; } }
+    if (score <= max + 8) {
+      const ls = [words.slice(0, best).join(' '), words.slice(best).join(' ')];
+      if ((ls[0].match(/\*/g) || []).length % 2 === 1) { ls[0] += '*'; ls[1] = '*' + ls[1]; }
+      return ls;
+    }
+  }
+  const lines = [];
+  let cur = '';
+  for (const w of words) {
+    const plain = (cur + ' ' + w).replace(/\*/g, '').trim();
+    if (cur && plain.length > max) { lines.push(cur); cur = w; } else cur = cur ? cur + ' ' + w : w;
+  }
+  if (cur) lines.push(cur);
+  for (let i = 0; i < lines.length - 1; i++) {
+    if ((lines[i].match(/\*/g) || []).length % 2 === 1) { lines[i] += '*'; lines[i + 1] = '*' + lines[i + 1]; }
+  }
+  return lines;
+}
+function renderCaption(sc, t) {
+  let cur = null;
+  for (const s of sc.says) if (t >= s.at && t < s.at + s.dur) cur = s;
+  if (!cur || !CAP.on) { CAP.g.style.display = 'none'; CAP.cur = null; return; }
+  CAP.g.style.display = '';
+  if (CAP.cur !== cur) {
+    CAP.cur = cur;
+    const lines = wrapRich(cur.text, 52);
+    if (lines.length === 1) {
+      CAP.t1.setAttribute('y', 817); CAP.t1.setAttribute('font-size', 35); setRich(CAP.t1, lines[0]); setRich(CAP.t2, '');
+    } else {
+      CAP.t1.setAttribute('y', 797); CAP.t1.setAttribute('font-size', 32); setRich(CAP.t1, lines[0]);
+      CAP.t2.setAttribute('y', 837); setRich(CAP.t2, lines.slice(1).join(' '));
+    }
+  }
+  const local = t - cur.at, fade = Math.min(1, local / .18, (cur.dur - local) / .25);
+  CAP.g.setAttribute('opacity', clamp(fade, 0, 1).toFixed(3));
+  const showTail = AR.o > .5;
+  show(CAP.tail, showTail); show(CAP.patch, showTail);
+  if (showTail) {
+    const tx = clamp(AR.x + (AR.x < 800 ? 60 : -60), 320, 1280);
+    const tipX = clamp(AR.x + (AR.x < 800 ? 30 : -30), tx - 70, tx + 70);
+    CAP.tail.setAttribute('points', `${tx - 16},760 ${tx + 16},760 ${tipX},730`);
+    CAP.patch.setAttribute('x1', tx - 13); CAP.patch.setAttribute('x2', tx + 13);
+  }
+}
+function buildTitle(parent) {
+  const g = pv(G(parent), 800, 370);
+  const c = card(g, 800, 370, 1180, 230, { rot: -1, ruled: false });
+  const k = T(c.inner, 800, 335, '', { size: 34, fill: C.red });
+  const t = T(c.inner, 800, 418, '', { font: SERIF, size: 58, weight: 600 });
+  TITLE = { g, k, t, cur: null };
+}
+function renderTitle(sc, t) {
+  if (sc.chapter == null || t > 2.45) { TITLE.g.style.display = 'none'; return; }
+  TITLE.g.style.display = '';
+  const s = st(TITLE.g);
+  s.o = Math.min(1, t / .22, (2.45 - t) / .4);
+  s.y = t < .3 ? (1 - EASE.o(t / .3)) * -40 : (t > 2.05 ? (t - 2.05) * -60 : 0);
+  applyT(TITLE.g);
+  const n = Math.round(clamp((t - .15) / 1.0, 0, 1) * sc.title.length);
+  if (TITLE.cur !== sc || TITLE.n !== n) {
+    TITLE.cur = sc; TITLE.n = n;
+    TITLE.k.textContent = `Chapter ${sc.chapter}`;
+    TITLE.t.textContent = sc.title.slice(0, n);
+  }
+}
+
+/* ---------- timeline ---------- */
+let TOTAL = 0, CUES = [], SAYS = [], curScene = null;
+function buildAll() {
+  let t = 0;
+  for (const sc of scenes) {
+    sc.start = t;
+    const S = makeBuilder(sc);
+    sc.build(S);
+    if (sc.chapter != null) { S.sfx(.12, 'type'); S.sfx(.45, 'motif'); }
+    if (!sc.noWhoosh) S.sfx(sc.dur - .55, 'whoosh');
+    finalizeScene(sc);
+    for (const c of sc.cues) CUES.push({ t: sc.start + c.at, name: c.name, arg: c.arg });
+    for (const s of sc.says) SAYS.push({ t: sc.start + s.at, text: s.text });
+    t += sc.dur;
+  }
+  TOTAL = t;
+  CUES.sort((a, b) => a.t - b.t);
+  SAYS.sort((a, b) => a.t - b.t);
+}
+function sceneAt(T) {
+  for (let i = scenes.length - 1; i >= 0; i--) if (T >= scenes[i].start) return scenes[i];
+  return scenes[0];
+}
+function render(Tg) {
+  Tg = clamp(Tg, 0, TOTAL - 0.001);
+  const sc = sceneAt(Tg), t = Tg - sc.start;
+  if (sc !== curScene) {
+    if (curScene) curScene.g.style.display = 'none';
+    sc.g.style.display = '';
+    curScene = sc;
+  }
+  for (const [e, m] of sc.tracks) {
+    const s = st(e);
+    for (const p in m) s[p] = valAt(m[p], t);
+    applyT(e);
+  }
+  for (const f of sc.fns) f.f(clamp((t - f.at) / f.d, 0, 1), t);
+  let so = 1;
+  if (!sc.noFadeIn) so = Math.min(so, t / .35);
+  if (!sc.noFadeOut) so = Math.min(so, (sc.dur - t) / .45);
+  sc.g.setAttribute('opacity', clamp(so, 0, 1).toFixed(3));
+  renderArrow(sc, t);
+  AR.A.setAttribute('opacity', (clamp(AR.o, 0, 1) * clamp(sc.noFadeOut ? 1 : (sc.dur - t) / .45, 0, 1) * clamp(sc.noFadeIn ? 1 : t / .35 + .0, 0, 1)).toFixed(3));
+  renderTitle(sc, t);
+  renderCaption(sc, t);
+  let dk = 0;
+  if (Tg < 1.3) dk = 1 - clamp((Tg - .3) / .95, 0, 1);
+  if (Tg > TOTAL - 1.6) dk = clamp((Tg - (TOTAL - 1.6)) / .9, 0, 1);
+  darkRect.setAttribute('opacity', dk.toFixed(3));
+  darkRect.style.display = dk <= .002 ? 'none' : '';
+  return sc;
+}
+
+/* ============================================================
+   AUDIO: everything synthesized with Web Audio
+   ============================================================ */
+let ctx = null, master, sfxBus, musicBus, duckGain, speechGain, noiseBuf, live = [];
+const MUSIC_VOL = 0.2;
+function initAudio() {
+  if (ctx) return;
+  const AC = window.AudioContext || window.webkitAudioContext;
+  if (!AC) return;
+  ctx = new AC();
+  const comp = ctx.createDynamicsCompressor();
+  comp.threshold.value = -16; comp.ratio.value = 4;
+  master = ctx.createGain(); master.gain.value = soundOn ? 0.95 : 0;
+  master.connect(comp); comp.connect(ctx.destination);
+  sfxBus = ctx.createGain(); sfxBus.gain.value = .7; sfxBus.connect(master);
+  speechGain = ctx.createGain(); speechGain.gain.value = 1; speechGain.connect(master);
+  duckGain = ctx.createGain(); duckGain.gain.value = 1; duckGain.connect(speechGain);
+  musicBus = ctx.createGain(); musicBus.gain.value = MUSIC_VOL; musicBus.connect(duckGain);
+  noiseBuf = ctx.createBuffer(1, ctx.sampleRate * 2, ctx.sampleRate);
+  const d = noiseBuf.getChannelData(0);
+  for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+}
+function envG(t, a, peak, d) {
+  const g = ctx.createGain();
+  g.gain.setValueAtTime(0.0001, t);
+  g.gain.exponentialRampToValueAtTime(Math.max(peak, .0002), t + a);
+  g.gain.exponentialRampToValueAtTime(0.0001, t + a + d);
+  return g;
+}
+function osc(t, o) {
+  const type = o.type || 'sine', f = o.f || 440, dur = o.dur || .3, a = o.a || .005;
+  const n = ctx.createOscillator(); n.type = type;
+  n.frequency.setValueAtTime(f, t);
+  if (o.f1) n.frequency.exponentialRampToValueAtTime(o.f1, t + (o.glide || dur));
+  const g = envG(t, a, o.vol || .2, dur);
+  let src = n;
+  if (o.filter) { const fl = ctx.createBiquadFilter(); fl.type = o.filter.type || 'lowpass'; fl.frequency.value = o.filter.f; fl.Q.value = o.filter.Q || 1; n.connect(fl); src = fl; }
+  if (o.vib) { const l = ctx.createOscillator(), lg = ctx.createGain(); l.frequency.value = o.vib[0]; lg.gain.value = o.vib[1]; l.connect(lg); lg.connect(n.frequency); l.start(t); l.stop(t + a + dur + .1); live.push({ n: l, end: t + a + dur + .1 }); }
+  if (o.trem) { const l = ctx.createOscillator(), lg = ctx.createGain(); l.frequency.value = o.trem; lg.gain.value = .35; const tg = ctx.createGain(); tg.gain.value = .65; l.connect(lg); lg.connect(tg.gain); src.connect(tg); src = tg; l.start(t); l.stop(t + a + dur + .1); live.push({ n: l, end: t + a + dur + .1 }); }
+  src.connect(g); g.connect(o.bus || sfxBus);
+  n.start(t); n.stop(t + a + dur + .05);
+  live.push({ n, end: t + a + dur + .05 });
+  return n;
+}
+function noise(t, o) {
+  const dur = o.dur || .2, a = o.a || .004;
+  const s = ctx.createBufferSource(); s.buffer = noiseBuf; s.loop = true;
+  const fl = ctx.createBiquadFilter(); fl.type = o.type || 'bandpass';
+  fl.frequency.setValueAtTime(o.f || 1000, t);
+  if (o.f1) fl.frequency.exponentialRampToValueAtTime(o.f1, t + dur);
+  fl.Q.value = o.Q || 1;
+  const g = envG(t, a, o.vol || .3, dur);
+  s.connect(fl); fl.connect(g); g.connect(o.bus || sfxBus);
+  s.start(t, Math.random() * 1.5); s.stop(t + a + dur + .05);
+  live.push({ n: s, end: t + a + dur + .05 });
+}
+const mf = m => 440 * Math.pow(2, (m - 69) / 12);
+function vib(t, f, dur, vol, bus) { osc(t, { f, dur, vol, a: .004, trem: 5.5, bus }); osc(t, { f: f * 4, dur: dur * .35, vol: vol * .12, bus }); }
+function ticks(t, n, span, f, vol, Q) { for (let i = 0; i < n; i++) noise(t + (i + Math.random() * .4) * span / n, { dur: .025, vol: vol || .35, f: f || 3000, Q: Q || 3 }); }
+
+const SFX = {
+  pin: t => { noise(t, { dur: .035, vol: .45, type: 'highpass', f: 2500 }); osc(t, { f: 1800, f1: 900, dur: .05, vol: .12 }); },
+  pop: t => osc(t, { f: 340, f1: 900, dur: .14, vol: .26, glide: .09 }),
+  string: t => { osc(t, { type: 'triangle', f: 220, f1: 660, dur: .45, vol: .2, glide: .35, filter: { f: 2400 } }); osc(t, { f: 440, f1: 1320, dur: .32, vol: .06, glide: .3 }); },
+  stringDown: t => { osc(t, { type: 'triangle', f: 760, f1: 190, dur: .6, vol: .2, glide: .55, filter: { f: 2200 } }); },
+  snip: t => { noise(t, { dur: .03, vol: .45, f: 5200, Q: 3 }); noise(t + .08, { dur: .03, vol: .45, f: 6200, Q: 3 }); },
+  doorShut: t => { osc(t, { f: 95, f1: 42, dur: .38, vol: .55, glide: .3 }); noise(t, { dur: .16, vol: .55, type: 'lowpass', f: 520 }); osc(t + .02, { type: 'sawtooth', f: 140, f1: 110, dur: .2, vol: .05, filter: { type: 'bandpass', f: 900, Q: 6 } }); },
+  doorCreak: t => { osc(t, { type: 'sawtooth', f: 85, f1: 170, dur: .95, vol: .12, a: .12, glide: .95, filter: { type: 'bandpass', f: 900, Q: 7 }, vib: [22, 18] }); },
+  creak: t => { osc(t, { type: 'sawtooth', f: 110, f1: 150, dur: .5, vol: .1, a: .05, filter: { type: 'bandpass', f: 1000, Q: 7 }, vib: [26, 16] }); },
+  ding: t => { osc(t, { f: 1318.5, dur: 1.5, vol: .2 }); osc(t, { f: 2637, dur: .8, vol: .05 }); osc(t, { f: 1975.5, dur: 1.1, vol: .05 }); },
+  buzz: t => { osc(t, { type: 'square', f: 110, dur: .42, vol: .1, filter: { f: 900 } }); osc(t, { type: 'square', f: 116.5, dur: .42, vol: .08, filter: { f: 900 } }); },
+  softBuzz: t => { osc(t, { type: 'square', f: 130, dur: .25, vol: .05, filter: { f: 700 } }); },
+  type: t => { for (let i = 0; i < 9; i++) noise(t + i * .085 + Math.random() * .02, { dur: .02, vol: .32, f: 3400, Q: 2.5 }); },
+  stamp: t => { noise(t, { dur: .12, vol: .7, type: 'lowpass', f: 420 }); osc(t, { f: 150, f1: 55, dur: .2, vol: .45 }); },
+  whoosh: t => noise(t, { dur: .55, vol: .22, f: 320, f1: 2600, Q: .8, a: .22 }),
+  paper: t => { for (let i = 0; i < 5; i++) noise(t + i * .07 + Math.random() * .03, { dur: .06, vol: .16, f: 2800 + Math.random() * 2400, Q: 1 }); },
+  drop: (t, p) => osc(t, { f: p || 600, f1: (p || 600) * .62, dur: .11, vol: .14, glide: .1 }),
+  step: t => { noise(t, { dur: .05, vol: .3, type: 'lowpass', f: 190 }); osc(t, { f: 95, f1: 60, dur: .06, vol: .1 }); },
+  dice: t => { for (let i = 0; i < 10; i++) { const tt = t + Math.random() * .6; noise(tt, { dur: .02, vol: .3, f: 1900, Q: 4 }); osc(tt, { f: 2300 + Math.random() * 600, dur: .02, vol: .03 }); } },
+  tick: t => { osc(t, { f: 1150, dur: .04, vol: .13 }); noise(t, { dur: .02, vol: .1, type: 'highpass', f: 4000 }); },
+  magnet: t => { osc(t, { f: 70, f1: 150, dur: .42, vol: .16, a: .18 }); SFX.pin(t + .45); },
+  gong: t => { osc(t, { f: 98, dur: 2.6, vol: .3 }); osc(t, { f: 148.4, dur: 2, vol: .13 }); osc(t, { f: 233.7, dur: 1.4, vol: .07 }); noise(t, { dur: .1, vol: .2, type: 'lowpass', f: 300 }); },
+  lamp: t => { noise(t, { dur: .02, vol: .5, type: 'highpass', f: 3000 }); osc(t, { f: 2400, dur: .02, vol: .08 }); noise(t + .05, { dur: .02, vol: .35, type: 'highpass', f: 2200 }); },
+  cello: t => { osc(t, { type: 'sawtooth', f: 98, dur: 2.4, a: .7, vol: .09, filter: { f: 520 } }); osc(t, { type: 'sawtooth', f: 98.6, dur: 2.4, a: .8, vol: .07, filter: { f: 480 } }); },
+  rumble: t => noise(t, { dur: 1.6, vol: .45, type: 'lowpass', f: 130, a: .4 }),
+  chalk: t => { for (let i = 0; i < 7; i++) noise(t + i * .09 + Math.random() * .04, { dur: .05, vol: .14, f: 4200, Q: .8 }); },
+  boing: t => osc(t, { f: 240, f1: 120, dur: .5, vol: .2, glide: .45, vib: [11, 30] }),
+  whoomp: t => osc(t, { f: 170, f1: 50, dur: .38, vol: .4, glide: .35 }),
+  squeegee: t => { osc(t, { f: 500, f1: 1300, dur: .5, vol: .07, glide: .5 }); noise(t, { dur: .5, vol: .08, f: 2000, Q: 2 }); },
+  pulse: t => osc(t, { f: 220, dur: .45, vol: .1, a: .2 }),
+  wind: t => noise(t, { dur: 2, vol: .28, f: 400, f1: 1300, Q: .6, a: .6 }),
+  rattle: t => { for (let i = 0; i < 7; i++) noise(t + i * .09, { dur: .04, vol: .3, f: 900, Q: 3 }); },
+  click: t => { noise(t, { dur: .02, vol: .45, type: 'highpass', f: 2500 }); },
+  clank: t => { osc(t, { f: 523, dur: .7, vol: .12 }); osc(t, { f: 1187, dur: .5, vol: .08 }); osc(t, { f: 1760, dur: .3, vol: .05 }); noise(t, { dur: .08, vol: .5, type: 'lowpass', f: 1500 }); },
+  clink: t => { osc(t, { f: 2600 + Math.random() * 300, dur: .25, vol: .1 }); osc(t, { f: 3900, dur: .14, vol: .04 }); },
+  ratchet: t => ticks(t, 6, .45, 2500, .35, 5),
+  shimmer: t => [1568, 1760, 2093, 2637].forEach((f, i) => osc(t + i * .08, { f, dur: .5, vol: .045 })),
+  fadeTone: t => osc(t, { f: 440, f1: 330, dur: .5, vol: .07 }),
+  pour: t => noise(t, { dur: 1.2, vol: .3, type: 'lowpass', f: 900, f1: 600, a: .2 }),
+  drip: t => osc(t, { f: 1400, f1: 500, dur: .1, vol: .18 }),
+  hum: t => osc(t, { type: 'sawtooth', f: 120, dur: 1.2, vol: .045, a: .3, filter: { f: 420 } }),
+  thwack: t => { noise(t, { dur: .08, vol: .6, type: 'lowpass', f: 1200 }); osc(t, { f: 220, f1: 90, dur: .12, vol: .3 }); },
+  alarm: t => { [880, 660, 880].forEach((f, i) => osc(t + i * .16, { type: 'square', f, dur: .12, vol: .06, filter: { f: 2500 } })); },
+  burst: t => { noise(t, { dur: .35, vol: .4, f: 1500, f1: 300, Q: .8 }); osc(t, { f: 300, f1: 80, dur: .3, vol: .2 }); },
+  wobble: t => osc(t, { f: 330, dur: 1.6, vol: .07, vib: [6, 30] }),
+  crack: t => { noise(t, { dur: .05, vol: .6, type: 'highpass', f: 1500 }); noise(t + .07, { dur: .03, vol: .4, type: 'highpass', f: 2200 }); },
+  rug: t => noise(t, { dur: .3, vol: .4, type: 'lowpass', f: 800, a: .05 }),
+  squeak: t => osc(t, { f: 1500, f1: 2400, dur: .08, vol: .07 }),
+  blend: t => [440, 554.4, 659.3].forEach(f => osc(t, { f, dur: 1.2, vol: .045, a: .3 })),
+  gear: t => ticks(t, 12, 2.4, 1600, .2, 4),
+  thunk: t => { osc(t, { f: 125, f1: 70, dur: .16, vol: .4 }); noise(t, { dur: .08, vol: .35, type: 'lowpass', f: 600 }); },
+  swoosh: t => noise(t, { dur: .32, vol: .16, f: 600, f1: 2400, Q: 1, a: .1 }),
+  dial: t => ticks(t, 5, .6, 2000, .25, 4),
+  motif: (t, a, ft) => {
+    const notes = ft < 336 ? [69, 72, 76, 74] : [72, 76, 79, 77];
+    notes.forEach((m, i) => vib(t + i * .17, mf(m), i === 3 ? 1.1 : .5, .1, sfxBus));
+  },
+  motifEnd: t => { [72, 76, 79, 84].forEach((m, i) => vib(t + i * .17, mf(m), 1.4, .1, sfxBus)); },
+  swell: t => [60, 64, 67, 71].forEach(m => osc(t, { type: 'triangle', f: mf(m), dur: 3.5, vol: .035, a: 1.8, filter: { f: 1600 } })),
+  finalChord: t => [48, 55, 64, 67, 71, 76].forEach(m => osc(t, { type: 'triangle', f: mf(m), dur: 5, vol: .045, a: .05, filter: { f: 1800 } }))
+};
+const DUCKERS = new Set(['ding', 'buzz', 'gong', 'stamp', 'doorShut', 'doorCreak', 'clank', 'motif', 'motifEnd', 'finalChord', 'boing', 'alarm']);
+function duck(t) {
+  duckGain.gain.setTargetAtTime(.45, t, .03);
+  duckGain.gain.setTargetAtTime(1, t + .7, .25);
+}
+function playCue(c, at) {
+  const f = SFX[c.name];
+  if (!f) return;
+  try { f(at, c.arg, c.t); if (DUCKERS.has(c.name)) duck(at); } catch (e) { /* ignore a single failed sound */ }
+}
+
+/* music: walking bass, brushes and soft chords, scheduled beat by beat */
+const SECTIONS = [
+  { s: 30.6, e: 336, bpm: 92, key: 'min' },
+  { s: 336.6, e: 662, bpm: 100, key: 'maj' },
+  { s: 662.3, e: 684, bpm: 84, key: 'fin' }
+];
+const PROG = {
+  min: [{ r: 45, q: 'm7' }, { r: 50, q: 'm7' }, { r: 40, q: '7' }, { r: 45, q: 'm7' }],
+  maj: [{ r: 48, q: 'M7' }, { r: 45, q: 'm7' }, { r: 41, q: 'M7' }, { r: 43, q: '7' }],
+  fin: [{ r: 41, q: 'M7' }, { r: 43, q: '7' }, { r: 48, q: 'M7' }]
+};
+const QUAL = { m7: [0, 3, 7, 10], '7': [0, 4, 7, 10], M7: [0, 4, 7, 11] };
+function bassNote(t, f, d) { osc(t, { type: 'triangle', f, dur: d, vol: .55, a: .008, filter: { f: 700 }, bus: musicBus }); osc(t, { f: f / 2, dur: d * .8, vol: .25, bus: musicBus }); }
+function hat(t, v) { noise(t, { dur: .06, vol: v, type: 'highpass', f: 6500, bus: musicBus }); }
+function keysChord(t, ms, d) { ms.forEach(m => osc(t, { type: 'triangle', f: mf(m), dur: d, vol: .05, a: .01, filter: { f: 1700 }, bus: musicBus })); }
+function playBeat(sec, i, t, bl) {
+  const bar = Math.floor(i / 4), b = i % 4;
+  const prog = PROG[sec.key];
+  if (sec.key === 'fin') {
+    if (bar > 2) return;
+    const ch = prog[bar], q = QUAL[ch.q];
+    if (bar === 2) { if (b === 0) { bassNote(t, mf(ch.r), bl * 6); keysChord(t, q.map(v => ch.r + 12 + v), bl * 8); } return; }
+    bassNote(t, mf(b === 0 ? ch.r : ch.r + q[b]), bl * .92);
+    if (b === 0) keysChord(t, q.slice(1).map(v => ch.r + 12 + v), bl * 3);
+    if (b % 2 === 1) hat(t, .12);
+    return;
+  }
+  const ch = prog[bar % prog.length], nx = prog[(bar + 1) % prog.length], q = QUAL[ch.q];
+  const m = b === 0 ? ch.r : b === 1 ? ch.r + q[1] : b === 2 ? ch.r + 7 : nx.r - 1;
+  bassNote(t, mf(m), bl * .9);
+  if (b === 1 || b === 3) hat(t, .2);
+  hat(t + bl * 2 / 3, .07);
+  if (b === 0) { osc(t, { f: 70, f1: 45, dur: .16, vol: .22, bus: musicBus }); keysChord(t, q.slice(1).map(v => ch.r + 12 + v), bl * 2.6); }
+  if (sec.key === 'maj' && bar % 2 === 1 && b === 2) vib(t, mf(ch.r + 24 + q[(bar >> 1) % 4]), 1.2, .06, musicBus);
+}
+function scheduleMusic(a, b) {
+  for (const sec of SECTIONS) {
+    if (b <= sec.s || a >= sec.e) continue;
+    const bl = 60 / sec.bpm;
+    let i = Math.max(0, Math.ceil((Math.max(a, sec.s) - sec.s) / bl - 1e-9));
+    for (; ; i++) {
+      const bt = sec.s + i * bl;
+      if (bt >= b || bt >= sec.e) break;
+      if (bt < a) continue;
+      try { playBeat(sec, i, filmToCtx(bt), bl); } catch (e) { }
+    }
+  }
+}
+
+/* ============================================================
+   VOICE: Arrow speaks each caption with the browser's voice
+   ============================================================ */
+let voice = null, voiceOn = true, soundOn = true;
+const SPEECH = 'speechSynthesis' in window ? window.speechSynthesis : null;
+function pickVoice() {
+  if (!SPEECH) return;
+  const vs = SPEECH.getVoices();
+  if (!vs.length) return;
+  const prefs = ['Daniel', 'Google UK English Male', 'Arthur', 'Aaron', 'Microsoft Ryan', 'Microsoft Guy', 'Alex', 'Google US English', 'Samantha', 'Rishi'];
+  for (const p of prefs) { const v = vs.find(v => v.name.includes(p) && /^en/i.test(v.lang)); if (v) { voice = v; return; } }
+  voice = vs.find(v => /^en[-_]GB/i.test(v.lang)) || vs.find(v => /^en/i.test(v.lang)) || vs[0];
+}
+if (SPEECH) { pickVoice(); if (SPEECH.addEventListener) SPEECH.addEventListener('voiceschanged', pickVoice); else SPEECH.onvoiceschanged = pickVoice; }
+let speakTimer = null;
+function speak(text) {
+  if (!SPEECH || !voiceOn || !soundOn) return;
+  const plain = text.replace(/\*/g, '').replace(/…/g, '...').replace(/−/g, ' minus ');
+  SPEECH.cancel();
+  clearTimeout(speakTimer);
+  speakTimer = setTimeout(() => {
+    const u = new SpeechSynthesisUtterance(plain);
+    if (voice) u.voice = voice;
+    u.lang = voice ? voice.lang : 'en-US';
+    u.rate = 1.04; u.pitch = 1.12; u.volume = 1;
+    u.onstart = () => { if (ctx) speechGain.gain.setTargetAtTime(.45, ctx.currentTime, .08); };
+    u.onend = u.onerror = () => { if (ctx) speechGain.gain.setTargetAtTime(1, ctx.currentTime, .3); };
+    SPEECH.speak(u);
+  }, 40);
+}
+function stopSpeech() { clearTimeout(speakTimer); if (SPEECH) SPEECH.cancel(); if (ctx) speechGain.gain.setTargetAtTime(1, ctx.currentTime, .1); }
+
+/* ============================================================
+   TRANSPORT: one clock (the audio clock) for everything
+   ============================================================ */
+let playing = false, filmT = 0, t0 = 0, c0 = 0, cueIdx = 0, sayIdx = 0, musicCursor = 0, lastSayT = -1;
+const clock = () => ctx ? ctx.currentTime : performance.now() / 1000;
+function filmToCtx(ft) { return c0 + (ft - t0); }
+function now() { return playing ? Math.max(t0, t0 + (clock() - c0)) : filmT; }
+function stopAllSound() {
+  for (const n of live) { try { n.n.stop(0); } catch (e) { } }
+  live = [];
+  if (ctx) { duckGain.gain.cancelScheduledValues(0); duckGain.gain.value = 1; }
+}
+function lowerBound(arr, t) { let lo = 0, hi = arr.length; while (lo < hi) { const m = (lo + hi) >> 1; if (arr[m].t < t) lo = m + 1; else hi = m; } return lo; }
+function play() {
+  if (filmT >= TOTAL - .05) filmT = 0;
+  if (ctx && ctx.state !== 'running') ctx.resume();
+  t0 = filmT; c0 = clock() + .06;
+  cueIdx = lowerBound(CUES, t0); sayIdx = lowerBound(SAYS, t0); musicCursor = t0;
+  playing = true;
+  updateUI();
+}
+function pause() {
+  filmT = now(); playing = false;
+  stopAllSound(); stopSpeech();
+  updateUI();
+}
+function seek(t) {
+  const was = playing;
+  if (playing) { playing = false; stopAllSound(); stopSpeech(); }
+  filmT = clamp(t, 0, TOTAL);
+  render(filmT); updateUI();
+  if (was) play();
+}
+function schedulerTick() {
+  if (!playing || !ctx) return;
+  const ft = now(), until = ft + .22;
+  while (cueIdx < CUES.length && CUES[cueIdx].t < until) {
+    const c = CUES[cueIdx++];
+    if (c.t >= ft - .06) playCue(c, filmToCtx(Math.max(c.t, ft)));
+  }
+  if (until > musicCursor) { scheduleMusic(musicCursor, until); musicCursor = until; }
+  const cn = clock();
+  if (live.length > 400) live = live.filter(n => n.end > cn);
+}
+function frame() {
+  if (playing) {
+    let T = now();
+    let latest = null;
+    while (sayIdx < SAYS.length && SAYS[sayIdx].t <= T) { latest = SAYS[sayIdx++]; }
+    if (latest && T - latest.t < 1.2) speak(latest.text);
+    if (T >= TOTAL) { T = TOTAL; filmT = TOTAL; playing = false; stopAllSound(); showEnd(); }
+    render(T);
+    updateUI(T);
+  }
+  requestAnimationFrame(frame);
+}
+/* ============================================================
+   SCENES, PART 1: cold open, Part 1 card, chapters 1 to 11
+   Times are seconds from the start of each scene.
+   ============================================================ */
+
+/* shared fictional data: tutoring hours, income and scores */
+function tutorData(n, seed) {
+  const r = rng(seed), out = [];
+  for (let i = 0; i < n; i++) {
+    const inc = gauss(r);
+    const x = clamp(2.5 + 1.0 * inc + 0.9 * gauss(r), 0.15, 4.85);
+    const y = 62 + 2.4 * x + 6 * inc + 3 * gauss(r);
+    out.push({ x, y, inc, yAdj: y - 6 * inc });
+  }
+  return out;
+}
+function gazette(g, cx, cy) {
+  const gz = pv(G(g), cx, cy);
+  const gi = G(gz, { transform: `rotate(-2 ${cx} ${cy})` });
+  const x0 = cx - 320, y0 = cy - 135;
+  el('rect', { x: x0 + 7, y: y0 + 8, width: 640, height: 270, fill: '#000', opacity: .25 }, gi);
+  el('rect', { x: x0, y: y0, width: 640, height: 270, fill: C.paper }, gi);
+  T(gi, cx, y0 + 52, 'The Riverbend Gazette', { font: SERIF, size: 36, weight: 700, italic: true });
+  el('line', { x1: x0 + 30, x2: x0 + 610, y1: y0 + 68, y2: y0 + 68, stroke: C.ink, 'stroke-width': 2 }, gi);
+  el('line', { x1: x0 + 30, x2: x0 + 610, y1: y0 + 74, y2: y0 + 74, stroke: C.ink, 'stroke-width': 1 }, gi);
+  T(gi, cx, y0 + 128, 'Tutored students score', { font: SERIF, size: 46, weight: 700 });
+  T(gi, cx, y0 + 182, '15 points higher!', { font: SERIF, size: 46, weight: 700 });
+  for (let i = 0; i < 3; i++) for (let j = 0; j < 3; j++) el('rect', { x: x0 + 30 + i * 196, y: y0 + 210 + j * 15, width: 176 - (j === 2 ? 50 : 0), height: 7, fill: '#A29F96' }, gi);
+  pushpin(gi, cx, y0 + 12);
+  gz.inner = gi; gz.x0 = x0; gz.y0 = y0;
+  return gz;
+}
+
+/* ---------------- 0. Cold open ---------------- */
+scene({
+  name: 'Cold open: the headline', short: 'Open', dur: 30, noFadeIn: true, build(S) {
+    const g = S.g, world = pv(G(g), 800, 450);
+    S.sfx(.25, 'lamp');
+    const gz = gazette(world, 800, 300);
+    S.pop(gz, 1.5, .5); S.sfx(1.5, 'pin'); S.sfx(1.6, 'paper');
+    const ring = el('ellipse', { cx: 622, cy: 334, rx: 50, ry: 34, fill: 'none', stroke: C.red, 'stroke-width': 5, pathLength: 1 }, gz.inner);
+    S.k(ring, 'd', [7.2, 0], [8.0, 1]); S.sfx(7.2, 'chalk');
+
+    S.place(1300, FLOOR, 'suspicious');
+    S.sc.ay = [[0, 990], [6, 990], [6.45, FLOOR, 'back']];
+    S.arrowO([0, 0], [5.95, 0], [6.0, 1, 'lin']);
+    S.sfx(6, 'pop'); S.sfx(6.2, 'motif');
+    S.say(6.5, 'Fifteen points. But did tutoring *cause* that?');
+
+    S.to(gz, 's', 12, .8, .55); S.to(gz, 'x', 12, .8, -430); S.to(gz, 'y', 12, .8, -160);
+    const nT = node(world, 520, 520, 'T', 'tutoring', 'T'), nY = node(world, 1080, 520, 'Y', 'math score', 'Y');
+    S.pop(nT, 12.4); S.sfx(12.4, 'pin'); S.pop(nY, 13.0); S.sfx(13.0, 'pin');
+    S.draw(link(world, nT, nY), 13.6, .8);
+    S.mood(12, 'curious');
+    const q = node(world, 800, 300, '?', null, 'U', { r: 40 });
+    const l1 = link(world, q, nT, { color: C.slate, dash: '10 9', w: 4 }), l2 = link(world, q, nY, { color: C.slate, dash: '10 9', w: 4 });
+    S.fadeIn(q, 16, 1); S.fadeIn(l1.g, 16.6, .8, .8); S.fadeIn(l2.g, 16.6, .8, .8);
+    S.sfx(16, 'cello'); S.mood(16, 'worried');
+    S.say(16.4, 'Or is something else pulling the strings?');
+
+    S.to(world, 'o', 19.5, .6, .14);
+    const tc = card(g, 800, 360, 1100, 330, { rot: -1 });
+    const tTitle = T(tc.inner, 800, 395, '', { font: SERIF, size: 120, weight: 650 });
+    const tSub = T(tc.inner, 800, 455, 'a case file in 23 chapters', { size: 38, fill: C.red });
+    const tBy = T(tc.inner, 800, 498, 'after the book by Nick Huntington-Klein', { size: 28, fill: C.slate });
+    S.pop(tc, 19.8, .5);
+    S.fn(20.1, 1.1, p => { tTitle.textContent = 'The Effect'.slice(0, Math.round(p * 10)); });
+    S.sfx(20.1, 'type'); S.fadeIn(tSub, 21.6, .5); S.sfx(21.6, 'type'); S.fadeIn(tBy, 22.6, .6); S.sfx(22.6, 'shimmer');
+    S.walk(19.4, 1.6, 1440);
+    S.mood(23, 'proud');
+  }
+});
+
+/* ---------------- Part cards ---------------- */
+function partCard(S, num, title, range, clank) {
+  const g = S.g;
+  el('rect', { x: 0, y: 0, width: W, height: H, fill: C.night }, g);
+  const f = pv(G(g), 800, 460);
+  el('path', { d: 'M440 236 L440 206 Q440 196 450 196 L690 196 Q700 196 706 206 L720 236 Z', fill: '#C9A465' }, f);
+  el('rect', { x: 446, y: 244, width: 760, height: 460, rx: 8, fill: '#000', opacity: .35 }, f);
+  el('rect', { x: 430, y: 232, width: 760, height: 460, rx: 8, fill: '#D9B676' }, f);
+  T(f, 810, 345, 'Part ' + num, { size: 46, fill: C.red });
+  T(f, 810, 440, title, { font: SERIF, size: title.length > 14 ? 54 : 72, weight: 650, fill: '#2B2116' });
+  T(f, 810, 500, range, { size: 32, fill: '#5A4630' });
+  S.k(f, 'y', [0, -760], [.55, 0, 'back']); S.k(f, 'r', [0, -7], [.55, -2]);
+  const sb = stampBox(g, 1030, 610, ['Case file'], { size: 32, rot: -9 });
+  S.stamp(sb, .7);
+  if (clank) S.sfx(.5, 'clank');
+  S.place(HOME_L, FLOOR); S.arrowO([0, 0]);
+}
+scene({ name: 'Part 1: The Design of Research', short: 'Part 1', dur: 8, build(S) { partCard(S, 1, 'The Design of Research', 'Chapters 1 to 11'); } });
+
+/* ---------------- Chapter 1 ---------------- */
+chap(1, 'Designing Research', 24, S => {
+  const g = S.g;
+  S.place(560, FLOOR, 'curious');
+  const ss = card(g, 800, 330, 440, 270, { rot: -1.5 });
+  const r = rng(5);
+  for (let i = 0; i <= 6; i++) el('line', { x1: 600, x2: 1000, y1: 228 + i * 34, y2: 228 + i * 34, stroke: '#B8C2D2', 'stroke-width': 2 }, ss.inner);
+  for (let j = 0; j <= 4; j++) el('line', { x1: 600 + j * 100, x2: 600 + j * 100, y1: 228, y2: 432, stroke: '#B8C2D2', 'stroke-width': 2 }, ss.inner);
+  for (let i = 0; i < 6; i++) for (let j = 0; j < 4; j++) T(ss.inner, 650 + j * 100, 252 + i * 34, i === 0 ? ['id', 'hours', 'income', 'score'][j] : String(Math.round(r() * 90 + 5)), { size: 20, fill: i === 0 ? C.red : C.ink });
+  S.pop(ss, 2.2); S.sfx(2.2, 'pin');
+  S.say(2.5, "Staring at data doesn't answer anything.");
+  S.mood(5, 'suspicious');
+  S.fadeOut(ss, 7.4, .4);
+
+  const bp = pv(G(g), 160, 375);
+  el('rect', { x: 160, y: 150, width: 1280, height: 450, fill: C.blueprint, rx: 4 }, bp);
+  for (let x = 200; x < 1440; x += 40) el('line', { x1: x, x2: x, y1: 150, y2: 600, stroke: '#fff', opacity: .12 }, bp);
+  for (let y = 190; y < 600; y += 40) el('line', { x1: 160, x2: 1440, y1: y, y2: y, stroke: '#fff', opacity: .12 }, bp);
+  S.k(bp, 'sx', [8, 0], [9, 1, 'o']); S.k(bp, 'o', [7.99, 0], [8.01, 1, 'lin']); S.sfx(8, 'paper');
+
+  const labels = [['Question', 'What do I want to know?'], ['Theory', 'Why would it happen?'], ['Design', 'What variation answers it?'], ['Data', 'What must I collect?']];
+  const xs = [330, 640, 960, 1270];
+  labels.forEach(([a, b], i) => {
+    const c = card(g, xs[i], 370, 262, 170, { rot: [-2, 1.5, -1, 2][i], ruled: true });
+    T(c.inner, xs[i], 322, a, { font: SERIF, size: 38, weight: 600 });
+    T(c.inner, xs[i], 392, b, { size: 19 });
+    const at = 9.8 + i * .652; S.pop(c, at); S.sfx(at, 'pin');
+  });
+  S.walk(9.6, 3, 1270);
+  for (let i = 0; i < 3; i++) S.draw(link(g, { x: xs[i] + 131, y: 370 }, { x: xs[i + 1] - 131, y: 370 }), 16 + i * .45, .4, i === 0);
+  const icon = card(g, 1270, 530, 110, 70, { pin: false });
+  for (let i = 1; i < 3; i++) el('line', { x1: 1215, x2: 1325, y1: 495 + i * 23, y2: 495 + i * 23, stroke: '#B8C2D2', 'stroke-width': 2 }, icon.inner);
+  for (let j = 1; j < 3; j++) el('line', { x1: 1215 + j * 37, x2: 1215 + j * 37, y1: 495, y2: 565, stroke: '#B8C2D2', 'stroke-width': 2 }, icon.inner);
+  S.pop(icon, 17.6); S.sfx(17.6, 'pop');
+  S.mood(16.2, 'eureka');
+  S.say(16.3, 'Plan what you need to learn. *Then* open the data.');
+  S.sfx(18.6, 'ding'); S.mood(19.5, 'proud');
+}, 'Research design');
+
+/* ---------------- Chapter 2 ---------------- */
+chap(2, 'Research Questions', 24, S => {
+  const g = S.g;
+  S.place(440, FLOOR, 'suspicious');
+  const q = note(g, 800, 320, 'Is tutoring good?', { size: 58, rot: -2 });
+  S.pop(q, 2.2); S.sfx(2.2, 'pin'); S.sfx(3.0, 'buzz');
+  S.say(2.6, 'Good for what? For whom? Compared to what?');
+  [['for what?', 520, 190], ['for whom?', 1090, 200], ['compared to what?', 1080, 470]].forEach(([s, x, y], i) => {
+    const lg = pv(G(g), x, y); T(lg, x, y, s, { size: 38, fill: C.red });
+    S.pop(lg, 3.6 + i * .65); S.sfx(3.6 + i * .65, 'pop'); S.fadeOut(lg, 7.8, .3);
+  });
+  const bin = pv(G(g), 1350, 640);
+  el('path', { d: 'M1300 600 L1310 690 L1390 690 L1400 600 Z', fill: '#7D8796', stroke: '#4E5766', 'stroke-width': 3 }, bin);
+  el('ellipse', { cx: 1350, cy: 600, rx: 52, ry: 10, fill: '#5E6777', stroke: '#4E5766', 'stroke-width': 3 }, bin);
+  for (let i = 0; i < 3; i++) el('line', { x1: 1325 + i * 25, x2: 1328 + i * 22, y1: 615, y2: 680, stroke: '#4E5766', 'stroke-width': 2 }, bin);
+  S.fadeIn(bin, 7.3, .4);
+  S.k(q, 's', [8, null], [8.5, .25]); S.k(q, 'r', [8, 0], [8.5, 180], [9.6, 440]);
+  S.k(q, 'x', [8.5, 0], [9.6, 550, 'lin']); S.k(q, 'y', [8.5, 0], [9.05, -150, 'o'], [9.6, 280, 'i']); S.k(q, 'o', [9.55, null], [9.62, 0, 'lin']);
+  S.sfx(8, 'paper'); S.sfx(9.6, 'thunk');
+  S.walk(7.8, 1, 560, FLOOR, false);
+
+  const nq = card(g, 800, 300, 1020, 200, { rot: -1 });
+  const tg = G(nq.inner);
+  T(tg, 800, 290, 'Does one hour a week of tutoring', { size: 48 });
+  T(tg, 800, 352, "*raise* a student's math score?", { size: 48 });
+  const cr = clipRect(tg, 290, 200, 0, 200);
+  S.fn(11.2, 2.1, p => cr.setAttribute('width', 1020 * p));
+  S.pop(nq, 10.8); S.sfx(10.8, 'pin'); S.sfx(11.2, 'chalk'); S.sfx(12.1, 'chalk');
+  const mkTag = (txt, col) => { const t = pv(G(g), 800, 490); el('rect', { x: 660, y: 462, width: 280, height: 58, rx: 29, fill: col }, t); T(t, 800, 502, txt, { size: 32, fill: '#fff' }); return t; };
+  const tagD = mkTag('descriptive', C.slate), tagC = mkTag('causal', C.red);
+  S.pop(tagD, 13.2); S.sfx(13.2, 'pop');
+  S.k(tagD, 'sx', [14.4, 1], [14.7, 0, 'i']); S.k(tagC, 'sx', [0, 0], [14.7, 0], [15, 1, 'o']);
+  S.sfx(15, 'stamp');
+  S.mood(11.5, 'proud');
+  S.say(12, "Specific. Answerable. And it's causal.");
+  S.mood(19.4, 'eureka');
+  S.say(19.6, 'A sharp question tells you what data you need.'); S.sfx(20.2, 'ding');
+}, 'Questions');
+
+/* ---------------- Chapter 3 ---------------- */
+chap(3, 'Describing Variables', 24, S => {
+  const g = S.g;
+  S.place(HOME_R, FLOOR, 'curious');
+  const left = pv(G(g), 760, 360);
+  const ch = chart(left, 760, 360, 940, 450, { xr: [40, 100], yr: [0, 19], xl: 'math score', yl: 'students' });
+  S.pop(ch, 2.0);
+  const r = rng(3), counts = new Array(12).fill(0), dots = [], scores = [];
+  for (let i = 0; i < 72; i++) {
+    const s = clamp(70 + 10 * gauss(r), 40.5, 99.5); scores.push(s);
+    const b = Math.floor((s - 40) / 5), c = counts[b]++;
+    const tx = ch.px(40 + b * 5 + 2.5), ty = ch.py(c + .5);
+    dots.push({ e: el('circle', { cx: tx, cy: ty, r: 9.5, fill: C.body }, ch.plot), tx, ty, b, delay: i / 72 * .8 });
+  }
+  S.fn(2.4, 5.2, p => {
+    for (const d of dots) {
+      const q = clamp((p - d.delay) / .2, 0, 1);
+      d.e.setAttribute('cy', lerp(ch.T - 40, d.ty, EASE.i(q)).toFixed(1));
+      d.e.setAttribute('opacity', q > 0 ? 1 : 0);
+    }
+  });
+  dots.forEach((d, i) => { if (i % 3 === 0) S.sfx(2.4 + (d.delay + .2) * 5.2, 'drop', 320 + d.b * 55); });
+  S.say(2.5, "A variable isn't one number. It's a whole shape.");
+  const mean = scores.reduce((a, b) => a + b, 0) / scores.length;
+  const sd = Math.sqrt(scores.reduce((a, b) => a + (b - mean) ** 2, 0) / scores.length);
+  const mx = ch.px(mean);
+  const ml = el('path', { d: `M${mx} ${ch.B} L${mx} ${ch.T - 6}`, stroke: C.red, 'stroke-width': 5, pathLength: 1 }, ch.plot);
+  S.k(ml, 'd', [9, 0], [9.8, 1]); S.sfx(9, 'pin');
+  const mlab = T(ch.plot, mx + 12, ch.T + 4, 'mean', { size: 26, fill: C.red, anchor: 'start' });
+  S.fadeIn(mlab, 9.6);
+  const br = pv(G(ch.plot), mx, ch.T + 34);
+  const y1 = ch.T + 34, xa = ch.px(mean - sd), xb = ch.px(mean + sd);
+  el('path', { d: `M${xa} ${y1 - 12} L${xa} ${y1} L${xb} ${y1} L${xb} ${y1 - 12}`, stroke: C.ink, 'stroke-width': 4, fill: 'none' }, br);
+  T(br, xb + 10, y1 + 8, '±1 SD', { size: 24, anchor: 'start' });
+  S.k(br, 'sx', [10.4, 0], [11.2, 1, 'o']); S.sfx(10.4, 'string');
+  S.say(9.2, 'Center… and spread.'); S.mood(9, 'eureka');
+
+  S.to(left, 's', 14, .6, .6); S.to(left, 'x', 14, .6, -340); S.to(left, 'y', 14, .6, -30);
+  const ch2 = chart(g, 1120, 330, 640, 400, { xr: [0, 10], yr: [0, 1.05], yl: 'people', padL: 80 });
+  const lab = T(ch2.inner, (ch2.L + ch2.R) / 2, ch2.B + 48, 'income', { size: 25 });
+  S.pop(ch2, 14.4); S.sfx(14.4, 'pin');
+  const hA = [.55, 1, .8, .5, .32, .2, .13, .08, .06, .04], hB = [.12, .3, .6, .88, 1, .86, .6, .34, .14, .05];
+  const bw = (ch2.R - ch2.L) / 10;
+  const bars = hA.map((h, i) => el('rect', { x: ch2.L + i * bw + 4, width: bw - 8, y: ch2.py(h), height: ch2.B - ch2.py(h), fill: C.green }, ch2.plot));
+  S.fn(16.5, 1.0, p => {
+    const q = EASE.back(p);
+    bars.forEach((b, i) => { const h = Math.max(0, lerp(hA[i], hB[i], q)); b.setAttribute('y', ch2.py(h)); b.setAttribute('height', ch2.B - ch2.py(h)); });
+    lab.textContent = p < .5 ? 'income' : 'log(income)';
+  });
+  S.sfx(16.5, 'boing'); S.mood(15, 'proud');
+  S.say(15, 'Long tails? Try the log.');
+  S.say(20.4, 'Shape, center, spread: describe before you explain.'); S.sfx(21, 'ding');
+}, 'Variables');
+
+/* ---------------- Chapter 4 ---------------- */
+chap(4, 'Describing Relationships', 26, S => {
+  const g = S.g;
+  S.place(HOME_L, FLOOR, 'curious');
+  const ch = chart(g, 800, 360, 1000, 460, { xr: [0, 5], yr: [40, 100], xl: 'tutoring hours per week', yl: 'math score' });
+  S.pop(ch, 2.0);
+  const D = tutorData(64, 4);
+  const dots = D.map((d, i) => ({ ...d, e: el('circle', { cx: ch.px(d.x), cy: ch.py(d.y), r: 0, fill: C.body, opacity: .85 }, ch.plot), delay: i / 64 * .85 }));
+  S.fn(2.3, 2.6, p => dots.forEach(d => d.e.setAttribute('r', (7.5 * EASE.back(clamp((p - d.delay) / .15, 0, 1))).toFixed(2))));
+  for (let i = 0; i < 12; i++) S.sfx(2.3 + i * .2, 'drop', 500 + (i % 5) * 80);
+  for (let k = 0; k < 5; k++) {
+    const sel = D.filter(d => d.x >= k && d.x < k + 1);
+    if (!sel.length) continue;
+    const m = sel.reduce((a, b) => a + b.y, 0) / sel.length, x = ch.px(k + .5), y = ch.py(m);
+    const dm = pv(G(ch.plot), x, y);
+    el('polygon', { points: `${x},${y - 15} ${x + 15},${y} ${x},${y + 15} ${x - 15},${y}`, fill: C.hi, stroke: C.ink, 'stroke-width': 3 }, dm);
+    S.pop(dm, 6 + k * .652); S.sfx(6 + k * .652, 'pin'); S.fadeOut(dm, 15.8, .4);
+  }
+  S.say(6.2, "What's the average score *given* each level of tutoring?");
+  const f1 = fitLine(D.map(d => d.x), D.map(d => d.y));
+  const line = el('path', { d: `M${ch.px(.2)} ${ch.py(f1.a + f1.b * .2)} L${ch.px(4.8)} ${ch.py(f1.a + f1.b * 4.8)}`, stroke: C.red, 'stroke-width': 6, 'stroke-linecap': 'round', pathLength: 1 }, ch.plot);
+  S.draw({ path: line, head: G(ch.plot) }, 12, 1);
+  S.mood(12, 'eureka'); S.say(12.3, 'A line sums up how the average shifts.');
+  // squeegee: remove the part of the score that income explains
+  const sq = G(ch.plot);
+  el('rect', { x: -6, y: ch.T - 20, width: 12, height: ch.B - ch.T + 20, rx: 5, fill: '#3B4A63' }, sq);
+  el('rect', { x: -20, y: ch.T - 40, width: 40, height: 22, rx: 6, fill: C.slate }, sq);
+  const f2 = fitLine(D.map(d => d.x), D.map(d => d.yAdj));
+  const line2 = el('path', { d: `M${ch.px(.2)} ${ch.py(f2.a + f2.b * .2)} L${ch.px(4.8)} ${ch.py(f2.a + f2.b * 4.8)}`, stroke: C.teal, 'stroke-width': 6, 'stroke-linecap': 'round', pathLength: 1 }, ch.plot);
+  S.fn(16, 3, p => {
+    const sx = lerp(ch.L - 20, ch.R + 20, p);
+    sq.setAttribute('transform', `translate(${sx.toFixed(1)} 0)`);
+    sq.style.display = p > 0 && p < 1 ? '' : 'none';
+    for (const d of dots) {
+      const q = clamp((sx - ch.px(d.x)) / 110, 0, 1);
+      d.e.setAttribute('cy', ch.py(lerp(d.y, d.yAdj, EASE.io(q))).toFixed(1));
+    }
+  });
+  S.fadeOut(line, 15.8, .4, .25);
+  S.k(line2, 'd', [19.1, 0], [19.9, 1]); S.sfx(19.1, 'string');
+  S.sfx(16, 'squeegee'); S.sfx(17.4, 'squeegee');
+  const tag = note(g, 1180, 150, 'income removed', { size: 26, rot: 3 });
+  S.pop(tag, 19.6); S.sfx(19.6, 'pin');
+  S.mood(16, 'neutral'); S.walk(16, 3, HOME_R);
+  S.say(16.3, "Controlling for income: keep only what income *can't* explain.");
+  S.mood(22.4, 'proud'); S.say(22.6, 'Same data, a fairer comparison.'); S.sfx(23, 'ding');
+}, 'Relationships');
+
+/* ---------------- Chapter 5 ---------------- */
+chap(5, 'Identification', 28, S => {
+  const g = S.g;
+  S.place(330, FLOOR, 'worried');
+  const yarn = pv(G(g), 800, 380);
+  el('circle', { cx: 800, cy: 380, r: 165, fill: '#E9DDC4', opacity: .35 }, yarn);
+  const r = rng(21);
+  const strand = (grp, col) => {
+    const pts = []; for (let k = 0; k < 4; k++) { const a = r() * Math.PI * 2, rad = 30 + r() * 135; pts.push([800 + Math.cos(a) * rad, 380 + Math.sin(a) * rad]); }
+    return el('path', { d: `M${pts[0][0].toFixed(1)} ${pts[0][1].toFixed(1)} C${pts[1].map(v => v.toFixed(1)).join(' ')} ${pts[2].map(v => v.toFixed(1)).join(' ')} ${pts[3].map(v => v.toFixed(1)).join(' ')}`, stroke: col, 'stroke-width': 6, fill: 'none', 'stroke-linecap': 'round' }, grp);
+  };
+  const glowG = G(yarn), red = G(yarn), pur = pv(G(yarn), 800, 380), grn = pv(G(yarn), 800, 380);
+  const reds = [];
+  for (let i = 0; i < 9; i++) { reds.push(strand(red, C.red)); strand(pur, C.purple); strand(grn, C.green); }
+  reds.forEach(p => el('path', { d: p.getAttribute('d'), stroke: C.hi, 'stroke-width': 18, fill: 'none', 'stroke-linecap': 'round' }, glowG));
+  S.k(glowG, 'o', [0, 0], [16, 0], [16.8, .9]);
+  S.pop(yarn, 2.2, .6); S.sfx(2.2, 'rumble');
+  const gap = note(g, 800, 140, 'the 15-point gap', { size: 30, rot: -2 });
+  S.pop(gap, 2.6); S.sfx(2.6, 'pin');
+  S.say(2.5, 'That 15-point gap is a tangle of reasons.');
+  S.k(pur, 'x', [9, 0], [10.6, -560, 'i']); S.fadeOut(pur, 10.2, .5); S.sfx(9, 'stringDown');
+  const lm = pv(G(g), 300, 330); T(lm, 300, 330, 'motivation', { size: 38, fill: C.purple, weight: 700 }); S.pop(lm, 9.4);
+  S.k(grn, 'x', [12, 0], [13.6, 560, 'i']); S.fadeOut(grn, 13.2, .5); S.sfx(12, 'stringDown');
+  const li = pv(G(g), 1300, 330); T(li, 1300, 330, 'income', { size: 38, fill: C.green, weight: 700 }); S.pop(li, 12.4);
+  S.mood(8.8, 'suspicious'); S.walk(8.8, .8, 250); S.walk(11.8, 1.2, 600);
+  const lt = pv(G(g), 800, 600); T(lt, 800, 600, "tutoring's effect", { size: 36, fill: C.red, weight: 700 });
+  S.pop(lt, 16.6); S.sfx(17, 'ding'); S.mood(16, 'eureka');
+  S.say(16.2, 'Identification: find the variation where *only* your answer is left.');
+  const kn = note(g, 1230, 560, 'Know the process\nthat made your data.', { size: 28, rot: 2 });
+  S.pop(kn, 23.2); S.sfx(23.2, 'pin'); S.mood(23, 'proud');
+  S.say(23.4, 'Know the process that made your data.');
+}, 'Identification');
+
+/* ---------------- Chapter 6 ---------------- */
+chap(6, 'Causal Diagrams', 28, S => {
+  const g = S.g;
+  S.place(HOME_R, FLOOR, 'curious');
+  const nT = node(g, 470, 440, 'T', 'tutoring', 'T'), nY = node(g, 1130, 440, 'Y', 'math score', 'Y');
+  const nI = node(g, 800, 200, 'I', 'income'), nM = node(g, 800, 620, 'M', 'motivation', 'U');
+  [nT, nY, nI, nM].forEach((n, i) => { S.pop(n, 2.2 + i * .652); S.sfx(2.2 + i * .652, 'pin'); });
+  S.say(2.4, 'Variables become pins.');
+  const ls = [[nT, nY], [nI, nT], [nI, nY], [nM, nT], [nM, nY]];
+  ls.forEach(([a, b], i) => S.draw(link(g, a, b), 8 + i * 1.3, .8));
+  S.say(8.3, 'Every arrow says: this causes that.'); S.mood(8, 'neutral');
+  S.k(nM, 's', [18, 1], [18.4, 1.15], [18.8, 1], [19.2, 1.15], [19.6, 1], [20, 1.15], [20.4, 1]);
+  [18, 18.8, 19.6].forEach(t => S.sfx(t, 'pulse'));
+  const un = T(g, 900, 610, 'unobserved', { size: 28, fill: C.ink, anchor: 'start', weight: 700 });
+  S.fadeIn(un, 18.2);
+  S.mood(18, 'suspicious'); S.say(18.2, "We can't measure motivation. It still goes on the board.");
+  S.mood(23.4, 'proud'); S.say(23.6, 'Each arrow is an assumption you have to defend.'); S.sfx(24.2, 'ding');
+}, 'Causal diagrams');
+
+/* ---------------- Chapter 7 ---------------- */
+chap(7, 'Drawing Causal Diagrams', 26, S => {
+  const g = S.g, world = G(g);
+  S.place(HOME_L, FLOOR, 'shocked');
+  const spec = [
+    ['T', 'tutoring', 430, 350, 'T'], ['Y', 'score', 1170, 350, 'Y'], ['I', 'income', 690, 180], ['P', 'parent education', 450, 175],
+    ['M', 'motivation', 800, 560, 'U'], ['H', 'homework', 800, 350], ['S', 'shoe size', 190, 250], ['W', 'weather', 1390, 190],
+    ['B', 'bus route', 1400, 520], ['Sc', 'school', 1010, 180], ['Te', 'teacher', 1160, 560], ['Sl', 'sleep', 210, 500],
+    ['Ph', 'phone use', 590, 560], ['Br', 'breakfast', 990, 570], ['Si', 'siblings', 1380, 360]
+  ];
+  const N = spec.map(([l, n, x, y, k]) => node(world, x, y, l, n, k || 'obs', { r: 28, ns: 20, ls: 24 }));
+  const r = rng(77), mess = [];
+  for (let i = 0; i < 16; i++) {
+    const a = N[Math.floor(r() * N.length)], b = N[Math.floor(r() * N.length)];
+    if (a === b) continue;
+    const lk = link(world, a, b, { w: 3, bend: (r() - .5) * .5 });
+    world.insertBefore(lk.g, world.firstChild);
+    S.draw(lk, 3.2 + r() * 1.6, .5, false); mess.push(lk);
+  }
+  N.forEach((n, i) => { S.pop(n, 2.2 + i * .1); if (i % 3 === 0) S.sfx(2.2 + i * .1, 'pin'); });
+  S.sfx(3.3, 'paper');
+  S.say(2.4, 'Everything affects everything…');
+  mess.forEach(lk => S.fadeOut(lk.g, 8, .6));
+  [6, 7, 8].forEach((idx, j) => {
+    const at = 8 + j * .6, n = N[idx];
+    S.k(n, 'y', [at, 0], [at + 1.2, 700, 'i']); S.k(n, 'r', [at, 0], [at + 1.2, 150]); S.fadeOut(n, at + .8, .4); S.sfx(at, 'pop');
+  });
+  S.mood(8, 'suspicious'); S.say(8.2, "Drop what doesn't matter.");
+  [9, 10, 11, 12, 13, 14].forEach(idx => S.fadeOut(N[idx], 10.2, .5)); S.sfx(10.2, 'paper');
+  const keepL = [[2, 0], [2, 1], [3, 0], [3, 1], [4, 0], [4, 1], [0, 5], [5, 1]].map(([a, b]) => link(world, N[a], N[b], { w: 4 }));
+  keepL.forEach((lk, i) => { world.insertBefore(lk.g, world.firstChild); S.draw(lk, 10.8 + i * .12, .5, i === 0); });
+  S.k(N[2], 'x', [13, 0], [13.6, -120]); S.k(N[3], 'x', [13, 0], [13.6, 120]);
+  S.to(N[2], 's', 13, .6, 0); S.to(N[3], 's', 13, .6, 0);
+  [0, 1, 2, 3].forEach(i => S.fadeOut(keepL[i].g, 13, .4));
+  const bg = node(world, 570, 178, 'B', 'background', 'obs', { r: 30 });
+  S.pop(bg, 13.5); S.sfx(13.2, 'whoomp');
+  [link(world, bg, N[0], { w: 4 }), link(world, bg, N[1], { w: 4 })].forEach((lk, i) => { world.insertBefore(lk.g, world.firstChild); S.draw(lk, 13.9 + i * .3, .6, i === 0); });
+  S.mood(13, 'neutral'); S.say(13.2, 'Merge what acts alike.');
+  S.to(world, 'o', 17.3, .5, .05);
+  const lT = node(g, 440, 330, 'T', 'tutoring', 'T'), lY = node(g, 760, 330, 'Y', 'score', 'Y');
+  const loop1 = link(g, lT, lY, { bend: .3 }), loop2 = link(g, lY, lT, { bend: .3 });
+  [lT, lY].forEach((n, i) => S.pop(n, 17.6 + i * .2));
+  S.draw(loop1, 17.9, .6); S.draw(loop2, 18.5, .6);
+  const xm = xMark(g, 600, 330, 30); S.stamp(xm, 19.6); S.sfx(19.6, 'snip');
+  [lT, lY, loop1.g, loop2.g, xm].forEach(e => S.fadeOut(e, 20.4, .4, .2));
+  S.mood(17.6, 'worried'); S.say(17.8, 'A loop? Scores change tutoring, tutoring changes scores…');
+  const t1 = node(g, 980, 330, 'T₁', 'tutoring, year 1', 'T', { ns: 19 }), y1 = node(g, 1180, 330, 'Y₁', 'score, year 1', 'Y', { ns: 19 }), t2 = node(g, 1380, 330, 'T₂', 'tutoring, year 2', 'T', { ns: 19 });
+  [t1, y1, t2].forEach((n, i) => { S.pop(n, 20.6 + i * .3); S.sfx(20.6 + i * .3, 'pin'); });
+  S.draw(link(g, t1, y1), 21.6, .5); S.draw(link(g, y1, t2), 22.1, .5);
+  S.mood(21.4, 'eureka'); S.say(21.4, 'Break loops with time.'); S.sfx(23.6, 'ding');
+}, 'Drawing diagrams');
+
+/* ---------------- Chapter 8 (centerpiece) ---------------- */
+chap(8, 'Causal Paths and Closing Back Doors', 36, S => {
+  const g = S.g;
+  S.place(380, FLOOR, 'curious');
+  const back = G(g), front = G(g);
+  const nT = node(front, 380, 420, 'T', 'tutoring', 'T'), nY = node(front, 1220, 420, 'Y', 'math score', 'Y'), nH = node(front, 800, 420, 'H', 'homework time');
+  S.pop(nT, 2.2); S.pop(nY, 2.4); S.pop(nH, 2.8); S.sfx(2.2, 'pin'); S.sfx(2.8, 'pin');
+  const f1 = link(front, nT, nH), f2 = link(front, nH, nY);
+  S.draw(f1, 3.2, .6); S.draw(f2, 3.8, .6, false); S.glow(f1, 4.6); S.glow(f2, 4.6);
+  const fl = T(front, 800, 350, 'front door', { size: 28, weight: 700 }); S.fadeIn(fl, 4.8);
+  S.walk(3.2, 3.8, 1300);
+  S.say(2.4, 'Front doors carry the effect.');
+  // back door through income
+  const nI = node(back, 800, 175, 'I', 'income');
+  const b1 = link(back, nI, nT), b2 = link(back, nI, nY);
+  S.pop(nI, 8.8); S.sfx(8.8, 'pin'); S.draw(b1, 9, .6); S.draw(b2, 9.3, .6, false);
+  const d1 = door(back, b1.mid.x, b1.mid.y); S.pop(d1, 9.5);
+  S.k(d1.leaf, 'sx', [10, 1], [10.5, .22]); S.sfx(9.3, 'wind'); S.sfx(10, 'doorCreak');
+  const r = rng(8);
+  for (let i = 0; i < 3; i++) {
+    const p = pv(G(back), b1.mid.x, b1.mid.y);
+    el('rect', { x: b1.mid.x - 14, y: b1.mid.y - 18, width: 28, height: 36, fill: C.card, stroke: '#9AA6BF' }, p);
+    S.k(p, 'x', [10.3 + i * .35, 0], [11.8 + i * .35, 500 + r() * 300, 'o']); S.k(p, 'y', [10.3 + i * .35, 0], [11.8 + i * .35, -120 + r() * 240, 'o']);
+    S.k(p, 'r', [10.3 + i * .35, 0], [11.8 + i * .35, 300]); S.k(p, 'o', [0, 0], [10.29 + i * .35, 0], [10.3 + i * .35, 1, 'lin'], [11.4 + i * .35, 1], [11.8 + i * .35, 0]);
+  }
+  S.mood(9, 'worried'); S.say(9.2, 'Back doors carry bias.');
+  const bl = T(back, b1.mid.x - 40, b1.mid.y - 50, 'back door', { size: 26, weight: 700, anchor: 'end' }); S.fadeIn(bl, 10.2);
+  const lk1 = lock(back, 965, 118, 'control: income'); S.pop(lk1, 14); S.sfx(14, 'click');
+  S.k(d1.leaf, 'sx', [14.4, null], [14.65, 1, 'i']); S.sfx(14.6, 'doorShut');
+  S.fadeOut(b1.g, 15, .5, .35); S.fadeOut(b2.g, 15, .5, .35);
+  S.mood(14.2, 'proud'); S.say(14.2, 'Control for income: door closed.');
+  // back door through motivation (unobserved)
+  const nM = node(back, 800, 640, 'M', 'motivation', 'U');
+  const m1 = link(back, nM, nT), m2 = link(back, nM, nY);
+  S.pop(nM, 18.8); S.sfx(18.8, 'pin'); S.draw(m1, 19, .6); S.draw(m2, 19.3, .6, false);
+  const d2 = door(back, m1.mid.x, m1.mid.y); S.pop(d2, 19.5);
+  S.k(d2.leaf, 'sx', [19.8, 1], [20.2, .35]);
+  S.k(d2, 'r', [20.5, 0], [20.6, 4], [20.7, -4], [20.8, 4], [20.9, -4], [21, 3], [21.1, -3], [21.2, 0]);
+  S.sfx(20.5, 'rattle');
+  const lk2 = lock(back, 910, 600); S.pop(lk2, 21);
+  S.k(lk2, 'y', [21.6, 0], [22.4, 150, 'i']); S.k(lk2, 'r', [21.6, 0], [22.4, 70]); S.fadeOut(lk2, 22.1, .3);
+  S.sfx(21.7, 'buzz');
+  S.mood(19, 'worried'); S.say(19.2, "Can't control what we can't measure.");
+  // collider
+  S.to(back, 'o', 24.4, .5, .08); S.fadeOut(fl, 24.4, .4); S.fadeOut(f1.glow, 24.4, .4); S.fadeOut(f2.glow, 24.4, .4);
+  const nC = node(g, 800, 180, 'C', 'featured in the Gazette');
+  const c1 = link(g, nT, nC), c2 = link(g, nY, nC);
+  S.pop(nC, 25); S.sfx(25, 'pin'); S.draw(c1, 25.3, .6); S.draw(c2, 25.6, .6, false);
+  const d3 = door(g, c1.mid.x, c1.mid.y); S.pop(d3, 26.2);
+  const lk3 = lock(g, 1010, 120, 'control: featured?'); S.pop(lk3, 27.5); S.sfx(27.5, 'click');
+  S.k(d3.leaf, 'sx', [28, 1], [28.8, .22]); S.sfx(28, 'doorCreak'); S.sfx(29, 'buzz');
+  const pathPts = t => t < .5 ? c1.at(t * 2) : c2.at(1 - (t - .5) * 2);
+  const flow = [0, 1, 2].map(() => el('circle', { r: 11, fill: C.red, stroke: '#fff', 'stroke-width': 3 }, g));
+  S.fn(28.6, 3.2, p => flow.forEach((c, i) => {
+    const u = (p * 2 + i / 3) % 1, pt = pathPts(u);
+    c.setAttribute('cx', pt.x.toFixed(1)); c.setAttribute('cy', pt.y.toFixed(1));
+    c.style.display = p > 0 && p < 1 ? '' : 'none';
+  }));
+  S.mood(25.2, 'curious'); S.say(25.2, 'A collider: this path starts closed.');
+  S.mood(28.3, 'shocked'); S.say(28.5, 'Control for it… and the path opens!');
+  S.mood(32, 'proud'); S.say(32.2, 'Close every back door. Leave colliders alone.'); S.sfx(32.5, 'ding');
+}, 'Back doors');
+
+/* ---------------- Chapter 9 ---------------- */
+chap(9, 'Finding Front Doors', 30, S => {
+  const g = S.g;
+  S.place(HOME_L, FLOOR, 'worried');
+  const nT = node(g, 560, 440, 'T', 'tutoring', 'T'), nY = node(g, 1180, 440, 'Y', 'math score', 'Y');
+  const nI = node(g, 870, 200, 'I', 'income'), nM = node(g, 870, 640, 'M', 'motivation', 'U');
+  const lTY = link(g, nT, nY), lIT = link(g, nI, nT), lIY = link(g, nI, nY), lMT = link(g, nM, nT), lMY = link(g, nM, nY);
+  const all = [nT, nY, nI, nM, lTY.g, lIT.g, lIY.g, lMT.g, lMY.g];
+  all.forEach(e => S.fadeIn(e, 2.2, .5));
+  const dr = door(g, lMT.mid.x, lMT.mid.y); S.fadeIn(dr, 2.2, .5);
+  S.k(dr.leaf, 'sx', [0, .35]);
+  S.k(dr, 'r', [2.6, 0], [2.7, 4], [2.8, -4], [2.9, 4], [3, -4], [3.1, 4], [3.2, -3], [3.3, 0]);
+  S.sfx(2.6, 'rattle');
+  S.say(2.4, "Motivation's door won't lock.");
+  const drum = pv(G(g), 230, 290);
+  el('rect', { x: 200, y: 360, width: 60, height: 40, fill: C.wood }, drum);
+  el('circle', { cx: 230, cy: 290, r: 88, fill: '#E3D6B8', stroke: C.wood, 'stroke-width': 8 }, drum);
+  const spin = G(drum);
+  for (let i = 0; i < 6; i++) { const a = i * Math.PI / 3; el('line', { x1: 230, y1: 290, x2: 230 + Math.cos(a) * 82, y2: 290 + Math.sin(a) * 82, stroke: C.wood, 'stroke-width': 4 }, spin); }
+  const rb = rng(9);
+  for (let i = 0; i < 9; i++) el('circle', { cx: 230 + (rb() - .5) * 110, cy: 290 + (rb() - .5) * 110, r: 10, fill: [C.teal, C.slate, C.hi][i % 3], stroke: C.ink, 'stroke-width': 2 }, spin);
+  S.fn(6, 4, p => spin.setAttribute('transform', `rotate(${(EASE.io(p) * 900).toFixed(1)} 230 290)`));
+  S.pop(drum, 5.8); S.sfx(6.2, 'dice'); S.sfx(7.3, 'dice'); S.sfx(8.4, 'dice');
+  S.walk(5.6, .8, 380); S.mood(6, 'neutral');
+  S.say(6.2, 'So let chance decide who gets tutoring.');
+  const nZ = node(g, 260, 470, 'Z', 'lottery', 'Z');
+  S.pop(nZ, 9.6); S.sfx(9.6, 'pin');
+  const lZT = link(g, nZ, nT); S.draw(lZT, 10, .6);
+  [[lIT, 12], [lMT, 12.6]].forEach(([lk, at]) => { const x = xMark(g, lk.mid.x, lk.mid.y, 20); S.stamp(x, at); S.sfx(at, 'snip'); S.fadeOut(lk.g, at + .3, .4, .1); S.fadeOut(x, at + .9, .4); });
+  S.fadeOut(dr, 12.9, .4);
+  S.glow(lZT, 13.2); S.glow(lTY, 13.2); S.sfx(13.6, 'ding');
+  S.mood(12.2, 'eureka'); S.say(12.3, 'Nothing else points into treatment now.');
+  const nn = note(g, 1240, 150, 'Natural experiment: a rule or\naccident that did the randomizing.', { size: 24, rot: 2 });
+  S.pop(nn, 19); S.sfx(19, 'pin');
+  S.mood(19, 'neutral'); S.say(19.2, 'Or find a natural experiment that randomized for you.');
+  S.fadeOut(lTY.g, 23.8, .4); S.fadeOut(lTY.glow, 23.8, .4);
+  const nH = node(g, 870, 440, 'H', 'homework');
+  S.pop(nH, 24.1); S.sfx(24.1, 'pin');
+  const h1 = link(g, nT, nH), h2 = link(g, nH, nY);
+  S.draw(h1, 24.3, .5); S.draw(h2, 24.8, .5, false); S.glow(h1, 25.3); S.glow(h2, 25.3);
+  S.mood(24.2, 'curious'); S.say(24.3, 'Or trace the effect through a mediator: the front-door method.');
+}, 'Front doors');
+
+/* ---------------- Chapter 10 ---------------- */
+chap(10, 'Treatment Effects', 28, S => {
+  const g = S.g;
+  S.place(HOME_R, FLOOR, 'curious');
+  const eff = [20, 3, 0, 12, 8, 15, 5, -2], tut = [1, 0, 1, 1, 0, 1, 0, 0], comp = [0, 3, 6];
+  const base = 450, k = 11;
+  const cones = G(g);
+  const studs = [], bars = [];
+  eff.forEach((e, i) => {
+    const x = 240 + i * 150;
+    const cone = el('polygon', { points: `${x - 28},70 ${x + 28},70 ${x + 78},610 ${x - 78},610`, fill: C.hi, opacity: 0 }, cones);
+    S.k(cone, 'o', [0, 0], [19, 0], [19.5, comp.includes(i) ? .3 : 0]);
+    const s = student(g, x, 540, C.slate); studs.push(s); S.pop(s, 2.2 + i * .08);
+    S.k(s.tealRect, 'o', [0, 0], [14, 0], [14.4, tut[i] ? 1 : 0]);
+    const bg = pv(G(g), x, base);
+    const h = Math.abs(e) * k;
+    el('rect', { x: x - 26, y: e >= 0 ? base - h : base, width: 52, height: Math.max(h, 3), rx: 4, fill: e >= 0 ? C.red : C.slate }, bg);
+    T(bg, e >= 0 ? x : x + 32, e >= 0 ? base - h - 12 : base + 22, (e > 0 ? '+' : '') + e, { size: 26, weight: 700, anchor: e >= 0 ? 'middle' : 'start' });
+    S.k(bg, 'sy', [2.6 + i * .3, 0], [3.1 + i * .3, 1, 'back']); S.sfx(2.6 + i * .3, 'drop', 400 + e * 25);
+    bars.push(bg);
+  });
+  el('line', { x1: 180, x2: 1340, y1: base, y2: base, stroke: C.ink, 'stroke-width': 3 }, g);
+  S.say(2.4, "Tutoring doesn't help everyone equally.");
+  const mkLine = (v, col, label, side) => {
+    const lg = G(g), y = base - v * k;
+    el('line', { x1: 180, x2: 1340, y1: y, y2: y, stroke: col, 'stroke-width': 5, 'stroke-dasharray': '14 9' }, lg);
+    const tx = side === 'L' ? 172 : 1350;
+    el('rect', { x: side === 'L' ? tx - 152 : tx, y: y - 22, width: 152, height: 40, rx: 6, fill: col }, lg);
+    T(lg, side === 'L' ? tx - 76 : tx + 76, y + 9, label, { size: 24, fill: col === C.hi ? C.ink : '#fff', weight: 700 });
+    return lg;
+  };
+  const ate = mkLine(7.6, C.ink, 'ATE +7.6', 'R'); S.fadeIn(ate, 9.4); S.sfx(9.4, 'pin');
+  S.say(9.2, 'Average over everyone: the ATE.');
+  const att = mkLine(11.75, C.teal, 'ATT +11.8', 'R'); S.fadeIn(att, 14.4); S.sfx(14.4, 'pin');
+  S.fadeOut(ate, 14.4, .4, .2);
+  bars.forEach((b, i) => { if (!tut[i]) S.fadeOut(b, 14.2, .4, .25); });
+  S.say(14.2, 'Over the treated: the ATT.');
+  const late = mkLine(12.3, C.hi, 'LATE +12.3', 'L'); S.fadeIn(late, 19.6); S.sfx(19.2, 'hum');
+  S.fadeOut(att, 19.4, .4, .2);
+  bars.forEach((b, i) => S.k(b, 'o', [19.2, null], [19.6, comp.includes(i) ? 1 : .2]));
+  S.mood(19, 'eureka'); S.say(19.2, 'Over those your design moved: the LATE.');
+  S.mood(23.6, 'proud'); S.say(23.8, 'Ask: *whose* effect am I estimating?'); S.sfx(24.2, 'ding');
+}, 'Treatment effects');
+
+/* ---------------- Chapter 11 ---------------- */
+chap(11, 'Causality with Less Modeling', 24, S => {
+  const g = S.g;
+  S.place(300, FLOOR, 'worried');
+  const nT = node(g, 800, 420, 'T', 'tutoring', 'T'), nY = node(g, 1130, 470, 'Y', 'score', 'Y');
+  const nI = node(g, 560, 230, 'I', 'income'), nM = node(g, 560, 600, 'M', 'motivation', 'U');
+  const nS = node(g, 1040, 200, 'S', 'school'), nH = node(g, 1000, 620, 'H', 'homework');
+  const ls = [[nI, nT], [nM, nT], [nT, nY], [nS, nY], [nS, nI], [nT, nH], [nH, nY], [nI, nY]].map(([a, b]) => link(g, a, b, { w: 4 }));
+  [nT, nY, nI, nM, nS, nH, ...ls.map(l => l.g)].forEach(e => S.fadeIn(e, 2.1, .4));
+  const fogG = G(g);
+  const mid = 'm' + (++UID);
+  const mask = el('mask', { id: mid, maskUnits: 'userSpaceOnUse', x: 0, y: 0, width: W, height: H }, defs);
+  el('rect', { x: 0, y: 0, width: W, height: H, fill: '#fff' }, mask);
+  const hole = el('circle', { cx: 720, cy: 420, r: 0, fill: '#000' }, mask);
+  fogG.setAttribute('mask', `url(#${mid})`);
+  const fr = rng(4);
+  el('rect', { x: 40, y: 40, width: W - 80, height: 700, fill: '#E7ECF2', opacity: .82 }, fogG);
+  for (let i = 0; i < 14; i++) el('ellipse', { cx: 230 + fr() * 1140, cy: 150 + fr() * 480, rx: 110 + fr() * 70, ry: 55 + fr() * 40, fill: '#F6F8FB', opacity: .5 }, fogG);
+  S.k(fogG, 'o', [0, 0], [2.6, 0], [4, 1]); S.sfx(2.4, 'wind');
+  S.say(2.4, "We'll never see the whole map.");
+  S.fn(7, 1.2, p => hole.setAttribute('r', (EASE.o(p) * 250).toFixed(1)));
+  S.sfx(7, 'click'); S.glow(ls[0], 7.8); S.glow(ls[1], 7.8);
+  const beam = el('polygon', { points: '345,668 640,250 740,610', fill: C.hi, opacity: 0 }, g);
+  S.k(beam, 'o', [0, 0], [7, 0], [7.3, .22]);
+  S.mood(7, 'curious'); S.say(7.2, 'You only need the roads into treatment.');
+  const pc = card(g, 1210, 190, 520, 240, { rot: -1 });
+  T(pc.inner, 1210, 128, 'Placebo test', { font: SERIF, size: 34, weight: 650 });
+  T(pc.inner, 1210, 164, 'effect of tutoring on *height*', { size: 24 });
+  el('path', { d: 'M1130 270 A80 80 0 0 1 1290 270', stroke: C.ink, 'stroke-width': 5, fill: 'none' }, pc.inner);
+  T(pc.inner, 1120, 296, '−', { size: 26 }); T(pc.inner, 1300, 296, '+', { size: 26 });
+  T(pc.inner, 1210, 300, '0', { size: 24, weight: 700 });
+  const needle = el('line', { x1: 1210, y1: 270, x2: 1210, y2: 205, stroke: C.red, 'stroke-width': 5, 'stroke-linecap': 'round' }, pc.inner);
+  el('circle', { cx: 1210, cy: 270, r: 7, fill: C.ink }, pc.inner);
+  S.fn(13.4, 1.8, p => { const a = -75 * Math.exp(-4 * p) * Math.cos(p * 14); needle.setAttribute('transform', `rotate(${a.toFixed(1)} 1210 270)`); });
+  S.pop(pc, 13); S.sfx(13, 'pin'); S.sfx(13.5, 'dial');
+  const ck = check(g, 1420, 110, 22); S.pop(ck, 15.2); S.sfx(15.2, 'ding');
+  S.mood(13.2, 'eureka'); S.say(13.2, 'Test what *should* come out zero.');
+  S.mood(18.6, 'proud'); S.say(18.6, 'If it does, your assumptions survive a test.');
+}, 'Less modeling');
+/* ============================================================
+   SCENES, PART 2: Part 2 card, chapters 12 to 23, finale
+   ============================================================ */
+scene({ name: 'Part 2: The Toolbox', short: 'Part 2', dur: 8, build(S) { partCard(S, 2, 'The Toolbox', 'Chapters 12 to 23', true); } });
+
+/* ---------------- Chapter 12 ---------------- */
+chap(12, 'Opening the Toolbox', 20, S => {
+  const g = S.g;
+  S.place(HOME_L, FLOOR, 'shocked');
+  const tools = [
+    ['🔧', 'Regression', 'controls close\nthe back doors'], ['🧲', 'Matching', 'look-alikes\nthat overlap'], ['🎲', 'Simulation', 'a believable\nfake world'],
+    ['🪞', 'Fixed effects', 'no back doors that\nchange over time'], ['⏱️', 'Event study', 'the pre-trend\npredicts the after'], ['⚖️', 'Diff-in-diff', 'parallel\ntrends'],
+    ['🎚️', 'Instruments', 'relevance and\nexclusion'], ['📏', 'Discontinuity', 'no gaming\nthe cutoff'], ['🥅', 'Bounds', 'weaker\nassumptions']
+  ];
+  const pos = [[260, 200], [530, 200], [800, 200], [1070, 200], [1340, 200], [395, 390], [665, 390], [935, 390], [1205, 390]];
+  tools.forEach(([em, name, back], i) => {
+    const [x, y] = pos[i];
+    const tag = pv(G(g), x, y);
+    const frontG = pv(G(tag), x, y), backG = pv(G(tag), x, y);
+    const fc = card(frontG, x, y, 240, 160, { rot: (i % 2 ? 1.5 : -1.5) });
+    T(fc.inner, x, y + 2, em, { size: 56, font: 'sans-serif' });
+    T(fc.inner, x, y + 56, name, { font: SERIF, size: 27, weight: 600 });
+    const bc = card(backG, x, y, 240, 160, { rot: (i % 2 ? 1.5 : -1.5), fill: '#FFF7D6' });
+    back.split('\n').forEach((l, j) => T(bc.inner, x, y + 8 + j * 30, l, { size: 23 }));
+    const at = 3 + i * .6;
+    S.k(tag, 'y', [at, 600 - y], [at + .55, 0, 'back']); S.k(tag, 'o', [at, 0], [at + .15, 1, 'lin']);
+    S.sfx(at, 'clink');
+    const ft = 12 + i * .12;
+    S.k(frontG, 'sx', [ft, 1], [ft + .15, 0, 'i']); S.k(backG, 'sx', [0, 0], [ft + .15, 0], [ft + .3, 1, 'o']);
+  });
+  const box = G(g);
+  el('rect', { x: 486, y: 568, width: 640, height: 140, rx: 10, fill: '#000', opacity: .25 }, box);
+  el('rect', { x: 480, y: 560, width: 640, height: 140, rx: 10, fill: C.red }, box);
+  el('rect', { x: 740, y: 600, width: 120, height: 26, rx: 8, fill: '#8E1C25' }, box);
+  const lidIn = pv(G(box), 800, 562);
+  el('rect', { x: 480, y: 536, width: 640, height: 26, rx: 8, fill: '#6E1219' }, lidIn);
+  const lid = pv(G(box), 800, 562);
+  el('rect', { x: 476, y: 534, width: 648, height: 30, rx: 8, fill: '#A82430' }, lid);
+  S.k(lidIn, 'sy', [2.2, 1], [2.8, 3.6, 'back']); S.k(lid, 'o', [2.2, 1], [2.3, 0, 'lin']); S.sfx(2.2, 'clank');
+  S.fadeIn(box, 1.9, .3);
+  S.mood(3.6, 'eureka'); S.say(3.2, 'Part two: the tools that put a design to work.');
+  S.sfx(12, 'paper'); S.mood(12, 'neutral');
+  S.say(12.3, 'Every tool is a template plus its assumptions.'); S.sfx(15, 'ding'); S.mood(15, 'proud');
+}, 'The toolbox');
+
+/* ---------------- Chapter 13 ---------------- */
+chap(13, 'Regression', 28, S => {
+  const g = S.g;
+  S.place(HOME_R, FLOOR, 'suspicious');
+  const ch = chart(g, 740, 370, 960, 460, { xr: [0, 5], yr: [40, 100], xl: 'tutoring', yl: 'math score' });
+  S.pop(ch, 2.0);
+  const D = tutorData(60, 13);
+  const dots = D.map((d, i) => ({ e: el('circle', { cx: ch.px(d.x), cy: ch.py(d.y), r: 0, fill: C.body, opacity: .8 }, ch.plot), delay: i / 60 * .8 }));
+  S.fn(2.2, 1.6, p => dots.forEach(d => d.e.setAttribute('r', (7 * EASE.back(clamp((p - d.delay) / .2, 0, 1))).toFixed(2))));
+  S.sfx(2.2, 'paper');
+  const f1 = fitLine(D.map(d => d.x), D.map(d => d.y)), f2 = fitLine(D.map(d => d.x), D.map(d => d.yAdj));
+  const ln = el('path', { stroke: C.red, 'stroke-width': 6, 'stroke-linecap': 'round', fill: 'none' }, ch.plot);
+  const band = el('path', { fill: C.slate, opacity: 0 }, ch.plot);
+  ch.plot.insertBefore(band, ch.plot.firstChild);
+  const lineAt = q => { const a = lerp(f1.a, f1.a + (f1.b - f2.b) * 2.5, q), b = lerp(f1.b, f2.b, q); return x => a + b * x; };
+  const bandFn = lineAt(1);
+  const up = [], dn = [];
+  for (let x = .2; x <= 4.81; x += .23) { const w = 2.2 + Math.abs(x - 2.5) * 2.2; up.push([ch.px(x), ch.py(bandFn(x) + w)]); dn.unshift([ch.px(x), ch.py(bandFn(x) - w)]); }
+  band.setAttribute('d', pathD(up.concat(dn)) + 'Z');
+  S.k(band, 'o', [0, 0], [17, 0], [17.8, .3]); S.sfx(17, 'shimmer');
+  S.fn(3.4, 1, p => {
+    const f = lineAt(0), x1 = lerp(.2, 4.8, EASE.io(p));
+    ln.setAttribute('d', `M${ch.px(.2)} ${ch.py(f(.2))} L${ch.px(x1)} ${ch.py(f(x1))}`);
+    ln.style.display = p > 0 ? '' : 'none';
+  });
+  S.fn(9.5, 1.5, p => { if (p <= 0) return; const f = lineAt(EASE.io(p)); ln.setAttribute('d', `M${ch.px(.2)} ${ch.py(f(.2))} L${ch.px(4.8)} ${ch.py(f(4.8))}`); });
+  S.sfx(3.4, 'string');
+  const badge = card(g, 1370, 200, 250, 130, { rot: 2 });
+  T(badge.inner, 1370, 196, 'estimate', { size: 24, fill: C.slate });
+  const num = T(badge.inner, 1370, 248, '+15', { font: SERIF, size: 52, weight: 700, fill: C.red });
+  S.pop(badge, 4.6); S.sfx(4.6, 'pin');
+  S.fn(9.5, 1.5, p => { num.textContent = '+' + Math.round(lerp(15, 6, EASE.io(p))); });
+  S.say(2.6, 'Raw comparison: 15 points. Our old headline.');
+  const wr = note(g, 1370, 340, '🔧 + income', { size: 28, rot: -2 });
+  S.pop(wr, 9); S.sfx(9.2, 'ratchet'); S.sfx(11, 'doorShut');
+  S.mood(9, 'neutral'); S.say(9.2, 'Add a control, and that back door closes.');
+  S.mood(17, 'curious'); S.say(17.2, 'The band shows our uncertainty.');
+  const so = note(g, 1370, 480, 'Still open:\nmotivation', { size: 28, rot: 2, color: C.red });
+  S.pop(so, 22); S.sfx(22, 'pin'); S.sfx(22.4, 'softBuzz');
+  S.mood(22, 'worried'); S.say(22.2, "But motivation's door is still open."); S.sfx(26, 'ding');
+}, 'Regression');
+
+/* ---------------- Chapter 14 ---------------- */
+chap(14, 'Matching', 28, S => {
+  const g = S.g;
+  S.place(800, FLOOR, 'curious');
+  const hdr1 = T(g, 330, 105, 'tutored', { size: 32, fill: C.teal, weight: 700 }), hdr2 = T(g, 1150, 105, 'not tutored', { size: 32, fill: C.slate, weight: 700 });
+  S.fadeIn(hdr1, 2.1); S.fadeIn(hdr2, 2.1);
+  const L = [[40, 190], [65, 320], [90, 450], [120, 580]];
+  const R = [[160, 160], [64, 260], [118, 360], [42, 460], [190, 560], [88, 660]];
+  const match = { 0: 3, 1: 1, 2: 5, 3: 2 };
+  const mk = (x, y, inc, col) => { const grp = pv(G(g), x, y); student(grp, x, y, col); T(grp, x + 42, y + 18, `income ${inc}k`, { size: 24, anchor: 'start' }); return grp; };
+  L.forEach(([inc, y], i) => { const s = mk(240, y, inc, C.teal); S.pop(s, 2.2 + i * .25); S.sfx(2.2 + i * .25, 'pin'); });
+  const Rg = R.map(([inc, y], j) => { const s = mk(1060, y, inc, C.slate); S.pop(s, 3.3 + j * .2); return s; });
+  S.say(2.4, 'Compare like with like.');
+  Object.entries(match).forEach(([i, j], k) => {
+    const at = 8 + k * .75, ty = L[i][1], s = Rg[j];
+    S.k(s, 'x', [at, 0], [at + .6, 520 - 1060, 'io']); S.k(s, 'y', [at, 0], [at + .6, ty - R[j][1], 'io']);
+    S.sfx(at, 'magnet');
+    const br = el('rect', { x: 200, y: ty - 62, width: 520, height: 126, rx: 18, fill: 'none', stroke: C.hi, 'stroke-width': 5 }, g);
+    g.insertBefore(br, g.firstChild);
+    S.fadeIn(br, at + .55, .3);
+  });
+  S.walk(8, 3, 860, FLOOR, false);
+  S.mood(8, 'neutral');
+  [0, 4].forEach(j => { S.fadeOut(Rg[j], 15, .5, .2); S.fadeOut(Rg[j], 19.4, .4, 0); });
+  const nm = T(g, 1260, 240, 'no match', { size: 30, fill: C.red, weight: 700 }); S.fadeIn(nm, 15.2); S.fadeOut(nm, 19.4, .4);
+  S.sfx(15, 'fadeTone'); S.mood(15, 'suspicious'); S.say(15.2, 'No look-alike? No comparison.');
+  const sc = pv(G(g), 1180, 420);
+  el('rect', { x: 1172, y: 300, width: 16, height: 220, fill: C.wood }, sc);
+  el('rect', { x: 1110, y: 515, width: 140, height: 18, rx: 6, fill: C.wood }, sc);
+  const beam = pv(G(sc), 1180, 300);
+  el('rect', { x: 1030, y: 292, width: 300, height: 14, rx: 7, fill: C.brass }, beam);
+  [[1050, 'tutored', C.teal], [1310, 'matched', C.slate]].forEach(([x, lab, col]) => {
+    el('line', { x1: x, x2: x - 40, y1: 300, y2: 380, stroke: C.ink, 'stroke-width': 2 }, beam);
+    el('line', { x1: x, x2: x + 40, y1: 300, y2: 380, stroke: C.ink, 'stroke-width': 2 }, beam);
+    el('path', { d: `M${x - 52} 380 Q${x} 420 ${x + 52} 380 Z`, fill: col }, beam);
+    T(beam, x, 446, lab, { size: 24, weight: 700 });
+  });
+  el('circle', { cx: 1180, cy: 300, r: 10, fill: C.ink }, sc);
+  S.fadeIn(sc, 19.8, .4); S.k(beam, 'r', [20, 14], [21.6, 0, 'back']); S.sfx(20.2, 'creak');
+  S.mood(20, 'proud'); S.say(20.2, 'Balanced groups make a fair comparison.'); S.sfx(22, 'ding');
+}, 'Matching');
+
+/* ---------------- Chapter 15 ---------------- */
+chap(15, 'Simulation', 24, S => {
+  const g = S.g;
+  S.place(HOME_L, FLOOR, 'curious');
+  const dc = card(g, 330, 320, 400, 330, { rot: -1.5 });
+  T(dc.inner, 330, 205, 'true effect', { font: SERIF, size: 34, weight: 650 });
+  el('path', { d: 'M220 380 A110 110 0 0 1 440 380', stroke: C.ink, 'stroke-width': 6, fill: 'none' }, dc.inner);
+  for (let v = 0; v <= 25; v += 5) { const a = (-180 + v / 25 * 180) * Math.PI / 180; el('line', { x1: 330 + Math.cos(a) * 96, y1: 380 + Math.sin(a) * 96, x2: 330 + Math.cos(a) * 110, y2: 380 + Math.sin(a) * 110, stroke: C.ink, 'stroke-width': 3 }, dc.inner); }
+  const needle = el('line', { x1: 330, y1: 380, x2: 240, y2: 380, stroke: C.red, 'stroke-width': 6, 'stroke-linecap': 'round' }, dc.inner);
+  el('circle', { cx: 330, cy: 380, r: 9, fill: C.ink }, dc.inner);
+  const val = T(dc.inner, 330, 450, '', { font: SERIF, size: 50, weight: 700, fill: C.green });
+  S.fn(2.4, 1, p => { needle.setAttribute('transform', `rotate(${(EASE.back(p) * 72).toFixed(1)} 330 380)`); val.textContent = p > .9 ? '10' : ''; });
+  S.pop(dc, 2.1); S.sfx(2.4, 'dial');
+  S.say(2.4, 'Build a world where you know the answer.');
+  const ch = chart(g, 1050, 360, 860, 450, { xr: [0, 25], yr: [0, 1.15], xl: 'estimate from each fake dataset', yl: 'how often' });
+  S.pop(ch, 6.6);
+  const bw = (ch.R - ch.L) / 25;
+  const mkHist = (mu, sd, style) => Array.from({ length: 25 }, (_, i) => {
+    const h = Math.exp(-((i + .5 - mu) ** 2) / (2 * sd * sd));
+    return { h, e: el('rect', { x: ch.L + i * bw + 3, width: bw - 6, y: ch.B, height: 0, ...style }, ch.plot) };
+  });
+  const A = mkHist(10, 2, { fill: C.teal, opacity: .85 }), B = mkHist(16, 2.2, { fill: 'none', stroke: C.red, 'stroke-width': 4 });
+  const grow = (bars, p) => bars.forEach((b, i) => { const q = clamp(p * 1.6 - Math.abs(i - 12) / 25, 0, 1); const h = b.h * EASE.o(q); b.e.setAttribute('y', ch.py(h)); b.e.setAttribute('height', ch.B - ch.py(h)); });
+  S.fn(7.2, 4.3, p => grow(A, p)); S.fn(14, 2.5, p => grow(B, p));
+  const tr = el('line', { x1: ch.px(10), x2: ch.px(10), y1: ch.B, y2: ch.T - 8, stroke: C.green, 'stroke-width': 5, 'stroke-dasharray': '10 8' }, ch.plot);
+  const trl = T(ch.plot, ch.px(10), ch.T - 14, 'truth', { size: 24, fill: C.green, weight: 700 });
+  S.fadeIn(tr, 6.9); S.fadeIn(trl, 6.9);
+  const la = T(ch.plot, ch.px(5), ch.py(.8), 'method A', { size: 26, fill: C.teal, weight: 700 }); S.fadeIn(la, 10);
+  const lb = T(ch.plot, ch.px(21.3), ch.py(.8), 'method B', { size: 26, fill: C.red, weight: 700 }); S.fadeIn(lb, 15.6);
+  [7, 7.6, 8.2].forEach((t, i) => { const d = pv(G(g), 220 + i * 100, 560); T(d, 220 + i * 100, 580, '🎲', { size: 54, font: 'sans-serif' }); S.pop(d, t); });
+  S.sfx(7, 'dice'); S.sfx(8.2, 'dice');
+  for (let i = 0; i < 8; i++) S.sfx(7.4 + i * .45, 'drop', 500 + i * 30);
+  S.mood(7, 'neutral');
+  S.sfx(16.5, 'buzz'); S.mood(14, 'suspicious'); S.say(14.2, 'Method B misses. It is biased.');
+  S.mood(19, 'proud'); S.say(19.2, 'Test your method before you trust it.'); S.sfx(19.6, 'ding');
+}, 'Simulation');
+
+/* ---------------- Chapter 16 ---------------- */
+chap(16, 'Fixed Effects', 28, S => {
+  const g = S.g;
+  S.place(HOME_R, FLOOR, 'suspicious');
+  const ch = chart(g, 740, 370, 960, 460, { xr: [0, 10], yr: [30, 100], xl: 'tutoring hours', yl: 'math score' });
+  S.pop(ch, 2);
+  const groups = [{ cx: 2, base: 85, col: C.teal, n: 'Asha' }, { cx: 5, base: 65, col: C.slate, n: 'Ben' }, { cx: 8, base: 45, col: C.purple, n: 'Chen' }];
+  const r = rng(16), pts = [];
+  groups.forEach((gr, k) => {
+    [-1.2, -.4, .4, 1.2].forEach((dx, j) => {
+      const x = gr.cx + dx, y = gr.base + 2.2 * dx + gauss(r) * 1.2;
+      const e = el('circle', { cx: ch.px(x), cy: ch.py(y), r: 10, fill: gr.col, stroke: '#fff', 'stroke-width': 2 }, ch.plot);
+      pts.push({ e, x, y, k, tx: 5 + dx, ty: 65 + (y - gr.base) });
+      const at = 2.4 + k * .8 + j * .15; S.k(e, 'o', [0, 0], [at, 0], [at + .1, 1, 'lin']); if (j === 0) S.sfx(at, 'tick');
+    });
+    const nm = T(ch.plot, ch.px(gr.cx), ch.py(gr.base + 9), gr.n, { size: 26, fill: gr.col, weight: 700 });
+    S.fadeIn(nm, 2.6 + k * .8); S.fadeOut(nm, 9.8, .3);
+  });
+  const fa = fitLine(pts.map(p => p.x), pts.map(p => p.y));
+  const mis = el('path', { d: `M${ch.px(.5)} ${ch.py(fa.a + fa.b * .5)} L${ch.px(9.5)} ${ch.py(fa.a + fa.b * 9.5)}`, stroke: C.slate, 'stroke-width': 5, 'stroke-dasharray': '12 9', fill: 'none' }, ch.plot);
+  S.fadeIn(mis, 5.2, .5); S.sfx(5.4, 'buzz'); S.fadeOut(mis, 9.6, .4);
+  const ml = T(ch.plot, ch.px(7.6), ch.py(88), 'more tutoring, lower scores?', { size: 25, fill: C.slate });
+  S.fadeIn(ml, 5.4); S.fadeOut(ml, 9.6, .4);
+  S.say(2.4, 'Different students, different starting points.');
+  S.fn(10, 2.2, p => pts.forEach(pt => {
+    const q = EASE.io(clamp((p - pt.k * .22) / .56, 0, 1));
+    pt.e.setAttribute('cx', ch.px(lerp(pt.x, pt.tx, q)).toFixed(1)); pt.e.setAttribute('cy', ch.py(lerp(pt.y, pt.ty, q)).toFixed(1));
+  }));
+  [10, 10.5, 11].forEach(t => S.sfx(t, 'swoosh'));
+  const wl = el('path', { d: `M${ch.px(3.4)} ${ch.py(65 - 2.2 * 1.6)} L${ch.px(6.6)} ${ch.py(65 + 2.2 * 1.6)}`, stroke: C.red, 'stroke-width': 6, 'stroke-linecap': 'round', pathLength: 1 }, ch.plot);
+  S.k(wl, 'd', [16, 0], [17, 1]); S.sfx(16, 'string');
+  const wlab = T(ch.plot, ch.px(5), ch.py(52), 'within each student', { size: 26, fill: C.red, weight: 700 }); S.fadeIn(wlab, 16.8);
+  S.mood(16, 'eureka'); S.say(16.2, 'Compare each student to *themselves*.');
+  const mg = pv(G(g), 1390, 200);
+  const lh = pv(G(mg), 1390, 200), rh = pv(G(mg), 1390, 200);
+  el('path', { d: 'M1390 162 A38 38 0 0 0 1390 238 Z', fill: C.card, stroke: C.ink, 'stroke-width': 3, 'stroke-dasharray': '7 6' }, lh);
+  el('path', { d: 'M1390 162 A38 38 0 0 1 1390 238 Z', fill: C.card, stroke: C.ink, 'stroke-width': 3, 'stroke-dasharray': '7 6' }, rh);
+  T(lh, 1390, 214, 'M', { font: SERIF, size: 38, weight: 600 });
+  T(mg, 1390, 278, 'motivation', { size: 24 });
+  S.pop(mg, 21.6);
+  S.k(lh, 'x', [22.4, 0], [23.2, -40]); S.k(lh, 'r', [22.4, 0], [23.2, -25]); S.k(rh, 'x', [22.4, 0], [23.2, 40]); S.k(rh, 'r', [22.4, 0], [23.2, 25]);
+  S.fadeOut(mg, 23.4, .5); S.sfx(22.4, 'crack');
+  S.mood(22, 'proud'); S.say(22.2, 'Anything fixed about them, even motivation, drops out.'); S.sfx(24, 'ding');
+}, 'Fixed effects');
+
+/* ---------------- Chapter 17 ---------------- */
+chap(17, 'Event Studies', 26, S => {
+  const g = S.g;
+  S.place(HOME_L, FLOOR, 'curious');
+  const ch = chart(g, 820, 360, 1100, 470, { xr: [-6.6, 6.6], yr: [55, 92], xl: 'months before and after tutoring starts', yl: 'average score' });
+  S.pop(ch, 2);
+  const r = rng(17), pre = [], post = [];
+  for (let k = -6; k <= 6; k++) {
+    const y = 68 + 1.0 * k + (k >= 0 ? 6 + .5 * k : 0) + gauss(r) * .7;
+    const e = el('circle', { cx: ch.px(k), cy: ch.py(y), r: 10, fill: C.teal, stroke: '#fff', 'stroke-width': 2 }, ch.plot);
+    const at = k < 0 ? 2.4 + (k + 6) * .45 : 8.6 + k * .33;
+    S.k(e, 'o', [0, 0], [at, 0], [at + .1, 1, 'lin']); S.sfx(at, 'tick');
+    (k < 0 ? pre : post).push([k, y]);
+  }
+  S.say(2.4, 'One school, before and after.');
+  const lx = ch.px(-.5);
+  const launch = el('line', { x1: lx, x2: lx, y1: ch.B, y2: ch.T - 10, stroke: C.red, 'stroke-width': 5, 'stroke-dasharray': '12 8' }, ch.plot);
+  const ll = T(ch.plot, lx + 10, ch.T + 14, 'tutoring starts', { size: 24, fill: C.red, anchor: 'start', weight: 700 });
+  S.k(launch, 'o', [0, 0], [8, 0], [8.05, 1, 'lin']); S.k(launch, 'sy', [8, 0], [8.4, 1, 'back']); pv(launch, lx, ch.B); S.fadeIn(ll, 8.2);
+  S.sfx(8, 'gong');
+  const fp = fitLine(pre.map(p => p[0]), pre.map(p => p[1]));
+  const projG = G(ch.plot);
+  el('path', { d: `M${ch.px(-6)} ${ch.py(fp.a - 6 * fp.b)} L${ch.px(6)} ${ch.py(fp.a + 6 * fp.b)}`, stroke: C.slate, 'stroke-width': 5, 'stroke-dasharray': '12 9', fill: 'none' }, projG);
+  const pr = clipRect(projG, ch.L, ch.T - 20, 0, ch.B - ch.T + 40);
+  S.fn(11, 1.5, p => pr.setAttribute('width', ((ch.R - ch.L) * EASE.io(p)).toFixed(1)));
+  S.sfx(11, 'string');
+  S.mood(11, 'neutral'); S.say(11.2, 'Where would scores have gone anyway?');
+  const fq = fitLine(post.map(p => p[0]), post.map(p => p[1]));
+  const gp = [[0, fq.a], [6, fq.a + 6 * fq.b], [6, fp.a + 6 * fp.b], [0, fp.a]].map(([x, y]) => [ch.px(x), ch.py(y)]);
+  const gap = el('path', { d: pathD(gp) + 'Z', fill: C.hi, opacity: 0 }, ch.plot);
+  ch.plot.insertBefore(gap, ch.plot.firstChild);
+  S.k(gap, 'o', [0, 0], [16, 0], [16.6, .6]); S.sfx(16.2, 'ding');
+  const gl = T(ch.plot, ch.px(3.2), ch.py(fp.a + 3.2 * fp.b + 4.5), 'the effect', { size: 28, weight: 700 }); S.fadeIn(gl, 16.6);
+  S.mood(16, 'eureka'); S.say(16.2, 'That gap is the effect.');
+  const ck = check(g, ch.px(-3.5) - 120, ch.py(84), 20);
+  const cl = T(g, ch.px(-3.5) - 90, ch.py(84) + 9, 'no effect before it starts', { size: 24, anchor: 'start', weight: 700, fill: C.okGreen });
+  S.pop(ck, 21); S.fadeIn(cl, 21.1); S.sfx(21, 'pin');
+  S.mood(21, 'proud'); S.say(21.2, 'Before treatment, no effect. A good sign.');
+}, 'Event studies');
+
+/* ---------------- Chapter 18 ---------------- */
+chap(18, 'Difference-in-Differences', 30, S => {
+  const g = S.g;
+  S.place(HOME_R, FLOOR, 'curious');
+  const ch = chart(g, 800, 425, 1100, 420, { xr: [.6, 8.4], yr: [45, 105], xl: 'term', yl: 'average score' });
+  S.pop(ch, 2);
+  const hill = t => 52 + 3 * t, riv = t => 60 + 3 * t + (t >= 5 ? 10 : 0);
+  const poly = (f, a, b) => { const p = []; for (let t = a; t <= b; t++) p.push([ch.px(t), ch.py(f(t))]); return p; };
+  const mkL = (pts, col, dash) => el('path', { d: pathD(pts), stroke: col, 'stroke-width': 6, fill: 'none', 'stroke-linecap': 'round', 'stroke-linejoin': 'round', pathLength: dash ? null : 1, 'stroke-dasharray': dash || null }, ch.plot);
+  const rPre = mkL(poly(riv, 1, 4), C.teal), hPre = mkL(poly(hill, 1, 4), C.slate);
+  S.k(rPre, 'd', [2.4, 0], [6.4, 1, 'lin']); S.k(hPre, 'd', [2.4, 0], [6.4, 1, 'lin']);
+  const rl = T(ch.plot, ch.px(1), ch.py(riv(1)) - 18, 'Riverbend', { size: 26, fill: C.teal, weight: 700, anchor: 'start' });
+  const hl = T(ch.plot, ch.px(1), ch.py(hill(1)) + 36, 'Hillside', { size: 26, fill: C.slate, weight: 700, anchor: 'start' });
+  S.fadeIn(rl, 2.6); S.fadeIn(hl, 2.6);
+  S.say(2.4, 'Two schools, moving together.');
+  const tx = ch.px(4.5);
+  const tl = el('line', { x1: tx, x2: tx, y1: ch.B, y2: ch.T, stroke: C.red, 'stroke-width': 4, 'stroke-dasharray': '10 8' }, ch.plot);
+  const tt = T(ch.plot, tx + 10, ch.B - 14, 'Riverbend starts tutoring', { size: 22, fill: C.red, anchor: 'start', weight: 700 });
+  S.fadeIn(tl, 8.8); S.fadeIn(tt, 8.8); S.sfx(9, 'gong');
+  const rPost = mkL([[ch.px(4), ch.py(riv(4))], ...poly(riv, 5, 8)], C.teal), hPost = mkL(poly(hill, 4, 8), C.slate);
+  S.k(rPost, 'd', [9, 0], [10.6, 1, 'lin']); S.k(hPost, 'd', [9, 0], [10.6, 1, 'lin']);
+  const ghostG = G(ch.plot);
+  el('path', { d: pathD([[ch.px(4), ch.py(riv(4))], [ch.px(8), ch.py(riv(4) + 12)]]), stroke: C.teal, 'stroke-width': 5, 'stroke-dasharray': '12 9', fill: 'none', opacity: .75 }, ghostG);
+  const gc = clipRect(ghostG, ch.px(4) - 10, ch.T - 30, 0, ch.B - ch.T + 60);
+  S.fn(12, 1.2, p => gc.setAttribute('width', ((ch.px(8) - ch.px(4) + 20) * EASE.io(p)).toFixed(1)));
+  S.sfx(12, 'string');
+  S.mood(12, 'neutral'); S.say(12.2, "Hillside shows us Riverbend's “anyway.”");
+  const eq = card(g, 800, 125, 1120, 104, { rot: -.6 });
+  const eqg = G(eq.inner);
+  T(eqg, 800, 145, '(Riverbend after − before)  −  (Hillside after − before)', { size: 34 });
+  const ec = clipRect(eqg, 240, 70, 0, 120);
+  S.pop(eq, 17.8); S.fn(18, 2, p => ec.setAttribute('width', (1120 * p).toFixed(1))); S.sfx(18, 'chalk'); S.sfx(19, 'chalk');
+  const bx = ch.px(8) + 18, y1 = ch.py(riv(8)), y2 = ch.py(riv(4) + 12);
+  const brk = pv(G(g), bx, (y1 + y2) / 2);
+  el('path', { d: `M${bx - 8} ${y1} L${bx + 8} ${y1} M${bx} ${y1} L${bx} ${y2} M${bx - 8} ${y2} L${bx + 8} ${y2}`, stroke: C.red, 'stroke-width': 5 }, brk);
+  el('rect', { x: bx + 14, y: (y1 + y2) / 2 - 22, width: 92, height: 42, rx: 6, fill: C.hi }, brk);
+  T(brk, bx + 60, (y1 + y2) / 2 + 9, '+10', { font: SERIF, size: 28, weight: 700 });
+  S.pop(brk, 20); S.sfx(20.3, 'ding');
+  S.mood(18, 'eureka'); S.say(18.2, 'Difference… in differences.');
+  S.fn(25, 2.6, p => ghostG.setAttribute('transform', `translate(0 ${(Math.sin(p * Math.PI * 6) * 14 * Math.sin(p * Math.PI)).toFixed(1)})`));
+  S.sfx(25, 'wobble');
+  S.mood(25, 'worried'); S.say(25.2, "Only works if they'd have stayed parallel.");
+}, 'Diff-in-diff');
+
+/* ---------------- Chapter 19 ---------------- */
+chap(19, 'Instrumental Variables', 30, S => {
+  const g = S.g;
+  S.place(HOME_L, FLOOR, 'curious');
+  const nZ = node(g, 330, 440, 'Z', 'lottery', 'Z'), nT = node(g, 800, 440, 'T', 'tutoring', 'T'), nY = node(g, 1270, 440, 'Y', 'math score', 'Y');
+  const nM = node(g, 1035, 640, 'M', 'motivation', 'U');
+  [nZ, nT, nY, nM].forEach((n, i) => S.pop(n, 2.1 + i * .2)); S.sfx(2.1, 'pin');
+  const zt = link(g, nZ, nT), ty = link(g, nT, nY), mt = link(g, nM, nT), my = link(g, nM, nY);
+  S.draw(zt, 2.6, .6); S.draw(ty, 3.1, .6, false); S.draw(mt, 3.6, .5, false); S.draw(my, 3.8, .5, false);
+  S.say(2.4, 'The lottery is back, now as an instrument.');
+  const vb = G(g);
+  T(vb, 800, 175, 'why kids got tutoring', { size: 26, weight: 700 });
+  const ys = pv(G(vb), 610, 215), ps = pv(G(vb), 990, 215);
+  el('rect', { x: 610, y: 192, width: 152, height: 48, fill: C.hi, stroke: C.ink, 'stroke-width': 2 }, ys); T(ys, 686, 224, 'lottery', { size: 23 });
+  el('rect', { x: 762, y: 192, width: 228, height: 48, fill: C.purple, stroke: C.ink, 'stroke-width': 2 }, ps); T(ps, 876, 224, 'motivation', { size: 23, fill: '#fff' });
+  S.fadeIn(vb, 7.8);
+  const fun = pv(G(g), 800, 300);
+  el('path', { d: 'M740 262 L860 262 L818 312 L818 338 L782 338 L782 312 Z', fill: C.slate, stroke: C.ink, 'stroke-width': 3 }, fun);
+  S.pop(fun, 8.1);
+  S.k(ps, 'x', [8.5, 0], [9.5, 300]); S.fadeOut(ps, 9, .5); S.sfx(8.3, 'pour');
+  S.glow(zt, 10.2); S.glow(ty, 10.2); S.sfx(10.5, 'ding');
+  S.mood(8, 'eureka'); S.say(8.2, 'Keep only the tutoring the lottery caused.');
+  S.fadeOut(vb, 15.3, .4); S.fadeOut(fun, 15.3, .4);
+  const sn = link(g, nZ, nY, { bend: -.32, color: C.slate });
+  S.draw(sn, 16, 1);
+  const xm = xMark(g, sn.mid.x, sn.mid.y, 26); S.stamp(xm, 17.4);
+  S.fadeOut(sn.g, 21.3, .4); S.fadeOut(xm, 21.3, .4);
+  S.mood(16, 'suspicious'); S.say(16.2, "The lottery can't touch scores on its own.");
+  S.k(vb, 'o', [21.6, 0], [22, 1]);
+  S.k(ys, 'sx', [22.2, 1], [23, .18]); pv(ys, 610, 215);
+  const wk = T(g, 800, 290, 'weak instrument', { size: 30, fill: C.red, weight: 700 }); S.fadeIn(wk, 22.6);
+  const est = pv(G(g), 1330, 600);
+  T(est, 1330, 600, 'estimate: +?', { size: 30, weight: 700 });
+  S.fadeIn(est, 22.6);
+  S.fn(22.6, 5, p => est.setAttribute('transform', p > 0 && p < 1 ? `translate(${(Math.sin(p * 90) * 9).toFixed(1)} ${(Math.cos(p * 70) * 5).toFixed(1)})` : ''));
+  S.sfx(22.3, 'drip'); S.sfx(23, 'drip'); S.sfx(23.4, 'wobble');
+  S.mood(22, 'worried'); S.say(22.2, 'Too little push, and the estimate wobbles.');
+}, 'Instruments');
+
+/* ---------------- Chapter 20 ---------------- */
+chap(20, 'Regression Discontinuity', 30, S => {
+  const g = S.g;
+  S.place(HOME_L, FLOOR, 'curious');
+  const ch = chart(g, 760, 370, 1000, 470, { xr: [30, 90], yr: [40, 90], xl: 'entrance test score', yl: 'later math score' });
+  S.pop(ch, 2);
+  const cx = ch.px(60);
+  const shade = el('rect', { x: ch.L, y: ch.T, width: cx - ch.L, height: ch.B - ch.T, fill: C.teal, opacity: 0 }, ch.plot);
+  ch.plot.insertBefore(shade, ch.plot.firstChild);
+  S.k(shade, 'o', [0, 0], [2.6, 0], [3, .14]);
+  const cl = el('line', { x1: cx, x2: cx, y1: ch.B, y2: ch.T - 8, stroke: C.red, 'stroke-width': 6 }, ch.plot);
+  pv(cl, cx, ch.B); S.k(cl, 'sy', [2.4, 0], [2.8, 1, 'back']); S.sfx(2.4, 'thwack');
+  const ctl = T(ch.plot, cx + 10, ch.T + 20, 'cutoff 60', { size: 24, fill: C.red, anchor: 'start', weight: 700 });
+  const gt = T(ch.plot, (ch.L + cx) / 2, ch.T + 20, 'gets tutoring', { size: 26, fill: C.teal, weight: 700 });
+  S.fadeIn(ctl, 2.8); S.fadeIn(gt, 3);
+  S.say(2.5, 'Score under 60 on the entrance test? You get tutoring.');
+  const r = rng(20), pts = [];
+  for (let i = 0; i < 70; i++) {
+    const x = 31 + r() * 58, y = 45 + .5 * (x - 30) + (x < 60 ? 9 : 0) + gauss(r) * 3;
+    const e = el('circle', { cx: ch.px(x), cy: ch.py(y), r: 0, fill: C.body, opacity: .85 }, ch.plot);
+    pts.push({ x, y, e, delay: i / 70 * .8 });
+  }
+  S.fn(8, 3, p => pts.forEach(pt => pt.e.setAttribute('r', (7 * EASE.back(clamp((p - pt.delay) / .2, 0, 1))).toFixed(2))));
+  for (let i = 0; i < 10; i++) S.sfx(8 + i * .28, 'drop', 450 + i * 40);
+  S.mood(8, 'neutral');
+  const lf = el('path', { d: `M${ch.px(30.5)} ${ch.py(45 + .25 + 9)} L${cx} ${ch.py(60 + 9)}`, stroke: C.teal, 'stroke-width': 6, 'stroke-linecap': 'round', pathLength: 1 }, ch.plot);
+  const rf = el('path', { d: `M${cx} ${ch.py(60)} L${ch.px(89.5)} ${ch.py(45 + .5 * 59.5)}`, stroke: C.slate, 'stroke-width': 6, 'stroke-linecap': 'round', pathLength: 1 }, ch.plot);
+  S.k(lf, 'd', [12, 0], [12.6, 1]); S.k(rf, 'd', [12.6, 0], [13.2, 1]); S.sfx(12, 'string');
+  const jb = pv(G(ch.plot), cx, ch.py(64.5));
+  el('path', { d: `M${cx - 30} ${ch.py(69)} L${cx - 22} ${ch.py(69)} L${cx - 22} ${ch.py(60)} L${cx - 30} ${ch.py(60)}`, stroke: C.red, 'stroke-width': 4, fill: 'none' }, jb);
+  T(jb, cx - 34, ch.py(64.5) + 9, 'jump', { size: 26, fill: C.red, weight: 700, anchor: 'end' });
+  S.pop(jb, 13.5); S.sfx(13.5, 'pop');
+  const band = el('rect', { x: ch.px(56), y: ch.T, width: ch.px(64) - ch.px(56), height: ch.B - ch.T, fill: C.hi, opacity: 0 }, ch.plot);
+  ch.plot.insertBefore(band, shade.nextSibling);
+  S.k(band, 'o', [0, 0], [15, 0], [15.4, .45]);
+  S.fn(15, .6, p => pts.forEach(pt => { if (Math.abs(pt.x - 60) > 4) pt.e.setAttribute('opacity', (.85 - .6 * p).toFixed(2)); }));
+  const mag = pv(G(g), cx, ch.py(64.5));
+  el('circle', { cx, cy: ch.py(64.5), r: 105, fill: 'none', stroke: C.brass, 'stroke-width': 9 }, mag);
+  el('line', { x1: cx + 74, y1: ch.py(64.5) + 74, x2: cx + 130, y2: ch.py(64.5) + 130, stroke: '#5B3A21', 'stroke-width': 14, 'stroke-linecap': 'round' }, mag);
+  S.pop(mag, 15.1, .5); S.sfx(15, 'whoosh'); S.sfx(16.5, 'ding');
+  S.mood(15, 'eureka'); S.say(15.2, 'Students at 59 and 61 are basically the same.');
+  const mini = card(g, 1400, 300, 230, 240, { rot: 2 });
+  T(mini.inner, 1400, 218, 'how many got', { size: 21 }); T(mini.inner, 1400, 242, 'each test score', { size: 21 });
+  const hs = [3, 4, 5, 5, 9, 2, 4, 4, 3];
+  const spikeBars = hs.map((h, i) => el('rect', { x: 1302 + i * 22, y: 390 - h * 12, width: 18, height: h * 12, fill: i === 4 ? C.red : C.slate }, mini.inner));
+  el('line', { x1: 1405, x2: 1405, y1: 270, y2: 392, stroke: C.red, 'stroke-width': 3, 'stroke-dasharray': '6 5' }, mini.inner);
+  S.pop(mini, 21.8);
+  S.fn(22.2, 2.4, p => spikeBars[4].setAttribute('opacity', p > 0 && p < 1 ? (Math.sin(p * 30) > 0 ? 1 : .25) : 1));
+  S.sfx(22.3, 'alarm');
+  S.mood(22, 'suspicious'); S.say(22.2, 'Unless people are gaming the cutoff.');
+}, 'Discontinuity');
+
+/* ---------------- Chapter 21 ---------------- */
+chap(21, 'Partial Identification', 24, S => {
+  const g = S.g;
+  S.place(HOME_L, FLOOR, 'curious');
+  const c = card(g, 800, 330, 1120, 260, { rot: -.5 });
+  const px = v => 330 + (v + 5) / 25 * 940, ay = 380;
+  el('line', { x1: 300, x2: 1300, y1: ay, y2: ay, stroke: C.ink, 'stroke-width': 4 }, c.inner);
+  for (let v = -5; v <= 20; v += 5) { el('line', { x1: px(v), x2: px(v), y1: ay - 10, y2: ay + 10, stroke: C.ink, 'stroke-width': 3 }, c.inner); T(c.inner, px(v), ay + 42, (v > 0 ? '+' : '') + v, { size: 24 }); }
+  T(c.inner, 800, 240, "tutoring's effect on scores", { size: 26, fill: C.slate });
+  S.pop(c, 2);
+  const dot = pv(G(g), px(6), ay - 30);
+  el('circle', { cx: px(6), cy: ay - 30, r: 15, fill: C.red }, dot);
+  S.pop(dot, 2.3); S.sfx(2.3, 'pop');
+  S.k(dot, 's', [2.9, null], [3.1, 0]); S.sfx(2.9, 'burst');
+  const bar = el('rect', { y: ay - 46, height: 32, rx: 6, fill: C.red, opacity: .8 }, g);
+  const capL = el('line', { y1: ay - 56, y2: ay - 4, stroke: C.ink, 'stroke-width': 5 }, g), capR = el('line', { y1: ay - 56, y2: ay - 4, stroke: C.ink, 'stroke-width': 5 }, g);
+  const lo = T(g, 0, ay - 66, '', { size: 26, weight: 700 }), hi = T(g, 0, ay - 66, '', { size: 26, weight: 700 });
+  const lk = [[3, 6, 6], [3.6, -3, 18], [9.6, -3, 18], [10.6, 0, 14], [13, 0, 14], [14, 2, 9]];
+  S.fn(0, 24, (p, t) => {
+    let a = lk[0][1], b = lk[0][2];
+    for (let i = 1; i < lk.length; i++) { const [t1, a1, b1] = lk[i], [t0, a0, b0] = lk[i - 1]; if (t >= t0) { const q = EASE.io(clamp((t - t0) / (t1 - t0), 0, 1)); a = lerp(a0, a1, q); b = lerp(b0, b1, q); } }
+    const vis = t > 2.95;
+    [bar, capL, capR, lo, hi].forEach(e => e.style.display = vis ? '' : 'none');
+    bar.setAttribute('x', px(a)); bar.setAttribute('width', Math.max(2, px(b) - px(a)));
+    capL.setAttribute('x1', px(a)); capL.setAttribute('x2', px(a)); capR.setAttribute('x1', px(b)); capR.setAttribute('x2', px(b));
+    lo.setAttribute('x', px(a)); hi.setAttribute('x', px(b));
+    lo.textContent = (Math.round(a) > 0 ? '+' : '') + Math.round(a); hi.textContent = '+' + Math.round(b);
+  });
+  S.mood(3, 'worried'); S.say(3.2, "Without strong assumptions, one number isn't honest.");
+  const a1 = note(g, 560, 560, 'Assume: tutoring never hurts', { size: 26, rot: -2 });
+  const a2 = note(g, 1080, 560, 'Assume: motivated kids sign up more', { size: 26, rot: 2 });
+  S.pop(a1, 9); S.sfx(9, 'pin'); S.sfx(9.7, 'creak');
+  S.pop(a2, 12.6); S.sfx(12.6, 'pin'); S.sfx(13.1, 'creak');
+  S.walk(8.8, 1.2, 260, FLOOR);
+  S.mood(9, 'neutral'); S.say(9.2, 'Each assumption buys a tighter range.');
+  const fin = note(g, 800, 118, 'somewhere between +2 and +9', { size: 30, rot: -1, color: C.red });
+  S.pop(fin, 17); S.sfx(17.2, 'ding');
+  S.mood(17, 'proud'); S.say(17.2, 'Sometimes the honest answer is a range.');
+}, 'Bounds');
+
+/* ---------------- Chapter 22 ---------------- */
+chap(22, 'A Gallery of Rogues: Other Methods', 26, S => {
+  const g = S.g;
+  S.place(HOME_L, FLOOR, 'curious');
+  const poster = (x, name, sub, rot) => {
+    const p = pv(G(g), x, 340);
+    const inner = G(p, { transform: `rotate(${rot} ${x} 340)` });
+    el('rect', { x: x - 164, y: 118, width: 340, height: 460, fill: '#000', opacity: .25 }, inner);
+    el('rect', { x: x - 170, y: 110, width: 340, height: 460, fill: '#E9DDBF' }, inner);
+    T(inner, x, 168, 'Wanted', { font: SERIF, size: 46, weight: 700, fill: '#5A3B1E' });
+    el('rect', { x: x - 135, y: 190, width: 270, height: 210, fill: C.card, stroke: '#5A3B1E', 'stroke-width': 3 }, inner);
+    T(inner, x, 448, name, { font: SERIF, size: name.length > 18 ? 23 : 27, weight: 700, fill: '#2B2116' });
+    T(inner, x, 486, sub, { size: 20, fill: '#5A4630' });
+    pushpin(inner, x, 124);
+    p.inner = inner; return p;
+  };
+  const P1 = poster(380, 'Synthetic control', 'a blend of other towns', -2);
+  const P2 = poster(800, 'Heterogeneous effects', 'who benefits most?', 1.5);
+  const P3 = poster(1220, 'Structural estimation', 'theory as the machine', -1);
+  [P1, P2, P3].forEach((p, i) => { S.pop(p, 2.2 + i * .4); S.sfx(2.2 + i * .4, 'paper'); });
+  S.walk(2.2, 2.8, 1450);
+  S.say(2.4, 'A few more characters worth knowing.');
+  // poster 1: blend of other towns
+  const xs = [260, 290, 320, 350, 380, 410, 440, 470, 500];
+  const blend = xs.map((x, i) => 330 - i * 8);
+  const others = [0, 1, 2, 3].map(k => xs.map((x, i) => blend[i] + [-40, 32, -18, 48][k] + Math.sin(i * 1.3 + k) * 10));
+  const ol = others.map(ys => el('path', { stroke: '#8A93A3', 'stroke-width': 3, fill: 'none' }, P1.inner));
+  S.fn(6, 1.8, p => { const q = EASE.io(p); ol.forEach((e, k) => e.setAttribute('d', pathD(xs.map((x, i) => [x, lerp(others[k][i], blend[i], q)])))); });
+  const riv = el('path', { d: pathD(xs.map((x, i) => [x, i < 5 ? blend[i] : blend[i] - (i - 4) * 14])), stroke: C.teal, 'stroke-width': 5, fill: 'none' }, P1.inner);
+  const rc = clipRect(riv, 255, 190, 0, 210);
+  S.fn(8, 1.4, p => rc.setAttribute('width', (250 * p).toFixed(1)));
+  S.sfx(6, 'blend'); S.mood(6, 'neutral');
+  S.say(6.2, 'Synthetic control: build a stand-in from a blend of others.');
+  // poster 2: tree of effects
+  const tn = [[800, 220], [740, 290], [860, 290], [710, 360], [770, 360], [830, 360], [890, 360]];
+  [[0, 1], [0, 2], [1, 3], [1, 4], [2, 5], [2, 6]].forEach(([a, b], i) => { const l = el('line', { x1: tn[a][0], y1: tn[a][1], x2: tn[b][0], y2: tn[b][1], stroke: C.ink, 'stroke-width': 3 }, P2.inner); S.fadeIn(l, 12 + (b > 2 ? .9 : .3)); });
+  tn.forEach(([x, y], i) => { const n = pv(G(P2.inner), x, y); el('circle', { cx: x, cy: y, r: 12, fill: i > 2 ? C.teal : C.slate }, n); if (i > 2) T(n, x, y + 36, ['+2', '+5', '+11', '+18'][i - 3], { size: 20, weight: 700 }); S.pop(n, 12 + (i === 0 ? 0 : i < 3 ? .5 : 1.2 + (i - 3) * .25)); if (i > 2) S.sfx(13.2 + (i - 3) * .25, 'pop'); });
+  S.say(12.2, 'Heterogeneous effects: let the data say who benefits most.');
+  // poster 3: gears
+  const gear = (x, y, r, teeth) => { const gg = G(P3.inner); el('circle', { cx: x, cy: y, r, fill: 'none', stroke: C.slate, 'stroke-width': 14, 'stroke-dasharray': `${(2 * Math.PI * r / teeth / 2).toFixed(2)} ${(2 * Math.PI * r / teeth / 2).toFixed(2)}` }, gg); el('circle', { cx: x, cy: y, r: r - 7, fill: C.brass }, gg); el('circle', { cx: x, cy: y, r: 8, fill: C.ink }, gg); return gg; };
+  const g1 = gear(1180, 280, 52, 12), g2 = gear(1266, 340, 34, 8);
+  S.fn(18, 6, p => { g1.setAttribute('transform', `rotate(${(p * 360).toFixed(1)} 1180 280)`); g2.setAttribute('transform', `rotate(${(-p * 550).toFixed(1)} 1266 340)`); });
+  S.sfx(18, 'gear');
+  S.mood(18, 'proud'); S.say(18.2, 'Structural estimation: model the whole machine with theory.');
+}, 'Other methods');
+
+/* ---------------- Chapter 23 ---------------- */
+chap(23, 'Under the Rug', 24, S => {
+  const g = S.g;
+  S.place(HOME_L, FLOOR, 'curious');
+  const rug = G(g);
+  el('rect', { x: 336, y: 553, width: 860, height: 110, rx: 6, fill: '#000', opacity: .2 }, rug);
+  el('rect', { x: 330, y: 545, width: 860, height: 110, rx: 6, fill: C.red }, rug);
+  for (let i = 0; i < 6; i++) el('rect', { x: 330, y: 556 + i * 16, width: 860, height: 6, fill: i % 2 ? C.teal : C.hi, opacity: .7 }, rug);
+  const flap = G(g);
+  el('path', { d: 'M1190 545 L1190 655 L1040 655 Z', fill: C.cork }, flap);
+  el('path', { d: 'M1190 545 L1040 655 L1110 520 Z', fill: '#7E1B23' }, flap);
+  S.k(flap, 'o', [0, 0], [2.2, 0], [2.35, 1, 'lin']); S.sfx(2.3, 'rug');
+  const labels = ['Which model?', 'Measuring the right thing?', 'Missing data', 'Spillovers', 'Fat tails', 'What is the treatment, really?'];
+  const targets = [[330, 170], [760, 150], [1210, 170], [400, 380], [800, 360], [1180, 380]];
+  const jar = pv(G(g), 1390, 560);
+  const bunnies = labels.map((l, i) => {
+    const [tx, ty] = targets[i];
+    const b = pv(G(g), 1120, 610);
+    const body = G(b);
+    el('circle', { cx: 1120, cy: 610, r: 30, fill: '#9AA1AB', stroke: '#9AA1AB', 'stroke-width': 9, 'stroke-dasharray': '2 4', 'stroke-linecap': 'round' }, body);
+    el('circle', { cx: 1110, cy: 604, r: 5, fill: '#fff' }, body); el('circle', { cx: 1130, cy: 604, r: 5, fill: '#fff' }, body);
+    el('circle', { cx: 1111, cy: 605, r: 2.5, fill: C.ink }, body); el('circle', { cx: 1131, cy: 605, r: 2.5, fill: C.ink }, body);
+    const lab = G(b);
+    const w = l.length * 12 + 26;
+    el('rect', { x: 1120 - w / 2, y: 650, width: w, height: 36, rx: 5, fill: C.card }, lab);
+    T(lab, 1120, 676, l, { size: 23 });
+    const at = 2.8 + i * .5;
+    S.k(b, 'o', [0, 0], [at, 0], [at + .1, 1, 'lin']);
+    S.k(b, 'x', [at, 0], [at + .7, tx - 1120, 'o']); S.k(b, 'y', [at, 0], [at + .7, ty - 610, 'o']);
+    S.k(b, 's', [at, .3], [at + .7, 1, 'back']);
+    S.sfx(at, 'squeak');
+    const jt = 12 + i * .6, jx = 1390 + ((i % 3) - 1) * 26, jy = 600 - Math.floor(i / 3) * 30;
+    S.k(b, 'x', [jt, null], [jt + .6, jx - 1120, 'io']); S.k(b, 'y', [jt, null], [jt + .6, jy - 610, 'io']); S.k(b, 's', [jt, null], [jt + .6, .45]);
+    S.fadeOut(lab, jt, .3);
+    S.sfx(jt + .6, 'clink');
+    return b;
+  });
+  el('path', { d: 'M1320 500 L1320 660 Q1320 680 1340 680 L1440 680 Q1460 680 1460 660 L1460 500 Z', fill: '#DDEBFA', 'fill-opacity': .35, stroke: '#8EA4BF', 'stroke-width': 5 }, jar);
+  el('rect', { x: 1310, y: 484, width: 160, height: 20, rx: 6, fill: C.slate }, jar);
+  el('rect', { x: 1325, y: 540, width: 130, height: 36, rx: 4, fill: C.card }, jar);
+  T(jar, 1390, 566, 'Limitations', { size: 22, weight: 700 });
+  g.appendChild(jar);
+  S.pop(jar, 11.4); S.sfx(11.4, 'clink');
+  S.mood(2.6, 'shocked'); S.say(3, 'Every study sweeps something under here.');
+  S.walk(11.6, 1.6, 1180); S.mood(12, 'neutral');
+  S.say(12.2, "Name it, measure what you can, and say what's left.");
+  S.mood(18, 'proud'); S.say(18.2, "Good researchers say what's under the rug."); S.sfx(18.6, 'ding');
+}, 'Under the rug');
+
+/* ---------------- Finale ---------------- */
+scene({
+  name: 'Finale: the case board', short: 'Finale', dur: 28, noFadeOut: true, noWhoosh: true, build(S) {
+    const g = S.g, board = G(g);
+    S.place(800, FLOOR, 'proud');
+    S.sfx(0, 'swell');
+    const chs = scenes.filter(s => s.chapter != null);
+    const pos = chs.map((s, i) => { const r = Math.floor(i / 6), c = i % 6; const cc = r % 2 ? 5 - c : c; return [255 + cc * 218, 120 + r * 120]; });
+    for (let i = 0; i < pos.length - 1; i++) {
+      const p = el('path', { d: `M${pos[i][0]} ${pos[i][1]} L${pos[i + 1][0]} ${pos[i + 1][1]}`, stroke: C.red, 'stroke-width': 4, pathLength: 1 }, board);
+      S.k(p, 'd', [1.8 + i * .12, 0], [2 + i * .12, 1, 'lin']);
+    }
+    chs.forEach((s, i) => {
+      const [x, y] = pos[i];
+      const cdd = card(board, x, y, 200, 74, { rot: ((i * 37) % 5) - 2 });
+      T(cdd.inner, x, y + 2, String(s.chapter), { font: SERIF, size: 26, weight: 700, fill: C.red });
+      T(cdd.inner, x, y + 28, s.short, { size: 20 });
+      S.pop(cdd, .2 + i * .08); if (i % 4 === 0) S.sfx(.2 + i * .08, 'pin');
+    });
+    S.sfx(1.8, 'string');
+    S.to(board, 'o', 5.6, .5, .15);
+    const gz = gazette(g, 800, 290);
+    S.pop(gz, 6, .5); S.sfx(6, 'paper');
+    const scrib = el('path', { d: 'M598 334 L792 330', stroke: C.red, 'stroke-width': 9, 'stroke-linecap': 'round', pathLength: 1 }, gz.inner);
+    S.k(scrib, 'd', [6.8, 0], [7.3, 1]); S.sfx(6.8, 'chalk');
+    const rv = note(g, 830, 515, 'about 6 points, *if* our assumptions hold', { size: 38, rot: 2, color: C.red, w: 860 });
+    const rvc = clipRect(rv.inner, 395, 460, 0, 120);
+    S.fadeIn(rv, 7.4, .2); S.fn(7.5, 1.8, p => rvc.setAttribute('width', (880 * p).toFixed(1)));
+    S.sfx(7.6, 'chalk'); S.sfx(8.5, 'chalk');
+    S.say(6.3, 'Fifteen points? Let me revise that.');
+    S.say(9.8, 'Not as catchy. Much more true.');
+    const stp = stampBox(g, 1230, 240, ['Case open:', 'keep asking why'], { size: 32, rot: -10 });
+    S.stamp(stp, 13); S.sfx(13.4, 'motifEnd');
+    S.mood(13, 'eureka'); S.mood(14.5, 'proud');
+    const night = el('rect', { x: 0, y: 0, width: W, height: H, fill: C.night }, g);
+    S.k(night, 'o', [0, 0], [17.6, 0], [18.4, .96]);
+    const cr = G(g);
+    const lines = [
+      ['Based on', 720 - 470 + 10, HAND, 30, '#B9C3D6', 400],
+      ['The Effect: An Introduction to Research Design and Causality', 300, SERIF, 40, '#FFFFFF', 600],
+      ['by Nick Huntington-Klein, free to read at theeffectbook.net', 350, HAND, 30, '#DDE3EE', 400],
+      ['Explainer by Brijesh Shetty', 450, SERIF, 40, '#FFFFFF', 600],
+      ['github.com/brijs', 498, HAND, 32, C.hi, 400],
+      ['All case numbers in this film are illustrative.', 590, HAND, 26, '#9AA6BF', 400]
+    ];
+    lines.forEach(([s, y, f, size, fill, w], i) => { const t = T(cr, 800, y, s, { font: f, size, fill, weight: w }); S.fadeIn(t, 18.4 + i * .45, .6); });
+    S.sfx(18, 'finalChord');
+    S.walk(18, 1.6, 1420);
+    S.say(19.4, 'Thanks for investigating with me.');
+    S.sfx(26.8, 'lamp');
+  }
+});
+/* ============================================================
+   PLAYER: layers, controls, start and end screens
+   ============================================================ */
+const $ = id => document.getElementById(id);
+svg = $('stage');
+defs = el('defs', {}, svg);
+boardLayer = G(svg); sceneLayer = G(svg); arrowLayer = G(svg); vignetteLayer = G(svg); titleLayer = G(svg); capLayer = G(svg);
+darkRect = el('rect', { x: 0, y: 0, width: W, height: H, fill: '#05070D', 'pointer-events': 'none' }, svg);
+buildBoard(); buildArrow(arrowLayer); buildTitle(titleLayer); buildCaption(capLayer);
+buildAll();
+render(0);
+
+const ICON_PLAY = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9.5-5.5z"/></svg>';
+const ICON_PAUSE = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 2.5h3.2v11H3.5zM9.3 2.5h3.2v11H9.3z"/></svg>';
+const tickBox = $('ticks');
+scenes.forEach(sc => { if (sc.chapter != null || /^Part/.test(sc.short) || sc.short === 'Finale') { const i = document.createElement('i'); i.style.left = (sc.start / TOTAL * 100) + '%'; i.title = sc.name; tickBox.appendChild(i); } });
+
+let lastLabel = '';
+function updateUI(T) {
+  const t = T == null ? (playing ? now() : filmT) : T;
+  const f = clamp(t / TOTAL, 0, 1);
+  $('fill').style.width = (f * 100) + '%';
+  $('knob').style.left = (f * 100) + '%';
+  $('time').textContent = fmtTime(t) + ' / ' + fmtTime(TOTAL);
+  const sc = sceneAt(clamp(t, 0, TOTAL - .001));
+  const lab = sc.chapter != null ? `Chapter ${sc.chapter} of 23: ${sc.title}` : sc.name;
+  if (lab !== lastLabel) { $('chapLabel').textContent = lab; lastLabel = lab; }
+  const pb = $('play');
+  const want = playing ? 'pause' : 'play';
+  if (pb.dataset.state !== want) { pb.dataset.state = want; pb.innerHTML = playing ? ICON_PAUSE : ICON_PLAY; pb.setAttribute('aria-label', playing ? 'Pause' : 'Play'); }
+  $('track').setAttribute('aria-valuenow', Math.round(t));
+}
+
+function unlockSpeech() {
+  if (!SPEECH) return;
+  try { const u = new SpeechSynthesisUtterance(' '); u.volume = 0; SPEECH.speak(u); } catch (e) { }
+}
+function start() {
+  $('startScreen').hidden = true; $('endScreen').hidden = true;
+  initAudio(); unlockSpeech(); pickVoice();
+  if (ctx && ctx.state !== 'running') ctx.resume();
+  seek(0); play();
+}
+function showEnd() { $('endScreen').hidden = false; updateUI(TOTAL); }
+function toggle() {
+  if (!$('startScreen').hidden) { start(); return; }
+  if (playing) pause(); else { $('endScreen').hidden = true; initAudio(); play(); }
+}
+$('startBtn').addEventListener('click', start);
+$('againBtn').addEventListener('click', start);
+$('play').addEventListener('click', toggle);
+$('stage').addEventListener('click', () => { if ($('startScreen').hidden && $('endScreen').hidden) toggle(); });
+
+function setToggle(id, on) { $(id).setAttribute('aria-pressed', on ? 'true' : 'false'); }
+$('voiceBtn').addEventListener('click', () => { voiceOn = !voiceOn; setToggle('voiceBtn', voiceOn); if (!voiceOn) stopSpeech(); });
+$('capBtn').addEventListener('click', () => { CAP.on = !CAP.on; setToggle('capBtn', CAP.on); render(playing ? now() : filmT); });
+$('soundBtn').addEventListener('click', () => {
+  soundOn = !soundOn; setToggle('soundBtn', soundOn);
+  if (ctx) master.gain.setTargetAtTime(soundOn ? .95 : 0, ctx.currentTime, .05);
+  if (!soundOn) stopSpeech();
+});
+
+/* scrubber */
+const track = $('track');
+let dragging = false;
+function seekFromEvent(e) {
+  const r = track.getBoundingClientRect();
+  const f = clamp((e.clientX - r.left) / r.width, 0, 1);
+  return f * TOTAL;
+}
+track.addEventListener('pointerdown', e => {
+  if (!$('startScreen').hidden) { initAudio(); $('startScreen').hidden = true; }
+  dragging = true; track.setPointerCapture(e.pointerId);
+  const t = seekFromEvent(e); filmT = t; if (playing) { playing = false; stopAllSound(); stopSpeech(); track._resume = true; }
+  render(t); updateUI(t);
+});
+track.addEventListener('pointermove', e => { if (!dragging) return; const t = seekFromEvent(e); filmT = t; render(t); updateUI(t); });
+const endDrag = () => { if (!dragging) return; dragging = false; $('endScreen').hidden = true; if (track._resume) { track._resume = false; play(); } };
+track.addEventListener('pointerup', endDrag);
+track.addEventListener('pointercancel', endDrag);
+track.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') { seek((playing ? now() : filmT) + 5); e.preventDefault(); }
+  if (e.key === 'ArrowLeft') { seek((playing ? now() : filmT) - 5); e.preventDefault(); }
+});
+document.addEventListener('keydown', e => {
+  if (e.target && e.target.tagName === 'BUTTON' && (e.key === ' ' || e.key === 'Enter')) return;
+  if (e.key === ' ' || e.key === 'k') { toggle(); e.preventDefault(); }
+  else if (e.key === 'ArrowRight' && e.target !== track) seek((playing ? now() : filmT) + 5);
+  else if (e.key === 'ArrowLeft' && e.target !== track) seek((playing ? now() : filmT) - 5);
+});
+document.addEventListener('visibilitychange', () => { if (document.hidden && playing) pause(); });
+
+setInterval(schedulerTick, 25);
+updateUI(0);
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>
