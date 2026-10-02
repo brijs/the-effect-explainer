@@ -2,6 +2,8 @@
 
 Two animated, voiced explainers of *The Effect: An Introduction to Research Design and Causality* by Nick Huntington-Klein (free at [theeffectbook.net](https://theeffectbook.net)).
 
+**Live site: https://brijs.github.io/the-effect-explainer/**
+
 - **Field guide** (`field-guide/`): Vari the robot walks through the book's outline, how the research designs connect, and every Part 2 design with two pause-and-think cases. About 28 minutes. Narration is pre-recorded with the open-source Kokoro speech model (voice "Heart").
 - **Case file** (`case-file/`): Arrow the detective investigates one headline across all 23 chapters. About 11½ minutes. Uses the browser's built-in voice.
 
